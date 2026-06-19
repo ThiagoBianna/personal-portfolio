@@ -1576,7 +1576,7 @@ async function switchAdminTab(tabName) {
     const resetBtn = document.getElementById('reset-acad-btn');
     if (resetBtn) {
       resetBtn.addEventListener('click', () => {
-        if (confirm("Deseja realmente redefinir a lista de formação acadêmica para os dados de fábrica? (Isso limpará uploads de arquivos anteriores e restaurará a formação inicial do Gabriel Bianna)")) {
+        if (confirm("Deseja realmente redefinir a lista de formação acadêmica para os dados de fábrica? (Isso limpará uploads de arquivos anteriores e restaurará a formação inicial do Thiago Bianna)")) {
           localStorage.removeItem("portfolio_academics");
           window.location.reload();
         }

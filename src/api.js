@@ -58,7 +58,7 @@ export function safeGetItem(key, defaultValue) {
 
 // INITIAL SEED DATA
 const initialProfile = {
-  nome: "Gabriel Bianna",
+  nome: "Thiago",
   cargo: "Estudante de Engenharia de Software | Desenvolvedor Backend Java",
   apresentacao: "Especialista em construir soluções robustas, escaláveis e eficientes com foco no ecossistema Java. Atualmente cursando Engenharia de Software e desenvolvendo APIs REST seguras e de alta performance utilizando Spring Boot 3, Hibernate e bancos de dados SQL.",
   fotoPerfil: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=300",
@@ -79,11 +79,11 @@ const initialProfile = {
   tecnologiasEstudando: ["Apache Kafka", "Kubernetes", "AWS (S3, RDS, EC2)", "Spring Cloud", "TDD / Domain-Driven Design (DDD)", "CI/CD (GitHub Actions)"],
   links: {
     github: "https://github.com/gabriel-bianna",
-    linkedin: "https://linkedin.com/in/gabriel-bianna",
-    whatsapp: "https://wa.me/5511999999999",
-    email: "gabriel.bianna@example.com",
+    linkedin: "https://www.linkedin.com/in/thiagobpcruz/",
+    whatsapp: "https://wa.me/5521999425820",
+    email: "thgbianna@gmail.com",
     instagram: "https://instagram.com/thgbianna",
-    curriculoPdf: "https://example.com/gabriel-bianna-cv.pdf"
+    curriculoPdf: "https://example.com/thiago-bianna-cv.pdf"
   },
   idiomas: [
     { nome: "Português", nivel: "Nativo", flag: "BR" },
@@ -97,8 +97,8 @@ const initialProjects = [
     nome: "Microservices Banking API",
     descricao: "Arquitetura distribuída simulando transações bancárias Pix e TED com processamento assíncrono. Utiliza Eureka Service Discovery, Spring Cloud Gateway, RabbitMQ para mensageria resiliente e PostgreSQL particionado por tenant.",
     tecnologias: ["Spring Cloud", "RabbitMQ", "PostgreSQL", "Eureka", "Docker"],
-    linkGithub: "https://github.com/gabriel-bianna/microservices-banking",
-    linkDemo: "http://banking.demo.gabrielbianna.com",
+    linkGithub: "https://github.com/thiago-bianna/microservices-banking",
+    linkDemo: "http://banking.demo.thiagobianna.com",
     linkVideo: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     videoPreview: "https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-his-computer-34193-large.mp4",
     dataCriacao: "2026-04-15",

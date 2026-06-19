@@ -149,7 +149,7 @@ export async function renderPortfolio() {
               ${proj.descricao && proj.descricao.length > 150 ? `
                 <p class="text-slate-600 text-sm mb-4 text-justify leading-relaxed flex-1 font-sans">
                   <span>${proj.descricao.slice(0, 140)}...</span>
-                  <button data-id="${proj.id}" class="read-more-btn text-blue-600 hover:text-blue-750 font-bold transition-all ml-1 inline cursor-pointer hover:underline text-xs" style="background: none; border: none; padding: 0;">...mais</button>
+                  <button data-id="${proj.id}" class="read-more-btn text-blue-600 hover:text-blue-750 font-bold transition-all ml-1 inline cursor-pointer hover:underline text-xs" style="background: none; border: none; padding: 0;">mais</button>
                 </p>
               ` : `
                 <p class="text-slate-600 text-sm mb-4 text-justify leading-relaxed flex-1 font-sans">${proj.descricao || ''}</p>
@@ -182,7 +182,7 @@ export async function renderPortfolio() {
               <!-- Button for complete demonstration overlay/modal -->
               <button class="w-full flex items-center justify-center space-x-2 bg-blue-50/50 hover:bg-blue-100/80 border border-blue-200/60 text-blue-700 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all mt-3 open-full-demo-btn" data-video-url="${proj.linkVideo || finalVideoPreview}" data-proj-name="${proj.nome}" data-video-desc="${proj.descricao}">
                 <i data-lucide="play-circle" class="w-4 h-4 text-blue-600"></i>
-                <span>Ver demonstração completa</span>
+                <span>Vídeo</span>
               </button>
 
             </div>
@@ -241,24 +241,20 @@ export async function renderPortfolio() {
     <!-- Top Embedded Navigation Bar -->
     <header class="sticky top-0 w-full bg-white/30 backdrop-blur-lg z-40 transition-all duration-300" id="main-nav">
       <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between transition-all duration-300">
-        <!-- Logo / Brand Signature -->
         <a href="#hero" class="flex items-center space-x-2 text-slate-900 group select-none">
-          <div class="bg-blue-50 border border-blue-200 w-8 h-8 rounded-lg flex items-center justify-center group-hover:bg-blue-100 transition-all shadow-3xs">
-            <span class="text-blue-600 font-sans font-bold text-sm">G</span>
-          </div>
           <div class="flex flex-col">
-            <span class="text-sm font-bold tracking-tight font-sans text-slate-800 group-hover:text-slate-950 transition-colors">Gabriel Bianna</span>
-            <span class="text-[9px] font-sans font-semibold text-slate-400 leading-none">Software Engineering</span>
+            <span class="text-sm font-bold tracking-tight font-sans text-slate-800 group-hover:text-slate-950 transition-colors">Thiago Bianna Pessanha da Cruz</span>
+            <span class="text-[9px] font-sans font-semibold text-slate-400 leading-none">Software Developer</span>
           </div>
         </a>
 
         <!-- Desktop Navigation Items -->
         <nav class="hidden md:flex items-center space-x-8 text-xs font-semibold text-slate-500 uppercase tracking-widest select-none">
-          <a href="#about" class="relative hover:text-blue-600 py-1 transition-all duration-300">/sobre-mim</a>
-          ${experiencesHtml ? `<a href="#experiences" class="relative hover:text-blue-600 py-1 transition-all duration-300">/experiencias</a>` : ''}
-          <a href="#projects" class="relative hover:text-blue-600 py-1 transition-all duration-300">/projetos</a>
-          <a href="#certificates" class="relative hover:text-blue-600 py-1 transition-all duration-300">/certificados</a>
-          <a href="#contact" class="relative hover:text-blue-600 py-1 transition-all duration-300">/contato</a>
+          <a href="#about" class="relative hover:text-blue-600 py-1 transition-all duration-300">sobre</a>
+          ${experiencesHtml ? `<a href="#experiences" class="relative hover:text-blue-600 py-1 transition-all duration-300">experiencias</a>` : ''}
+          <a href="#projects" class="relative hover:text-blue-600 py-1 transition-all duration-300">projetos</a>
+          <a href="#certificates" class="relative hover:text-blue-600 py-1 transition-all duration-300">certificados</a>
+          <a href="#contact" class="relative hover:text-blue-600 py-1 transition-all duration-300">contato</a>
         </nav>
 
         <!-- Admin Shortcut & Hamburger Trigger -->
@@ -282,7 +278,7 @@ export async function renderPortfolio() {
       <!-- Mobile Dropdown Menu -->
       <div id="mobile-dropdown" class="hidden md:hidden absolute left-0 right-0 bg-white border-b border-slate-200 px-6 py-5 flex flex-col space-y-4 shadow-xl z-50">
         <a href="#about" class="mobile-nav-link text-sm font-sans font-semibold text-slate-600 hover:text-blue-600 flex items-center justify-between">
-          <span>Sobre Mim</span>
+          <span>Sobre</span>
           <i data-lucide="chevron-right" class="w-4 h-4 opacity-40"></i>
         </a>
         ${experiencesHtml ? `
@@ -306,7 +302,7 @@ export async function renderPortfolio() {
         ${profile.links && profile.links.curriculoPdf ? `
           <a href="${profile.links.curriculoPdf}" target="_blank" class="mobile-nav-link bg-blue-50 text-blue-600 text-sm font-sans font-bold py-2.5 px-3.5 rounded-xl flex items-center space-x-2 border border-blue-100 mt-2">
             <i data-lucide="file-down" class="w-4 h-4"></i>
-            <span>Baixar Currículo (PDF)</span>
+            <span>Baixar Currículo</span>
           </a>
         ` : ''}
       </div>
@@ -446,7 +442,7 @@ export async function renderPortfolio() {
 
           <div class="md:col-span-7 flex flex-col justify-center space-y-6">
             <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 flex items-center space-x-2">
-              <span class="text-blue-600">/</span>
+              <span class="text-blue-600">#</span>
               <span>Sobre Mim</span>
             </h2>
 
@@ -501,7 +497,7 @@ export async function renderPortfolio() {
       <section id="experiences" class="py-16 border-t border-slate-200/85 scroll-reveal">
         <div class="mb-10">
           <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 flex items-center space-x-2">
-            <span class="text-blue-600">/</span>
+            <span class="text-blue-600">#</span>
             <span>Experiências Profissionais</span>
           </h2>
           <p class="text-xs font-sans text-slate-550 mt-1">Trajetória prática, atuações profissionais e resolução de problemas corporativos reais de engenharia de software</p>
@@ -514,21 +510,15 @@ export async function renderPortfolio() {
 
       <!-- PORTFOLIO PROJECTS SECTION -->
       <section id="projects" class="py-16 border-t border-slate-200/85 scroll-reveal">
-        <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-10">
-          <div>
-            <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 flex items-center space-x-2">
-              <span class="text-blue-600">/</span>
-              <span>Projetos em Destaque</span>
-            </h2>
-            <p class="text-xs font-sans text-slate-550 mt-1">Carregando APIs e repositórios dinamicamente via Java REST endpoints imitados</p>
-          </div>
-          <div class="mt-4 md:mt-0 select-none">
-            <span class="text-xs font-sans font-semibold text-slate-600 border border-slate-200 bg-white px-3.5 py-2 rounded-xl inline-flex items-center space-x-1.5 shadow-3xs">
-              <i data-lucide="database" class="w-3.5 h-3.5 text-blue-600"></i>
-              <span>Banco de Dados: Ativo</span>
-            </span>
-          </div>
-        </div>
+  <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-10">
+    <div>
+      <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 flex items-center space-x-2">
+        <span class="text-blue-600">#</span>
+        <span>Projetos em Destaque</span>
+      </h2>
+      <p class="text-xs font-sans text-slate-550 mt-1">Carregando APIs e repositórios dinamicamente via Java REST endpoints imitados</p>
+    </div>
+    </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           ${projectsHtml}
@@ -539,7 +529,7 @@ export async function renderPortfolio() {
       <section id="certificates" class="py-16 border-t border-slate-200/85 scroll-reveal">
         <div class="mb-10">
           <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 flex items-center space-x-2">
-            <span class="text-blue-600">/</span>
+            <span class="text-blue-600">#</span>
             <span>Certificados & Credenciais</span>
           </h2>
           <p class="text-xs font-sans text-slate-550 mt-1">Validações oficiais e especializações completadas para engenharia de softwares backend</p>
@@ -558,7 +548,7 @@ export async function renderPortfolio() {
           <div class="md:col-span-5 flex flex-col justify-between space-y-6">
             <div>
               <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 flex items-center space-x-2">
-                <span class="text-blue-600">/</span>
+                <span class="text-blue-600">#</span>
                 <span>Contato</span>
               </h2>
               <p class="text-slate-550 text-sm mt-3 leading-relaxed">
@@ -601,39 +591,38 @@ export async function renderPortfolio() {
               </a>
 
               <!-- Instagram -->
-              <a href="${profile.links.instagram || 'https://instagram.com/thgbianna'}" target="_blank" id="contact-instagram-link" class="flex items-center space-x-4 p-4 bg-slate-50/50 hover:bg-slate-100/85 border border-slate-200/70 hover:border-slate-350 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-2xs active:scale-[0.99] group/btn text-slate-700 font-bold decoration-none">
-                <div class="w-9 h-9 rounded-xl bg-pink-600 border border-pink-705 flex items-center justify-center text-white select-none transition-transform duration-300 group-hover/btn:scale-105 shadow-3xs">
-                  <i data-lucide="instagram" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <span class="text-xs font-sans font-bold tracking-wide text-slate-800">Instagram</span>
-                </div>
-              </a>
+<a href="${profile.links.instagram || 'https://instagram.com/thgbianna'}" target="_blank" id="contact-instagram-link" class="flex items-center space-x-4 p-4 bg-slate-50/50 hover:bg-slate-100/85 border border-red-200 hover:border-red-500 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-2xs active:scale-[0.99] group/btn text-slate-700 font-bold decoration-none">
+  <div class="w-9 h-9 rounded-xl bg-pink-600 border border-pink-705 flex items-center justify-center text-white select-none transition-transform duration-300 group-hover/btn:scale-105 shadow-3xs">
+    <i data-lucide="instagram" class="w-4 h-4"></i>
+  </div>
+  <div>
+    <span class="text-xs font-sans font-bold tracking-wide text-slate-800">Instagram</span>
+  </div>
+</a>
 
             </div>
 
             <div class="text-[10px] text-slate-400 font-sans select-none">
-              <p>📍 São Paulo, Brasil • UTC-3</p>
-              <p class="mt-1">💻 IDE: IntelliJ IDEA Ultimate</p>
+          
             </div>
           </div>
 
           <!-- HTML Contact Form -->
           <div class="md:col-span-7 bg-white border border-slate-200 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-xs">
-            <h3 class="text-xs font-bold font-sans text-slate-800 uppercase tracking-widest mb-4 flex items-center space-x-2 select-none">
-              <i data-lucide="send" class="w-4 h-4 text-blue-600"></i>
-              <span>Enviar Mensagem</span>
+            <h3 class="text-base font-bold font-sans text-slate-800 uppercase tracking-widest mb-4 flex items-center space-x-2 select-none">
+              <i data-lucide="send" class="w-5 h-5 text-blue-600"></i>
+              <span>Fale comigo!</span>
             </h3>
 
             <form id="portfolio-contact-form" class="space-y-4 text-sm">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="flex flex-col">
                   <label for="contact-name" class="font-sans text-[10px] text-slate-500 uppercase tracking-wider font-bold mb-1.5 select-none">Nome completo</label>
-                  <input type="text" id="contact-name" required placeholder="Ex: Lucas Ribeiro" class="bg-white border border-slate-200 hover:border-slate-300 focus:border-blue-600 rounded-xl px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all font-sans">
+                  <input type="text" id="contact-name" required placeholder="Seu Nome" class="bg-white border border-slate-200 hover:border-slate-300 focus:border-blue-600 rounded-xl px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all font-sans">
                 </div>
                 <div class="flex flex-col">
                   <label for="contact-email" class="font-sans text-[10px] text-slate-500 uppercase tracking-wider font-bold mb-1.5 select-none">Seu E-mail</label>
-                  <input type="email" id="contact-email" required placeholder="Ex: lucas@example.com" class="bg-white border border-slate-200 hover:border-slate-300 focus:border-blue-600 rounded-xl px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all font-sans">
+                  <input type="email" id="contact-email" required placeholder="seu@email.com" class="bg-white border border-slate-200 hover:border-slate-300 focus:border-blue-600 rounded-xl px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all font-sans">
                 </div>
               </div>
 
@@ -649,7 +638,7 @@ export async function renderPortfolio() {
 
               <button type="submit" id="contact-submit-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-xl transition-all flex items-center justify-center space-x-2 cursor-pointer shadow-sm shadow-blue-200">
                 <i data-lucide="send" class="w-4 h-4"></i>
-                <span>Enviar Payload REST</span>
+                <span>Enviar Mensagem</span>
               </button>
             </form>
           </div>
@@ -660,16 +649,38 @@ export async function renderPortfolio() {
     </main>
 
     <!-- FOOTER -->
-    <footer class="w-full border-t border-slate-200 bg-white py-12 text-center font-sans text-xs text-slate-550 select-none">
-      <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-        <p>© 2026 ${profile.nome}. Todos os direitos reservados.</p>
-        <div class="flex items-center space-x-1.5 text-[10px] text-slate-400 font-semibold">
-          <i data-lucide="network" class="w-3.5 h-3.5 text-blue-600"></i>
-          <span>API: POST /api/contact | Integration Layer ready</span>
-        </div>
-      </div>
-    </footer>
+    <footer class="relative z-50 w-full border-t border-slate-200 bg-white py-12 text-center font-sans text-xs text-slate-550">
+  <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+    <p class="select-none">© 2026 Thiago Bianna Pessanha da Cruz.</p>
+    
+    <div class="flex items-center space-x-4 relative z-50">
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/in/thiagobpcruz/" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-blue-600 transition-colors block p-2" title="LinkedIn" style="cursor: pointer !important;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
 
+      <!-- GitHub -->
+      <a href="https://github.com/ThiagoBianna" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-slate-900 transition-colors block p-2" title="GitHub" style="cursor: pointer !important;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+      </a>
+
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/hutzdon/" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-pink-600 transition-colors block p-2" title="Instagram" style="cursor: pointer !important;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+      </a>
+
+      <!-- WhatsApp -->
+      <a href="https://wa.me/5521999425820" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-green-500 transition-colors block p-2" title="WhatsApp" style="cursor: pointer !important;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </a>
+
+      <!-- E-mail -->
+      <a href="mailto:thgbianna@gmail.com" class="text-slate-400 hover:text-red-500 transition-colors block p-2" title="Enviar E-mail" style="cursor: pointer !important;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
 
     <!-- MODAL FOR CERTIFICATE ZOOM -->
     <div id="cert-zoom-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-4">
