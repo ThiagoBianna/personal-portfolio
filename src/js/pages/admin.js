@@ -10,6 +10,8 @@ let editingProjectId = null;
 let editingCertId = null;
 let academicsList = [];
 let editingAcademicId = null;
+let experiencesList = [];
+let editingExperienceId = null;
 
 export async function renderAdmin() {
   profileData = await api.getProfile();
@@ -64,6 +66,11 @@ export async function renderAdmin() {
             <span class="flex-1">Formação Acadêmica</span>
           </button>
 
+          <button data-tab="experiences" class="admin-tab-btn flex items-center space-x-2.5 px-4 py-3 rounded-xl text-left text-xs font-sans font-semibold transition-all border outline-none cursor-pointer">
+            <i data-lucide="briefcase" class="w-4 h-4"></i>
+            <span class="flex-1">Experiências</span>
+          </button>
+
           <button data-tab="about" class="admin-tab-btn flex items-center space-x-2.5 px-4 py-3 rounded-xl text-left text-xs font-sans font-semibold transition-all border outline-none cursor-pointer">
             <i data-lucide="user" class="w-4 h-4"></i>
             <span class="flex-1">Sobre Mim</span>
@@ -97,7 +104,7 @@ export async function renderAdmin() {
     </div>
 
     <!-- MODAL 1: ADD/EDIT PROJECT DIALOG (LIGHT MODERN) -->
-    <div id="project-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-4 overflow-y-auto select-none">
+    <div id="project-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-4 overflow-y-auto">
       <div class="bg-white border border-slate-200 rounded-3xl max-w-2xl w-full relative shadow-2xl animate-fade-in my-8">
         <div class="flex items-center justify-between p-5 border-b border-slate-100">
           <h3 id="project-modal-title" class="text-sm font-bold text-slate-900 flex items-center space-x-2 font-sans">
@@ -247,7 +254,7 @@ export async function renderAdmin() {
     </div>
 
     <!-- MODAL 2: ADD/EDIT CERTIFICATE DIALOG -->
-    <div id="cert-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-4 select-none">
+    <div id="cert-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-4">
       <div class="bg-white border border-slate-200 rounded-3xl max-w-md w-full relative shadow-2xl animate-fade-in">
         <div class="flex items-center justify-between p-5 border-b border-slate-100">
           <h3 id="cert-modal-title" class="text-sm font-bold text-slate-900 flex items-center space-x-2 font-sans">
@@ -322,7 +329,7 @@ export async function renderAdmin() {
 
 
     <!-- MODAL 3: ADD/EDIT ACADEMIC DIALOG -->
-    <div id="acad-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-4 select-none">
+    <div id="acad-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-4">
       <div class="bg-white border border-slate-200 rounded-3xl max-w-3xl w-full relative shadow-2xl animate-fade-in">
         <div class="flex items-center justify-between p-5 border-b border-slate-101">
           <h3 id="acad-modal-title" class="text-sm font-bold text-slate-900 flex items-center space-x-2 font-sans">
@@ -394,6 +401,52 @@ export async function renderAdmin() {
           <div class="flex items-center justify-end space-x-2 pt-4 border-t border-slate-100">
             <button type="button" id="cancel-acad-modal" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl font-sans font-semibold text-xs cursor-pointer">Fechar</button>
             <button type="submit" id="save-acad-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2.5 rounded-xl flex items-center space-x-1.5 cursor-pointer shadow-sm shadow-blue-100">
+              <i data-lucide="check" class="w-4 h-4"></i>
+              <span>Confirmar Registro</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+    <!-- MODAL 4: ADD/EDIT EXPERIENCE DIALOG (LIGHT MODERN) -->
+    <div id="experience-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-4 overflow-y-auto">
+      <div class="bg-white border border-slate-200 rounded-3xl max-w-xl w-full relative shadow-2xl animate-fade-in my-8">
+        <div class="flex items-center justify-between p-5 border-b border-slate-100">
+          <h3 id="experience-modal-title" class="text-sm font-bold text-slate-900 flex items-center space-x-2 font-sans">
+            <i data-lucide="briefcase" class="w-4 h-4 text-blue-600"></i>
+            <span>Adicionar Experiência</span>
+          </h3>
+          <button id="close-exp-modal" class="text-slate-400 hover:text-slate-600 p-1.5 hover:bg-slate-100 rounded-xl transition-all">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <form id="experience-form-payload" class="p-6 space-y-4 text-xs font-sans">
+          <div class="flex flex-col">
+            <label class="font-sans text-[10px] text-slate-500 uppercase tracking-wide font-bold mb-1.5">Cargo / Título *</label>
+            <input type="text" id="exp-cargo" required placeholder="Ex: Software Engineer Sênior" class="bg-white border border-slate-200 focus:border-blue-600 rounded-xl px-4 py-2.5 text-slate-800 focus:outline-none transition-all font-sans">
+          </div>
+
+          <div class="flex flex-col">
+            <label class="font-sans text-[10px] text-slate-500 uppercase tracking-wide font-bold mb-1.5">Empresa *</label>
+            <input type="text" id="exp-empresa" required placeholder="Ex: Google Cloud SP" class="bg-white border border-slate-200 focus:border-blue-600 rounded-xl px-4 py-2.5 text-slate-800 focus:outline-none transition-all font-sans">
+          </div>
+
+          <div class="flex flex-col">
+            <label class="font-sans text-[10px] text-slate-500 uppercase tracking-wide font-bold mb-1.5">Período *</label>
+            <input type="text" id="exp-periodo" required placeholder="Ex: Out 2024 - Presente" class="bg-white border border-slate-200 focus:border-blue-600 rounded-xl px-4 py-2.5 text-slate-800 focus:outline-none transition-all font-sans font-sans">
+          </div>
+
+          <div class="flex flex-col">
+            <label class="font-sans text-[10px] text-slate-500 uppercase tracking-wide font-bold mb-1.5">Descrição Detalhada / Atividades</label>
+            <textarea id="exp-descricao" rows="4" placeholder="Descreva suas principais conquistas, stack utilizada e responsabilidades na empresa..." class="bg-white border border-slate-200 focus:border-blue-600 rounded-xl px-4 py-2.5 text-slate-805 placeholder-slate-400 focus:outline-none transition-all resize-none font-sans"></textarea>
+          </div>
+
+          <div class="flex items-center justify-end space-x-2 pt-4 border-t border-slate-100">
+            <button type="button" id="cancel-exp-modal" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl font-sans font-semibold text-xs cursor-pointer">Fechar</button>
+            <button type="submit" id="save-exp-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2.5 rounded-xl flex items-center space-x-1.5 cursor-pointer shadow-sm shadow-blue-100">
               <i data-lucide="check" class="w-4 h-4"></i>
               <span>Confirmar Registro</span>
             </button>
@@ -684,10 +737,62 @@ export function initAdmin() {
         switchAdminTab('academics');
       } catch (err) {
         console.error(err);
-        alert("Falha ao salvar educação acadêmica.");
+        alert(`Falha ao salvar educação acadêmica. Detalhe: ${err.message || err}\n\nNota: Se você anexou arquivos muito grandes (imagens ou diplomas pesados no formato base64), o limite de armazenamento local do navegador pode ter sido excedido. Experimente usar caminhos de imagens em URL externas ou arquivos mais compactos.`);
       } finally {
         saveAcadBtn.disabled = false;
         saveAcadBtn.innerHTML = `
+          <i data-lucide="check" class="w-3.5 h-3.5"></i>
+          <span>Confirmar Registro</span>
+        `;
+        if (window.lucide) window.lucide.createIcons();
+      }
+    });
+  }
+
+  // Bind experience modal closing triggers
+  const closeExpBtn = document.getElementById('close-exp-modal');
+  const cancelExpBtn = document.getElementById('cancel-exp-modal');
+  const expModal = document.getElementById('experience-modal');
+
+  const hideExpModal = () => { if (expModal) expModal.classList.add('hidden'); };
+  if (closeExpBtn) closeExpBtn.addEventListener('click', hideExpModal);
+  if (cancelExpBtn) cancelExpBtn.addEventListener('click', hideExpModal);
+
+  // Bind Experience submit
+  const expForm = document.getElementById('experience-form-payload');
+  const saveExpBtn = document.getElementById('save-exp-btn');
+  if (expForm) {
+    expForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      saveExpBtn.disabled = true;
+      saveExpBtn.innerHTML = `
+        <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+        <span>Salvando...</span>
+      `;
+
+      const cargo = document.getElementById('exp-cargo').value.trim();
+      const empresa = document.getElementById('exp-empresa').value.trim();
+      const periodo = document.getElementById('exp-periodo').value.trim();
+      const descricao = document.getElementById('exp-descricao').value.trim();
+
+      try {
+        if (editingExperienceId) {
+          await api.updateExperience(editingExperienceId, { cargo, empresa, periodo, descricao });
+          showToast(`Experiência ID ${editingExperienceId} atualizada com sucesso!`);
+        } else {
+          const res = await api.createExperience({ cargo, empresa, periodo, descricao });
+          showToast(`Experiência como "${res.cargo}" criada com sucesso!`);
+        }
+        
+        hideExpModal();
+        switchAdminTab('experiences');
+      } catch (err) {
+        console.error(err);
+        alert("Falha ao salvar experiência.");
+      } finally {
+        saveExpBtn.disabled = false;
+        saveExpBtn.innerHTML = `
           <i data-lucide="check" class="w-3.5 h-3.5"></i>
           <span>Confirmar Registro</span>
         `;
@@ -1019,6 +1124,24 @@ async function switchAdminTab(tabName) {
           </div>
         </div>
 
+        <!-- Seção de Idiomas de Fluência -->
+        <div class="border-t border-slate-100 pt-5 mt-5">
+          <h3 class="text-xs font-bold text-slate-800 font-sans mb-1 flex items-center space-x-1.5 uppercase tracking-wide">
+            <i data-lucide="languages" class="w-4 h-4 text-blue-600 animate-pulse"></i>
+            <span>Idiomas de Fluência</span>
+          </h3>
+          <p class="text-[10px] text-slate-400 mb-4">Adicione ou remova seus idiomas de fluência, escolha o país correspondente para a bandeira e mude o nível de fluência.</p>
+          
+          <div id="languages-edit-list" class="space-y-3">
+             <!-- Carregado via JS -->
+          </div>
+
+          <button type="button" id="add-language-row-btn" class="mt-3 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 border border-slate-200 hover:border-slate-350 font-bold text-xs px-3.5 py-2 rounded-xl flex items-center space-x-1.5 transition-all cursor-pointer">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            <span>Adicionar Idioma</span>
+          </button>
+        </div>
+
         <div class="flex items-center justify-end pt-5 border-t border-slate-105">
           <button type="submit" id="save-profile-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2.5 rounded-xl flex items-center space-x-1.5 transition-all cursor-pointer shadow-sm shadow-blue-105">
             <i data-lucide="check" class="w-4 h-4"></i>
@@ -1080,6 +1203,22 @@ async function switchAdminTab(tabName) {
           };
         });
 
+        // Serializar os Idiomas
+        const langRows = document.querySelectorAll('.lang-item-row');
+        const updatedIdiomas = [];
+        for (let row of langRows) {
+          const nomeVal = row.querySelector('.lang-name-input').value.trim();
+          const flagVal = row.querySelector('.lang-flag-select').value;
+          const levelVal = row.querySelector('.lang-level-select').value;
+          if (nomeVal) {
+            updatedIdiomas.push({
+              nome: nomeVal,
+              flag: flagVal,
+              nivel: levelVal
+            });
+          }
+        }
+
         const updatedProfile = {
           ...profileData,
           nome: document.getElementById('prof-nome').value.trim(),
@@ -1087,7 +1226,8 @@ async function switchAdminTab(tabName) {
           apresentacao: document.getElementById('prof-apresentacao').value.trim(),
           bio: document.getElementById('prof-bio').value.trim(),
           tecnologiasDominadas: updatedDominadas,
-          tecnologiasEstudando: []
+          tecnologiasEstudando: [],
+          idiomas: updatedIdiomas
         };
 
         const cvFileInput = document.getElementById('prof-curriculo-file');
@@ -1127,6 +1267,117 @@ async function switchAdminTab(tabName) {
           if (window.lucide) window.lucide.createIcons();
         }
       });
+
+      // Lógica interativa de gerenciamento de Idiomas
+      const languagesContainer = document.getElementById('languages-edit-list');
+      const initialIdiomas = profileData.idiomas || [];
+      
+      function makeLanguageRowHtml(lang = { nome: '', flag: 'BR', nivel: 'Fluente' }) {
+        const flags = [
+          { code: 'BR', emoji: '🇧🇷', name: 'Brasil' },
+          { code: 'US', emoji: '🇺🇸', name: 'EUA' },
+          { code: 'ES', emoji: '🇪🇸', name: 'Espanha' },
+          { code: 'FR', emoji: '🇫🇷', name: 'França' },
+          { code: 'DE', emoji: '🇩🇪', name: 'Alemanha' },
+          { code: 'IT', emoji: '🇮🇹', name: 'Itália' },
+          { code: 'GB', emoji: '🇬🇧', name: 'Reino Unido' },
+          { code: 'JP', emoji: '🇯🇵', name: 'Japão' },
+          { code: 'CN', emoji: '🇨🇳', name: 'China' }
+        ];
+
+        const levels = ["Nativo", "Fluente", "Avançado", "Intermediário", "Básico"];
+
+        const flagOptionsHtml = flags.map(f => `
+          <option value="${f.code}" ${lang.flag?.toUpperCase() === f.code ? 'selected' : ''}>${f.emoji} ${f.name}</option>
+        `).join('');
+
+        const levelOptionsHtml = levels.map(lev => `
+          <option value="${lev}" ${lang.nivel === lev ? 'selected' : ''}>${lev}</option>
+        `).join('');
+
+        return `
+          <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 p-4 bg-slate-50/50 border border-slate-200 hover:border-slate-300 rounded-2xl relative transition-all duration-200 lang-item-row group/row">
+            <div class="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <!-- Nome do Idioma -->
+              <div>
+                <label class="text-[9px] font-sans font-bold text-slate-400 uppercase tracking-widest block mb-1 select-none">Idioma</label>
+                <input type="text" value="${lang.nome}" required placeholder="Ex: Inglês, Espanhol..." class="w-full bg-white border border-slate-200 focus:border-blue-600 rounded-xl px-3 py-2 text-xs text-slate-800 font-sans lang-name-input">
+              </div>
+
+              <!-- País / Bandeira -->
+              <div>
+                <label class="text-[9px] font-sans font-bold text-slate-400 uppercase tracking-widest block mb-1 select-none">País / Bandeira</label>
+                <select class="w-full bg-white border border-slate-200 focus:border-blue-600 rounded-xl px-2.5 py-2 text-xs text-slate-800 font-sans lang-flag-select">
+                  ${flagOptionsHtml}
+                </select>
+              </div>
+
+              <!-- Nível de Fluência -->
+              <div>
+                <label class="text-[9px] font-sans font-bold text-slate-400 uppercase tracking-widest block mb-1 select-none">Nível de Fluência</label>
+                <select class="w-full bg-white border border-slate-200 focus:border-blue-600 rounded-xl px-2.5 py-2 text-xs text-slate-800 font-sans lang-level-select">
+                  ${levelOptionsHtml}
+                </select>
+              </div>
+            </div>
+
+            <!-- Delete Trigger -->
+            <div class="sm:pt-4 flex items-center justify-end">
+              <button type="button" class="remove-lang-row-btn text-rose-600 hover:text-white bg-rose-50 hover:bg-rose-600 border border-rose-100 hover:border-rose-605 p-2.5 rounded-xl transition-all duration-200 cursor-pointer flex items-center justify-center shrink-0 shadow-3xs" title="Remover Idioma">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      // Renderizar linhas iniciais
+      if (languagesContainer) {
+        if (initialIdiomas.length > 0) {
+          languagesContainer.innerHTML = initialIdiomas.map(l => makeLanguageRowHtml(l)).join('');
+        } else {
+          languagesContainer.innerHTML = makeLanguageRowHtml();
+        }
+
+        // Event listener delegado para deletar linhas
+        languagesContainer.addEventListener('click', (e) => {
+          const removeBtn = e.target.closest('.remove-lang-row-btn');
+          if (removeBtn) {
+            const row = removeBtn.closest('.lang-item-row');
+            if (row) {
+              row.style.opacity = '0';
+              row.style.transform = 'scale(0.95)';
+              setTimeout(() => {
+                row.remove();
+                if (languagesContainer.querySelectorAll('.lang-item-row').length === 0) {
+                  languagesContainer.innerHTML = makeLanguageRowHtml();
+                  if (window.lucide) window.lucide.createIcons();
+                }
+              }, 180);
+            }
+          }
+        });
+      }
+
+      // Adicionar nova linha de idioma
+      const addLangRowBtn = document.getElementById('add-language-row-btn');
+      if (addLangRowBtn && languagesContainer) {
+        addLangRowBtn.addEventListener('click', () => {
+          const div = document.createElement('div');
+          div.innerHTML = makeLanguageRowHtml();
+          const row = div.firstElementChild;
+          row.style.opacity = '0';
+          row.style.transform = 'scale(0.95)';
+          languagesContainer.appendChild(row);
+          
+          setTimeout(() => {
+            row.style.opacity = '1';
+            row.style.transform = 'none';
+          }, 50);
+
+          if (window.lucide) window.lucide.createIcons();
+        });
+      }
     }
 
   } else if (tabName === 'settings') {
@@ -1162,6 +1413,10 @@ async function switchAdminTab(tabName) {
             <div class="flex flex-col">
               <label class="font-sans text-[10px] text-slate-550 tracking-wide font-bold mb-1.5">Email de Contato</label>
               <input type="email" id="link-email" required value="${profileData.links.email}" class="bg-white border border-slate-200 focus:border-blue-600 rounded-xl px-4 py-2.5 text-slate-800 transition-all font-sans">
+            </div>
+            <div class="flex flex-col col-span-2">
+              <label class="font-sans text-[10px] text-slate-550 tracking-wide font-bold mb-1.5">Instagram URL</label>
+              <input type="url" id="link-instagram" value="${profileData.links.instagram || ''}" placeholder="https://instagram.com/..." class="bg-white border border-slate-200 focus:border-blue-600 rounded-xl px-4 py-2.5 text-slate-800 transition-all font-sans">
             </div>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1.5">
@@ -1234,7 +1489,8 @@ async function switchAdminTab(tabName) {
             github: document.getElementById('link-github').value.trim(),
             linkedin: document.getElementById('link-linkedin').value.trim(),
             whatsapp: document.getElementById('link-whatsapp').value.trim(),
-            email: document.getElementById('link-email').value.trim()
+            email: document.getElementById('link-email').value.trim(),
+            instagram: document.getElementById('link-instagram').value.trim()
           }
         };
 
@@ -1282,15 +1538,21 @@ async function switchAdminTab(tabName) {
       : `<tr><td colspan="5" class="py-12 text-center text-slate-400 font-sans text-[11px] uppercase tracking-wide">Nenhuma formação acadêmica cadastrada.</td></tr>`;
 
     container.innerHTML = `
-      <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+      <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-101">
         <div>
           <h2 class="text-sm font-bold text-slate-900 font-sans">Formação Acadêmica</h2>
           <p class="text-[10px] font-sans font-semibold text-slate-400 mt-1 uppercase tracking-wide">Mapeamento API: /api/academics</p>
         </div>
-        <button id="add-acad-btn-modal" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl flex items-center space-x-1.5 transition-all cursor-pointer shadow-sm shadow-blue-100">
-          <i data-lucide="plus" class="w-4 h-4"></i>
-          <span>Adicionar Formação</span>
-        </button>
+        <div class="flex items-center space-x-2">
+          <button id="reset-acad-btn" class="bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 font-bold text-xs px-3 py-2 rounded-xl flex items-center space-x-1.5 transition-all cursor-pointer">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+            <span>Resetar Padrão</span>
+          </button>
+          <button id="add-acad-btn-modal" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl flex items-center space-x-1.5 transition-all cursor-pointer shadow-sm shadow-blue-100">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>Adicionar Formação</span>
+          </button>
+        </div>
       </div>
 
       <div class="overflow-x-auto border border-slate-250 rounded-2xl bg-white shadow-2xs">
@@ -1311,6 +1573,16 @@ async function switchAdminTab(tabName) {
       </div>
     `;
 
+    const resetBtn = document.getElementById('reset-acad-btn');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        if (confirm("Deseja realmente redefinir a lista de formação acadêmica para os dados de fábrica? (Isso limpará uploads de arquivos anteriores e restaurará a formação inicial do Gabriel Bianna)")) {
+          localStorage.removeItem("portfolio_academics");
+          window.location.reload();
+        }
+      });
+    }
+
     const addBtn = document.getElementById('add-acad-btn-modal');
     if (addBtn) addBtn.addEventListener('click', () => openAcademicModal(null));
 
@@ -1327,6 +1599,95 @@ async function switchAdminTab(tabName) {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-del-id');
         confirmDeleteAcademic(id);
+      });
+    });
+  } else if (tabName === 'experiences') {
+    experiencesList = await api.getExperiences();
+
+    const tableRows = experiencesList.length > 0
+      ? experiencesList.map(exp => `
+          <tr class="border-b border-slate-100 hover:bg-slate-50/50 transition-all text-xs font-sans">
+            <td class="py-3.5 pl-3 font-bold text-slate-900" title="${exp.cargo}">${exp.cargo}</td>
+            <td class="py-3.5 text-slate-500 font-semibold">${exp.empresa}</td>
+            <td class="py-3.5 text-[10px] text-slate-550 font-mono font-bold">${exp.periodo}</td>
+            <td class="py-3.5 text-right pr-3 space-x-1.5 whitespace-nowrap">
+              <!-- Reorder controls -->
+              <button data-id="${exp.id}" data-dir="up" class="reorder-exp-btn text-slate-400 hover:text-blue-600 hover:bg-blue-50 border border-slate-150 p-1.5 rounded-lg cursor-pointer transition-all inline-flex items-center justify-center align-middle" title="Subir Posição">
+                <i data-lucide="chevron-up" class="w-3.5 h-3.5"></i>
+              </button>
+              <button data-id="${exp.id}" data-dir="down" class="reorder-exp-btn text-slate-400 hover:text-blue-600 hover:bg-blue-50 border border-slate-150 p-1.5 rounded-lg cursor-pointer transition-all inline-flex items-center justify-center align-middle" title="Descer Posição">
+                <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+              </button>
+
+              <button data-edit-id="${exp.id}" class="edit-exp-btn text-[10px] font-sans font-bold text-blue-600 bg-blue-50 hover:bg-blue-101/85 border border-blue-105 px-2.5 py-1.5 rounded-lg cursor-pointer transition-all inline-flex items-center align-middle">Editar</button>
+              <button data-del-id="${exp.id}" class="del-exp-btn text-[10px] font-sans font-bold text-red-650 bg-red-50 hover:bg-red-101/85 border border-red-200 px-2.5 py-1.5 rounded-lg cursor-pointer transition-all inline-flex items-center align-middle">Excluir</button>
+            </td>
+          </tr>
+        `).join('')
+      : `<tr><td colspan="4" class="py-12 text-center text-slate-400 font-sans text-[11px] uppercase tracking-wide">Nenhuma experiência cadastrada no momento.</td></tr>`;
+
+    container.innerHTML = `
+      <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+        <div>
+          <h2 class="text-sm font-bold text-slate-900 font-sans">Gerenciar Experiências</h2>
+          <p class="text-[10px] font-sans font-semibold text-slate-400 mt-1 uppercase tracking-wide">Mapeamento API: /api/experiences</p>
+        </div>
+        <button id="add-exp-btn-modal" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl flex items-center space-x-1.5 transition-all cursor-pointer shadow-sm shadow-blue-100">
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span>Nova Experiência</span>
+        </button>
+      </div>
+
+      <div class="overflow-x-auto border border-slate-250 rounded-2xl bg-white shadow-2xs">
+        <table class="w-full text-left border-collapse font-sans">
+          <thead>
+            <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-semibold text-slate-500 uppercase tracking-widest select-none">
+              <th class="py-3.5 pl-3">Cargo / Título</th>
+              <th class="py-3.5">Empresa</th>
+              <th class="py-3.5">Período</th>
+              <th class="py-3.5 text-right pr-3">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${tableRows}
+          </tbody>
+        </table>
+      </div>
+    `;
+
+    const addBtn = document.getElementById('add-exp-btn-modal');
+    if (addBtn) addBtn.addEventListener('click', () => openExperienceModal(null));
+
+    const editBtns = document.querySelectorAll('.edit-exp-btn');
+    editBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-edit-id');
+        openExperienceModal(id);
+      });
+    });
+
+    const delBtns = document.querySelectorAll('.del-exp-btn');
+    delBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-del-id');
+        confirmDeleteExperience(id);
+      });
+    });
+
+    // Reorder experiences listeners
+    const reorderExpBtns = document.querySelectorAll('.reorder-exp-btn');
+    reorderExpBtns.forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const id = btn.getAttribute('data-id');
+        const dir = btn.getAttribute('data-dir');
+        try {
+          await api.reorderExperience(id, dir);
+          await switchAdminTab('experiences');
+          showToast("Ordem de experiências atualizada!");
+        } catch (err) {
+          console.error(err);
+          alert("Falha ao reordenar");
+        }
       });
     });
   }
@@ -1540,6 +1901,53 @@ async function confirmDeleteAcademic(id) {
       await api.deleteAcademic(id);
       showToast(`Formação "${acad.curso}" deletada.`);
       switchAdminTab('academics');
+    } catch (e) {
+      console.error(e);
+      alert("Erro ao excluir.");
+    }
+  }
+}
+
+// OPEN EXPERIENCE MODAL
+function openExperienceModal(id) {
+  editingExperienceId = id;
+  const modal = document.getElementById('experience-modal');
+  const title = document.getElementById('experience-modal-title');
+  const form = document.getElementById('experience-form-payload');
+
+  if (!modal) return;
+
+  form.reset();
+
+  if (id) {
+    title.innerHTML = `<i data-lucide="edit-3" class="w-4 h-4 text-blue-600 animate-pulse"></i><span>Editar Experiência #${id}</span>`;
+    const exp = experiencesList.find(e => e.id === Number(id));
+    if (exp) {
+      document.getElementById('exp-cargo').value = exp.cargo;
+      document.getElementById('exp-empresa').value = exp.empresa;
+      document.getElementById('exp-periodo').value = exp.periodo;
+      document.getElementById('exp-descricao').value = exp.descricao || "";
+    }
+  } else {
+    title.innerHTML = `<i data-lucide="briefcase" class="w-4 h-4 text-blue-600 animate-pulse"></i><span>Adicionar Experiência</span>`;
+    document.getElementById('exp-periodo').value = "2024 - Presente";
+  }
+
+  modal.classList.remove('hidden');
+  if (window.lucide) window.lucide.createIcons();
+}
+
+// CONFIRM DELETE EXPERIENCE
+async function confirmDeleteExperience(id) {
+  const exp = experiencesList.find(e => e.id === Number(id));
+  if (!exp) return;
+
+  const result = confirm(`Atenção: Tem certeza que deseja executar JPA Delete na experiência "${exp.cargo}" na empresa "${exp.empresa}" (ID ${id})?`);
+  if (result) {
+    try {
+      await api.deleteExperience(id);
+      showToast(`Experiência "${exp.cargo}" deletada.`);
+      switchAdminTab('experiences');
     } catch (e) {
       console.error(e);
       alert("Erro ao excluir.");

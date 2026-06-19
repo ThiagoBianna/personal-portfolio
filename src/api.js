@@ -37,15 +37,28 @@ function getLoggerByPath(path) {
   if (path.includes("/certificates")) return "CertificateController";
   if (path.includes("/profile")) return "ProfileController";
   if (path.includes("/stats")) return "StatsController";
+  if (path.includes("/experiences")) return "ExperienceController";
   return "AppController";
 }
 
 // Simulates network latency
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// Safe local storage JSON parser
+export function safeGetItem(key, defaultValue) {
+  try {
+    const val = localStorage.getItem(key);
+    if (!val || val === "undefined" || val === "null") return defaultValue;
+    return JSON.parse(val);
+  } catch (e) {
+    console.error(`Error parsing localStorage key "${key}":`, e);
+    return defaultValue;
+  }
+}
+
 // INITIAL SEED DATA
 const initialProfile = {
-  nome: "Thiago Bianna Pessanha da Cruz",
+  nome: "Gabriel Bianna",
   cargo: "Estudante de Engenharia de Software | Desenvolvedor Backend Java",
   apresentacao: "Especialista em construir soluções robustas, escaláveis e eficientes com foco no ecossistema Java. Atualmente cursando Engenharia de Software e desenvolvendo APIs REST seguras e de alta performance utilizando Spring Boot 3, Hibernate e bancos de dados SQL.",
   fotoPerfil: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=300",
@@ -69,8 +82,13 @@ const initialProfile = {
     linkedin: "https://linkedin.com/in/gabriel-bianna",
     whatsapp: "https://wa.me/5511999999999",
     email: "gabriel.bianna@example.com",
+    instagram: "https://instagram.com/thgbianna",
     curriculoPdf: "https://example.com/gabriel-bianna-cv.pdf"
-  }
+  },
+  idiomas: [
+    { nome: "Português", nivel: "Nativo", flag: "BR" },
+    { nome: "Inglês", nivel: "Fluente / Avançado", flag: "US" }
+  ]
 };
 
 const initialProjects = [
@@ -190,6 +208,10 @@ if (!storedProfile) {
       prof.links.curriculoPdf = "https://example.com/gabriel-bianna-cv.pdf";
       updated = true;
     }
+    if (!prof.links.instagram) {
+      prof.links.instagram = "https://instagram.com/thgbianna";
+      updated = true;
+    }
     if (prof.tecnologiasDominadas) {
       prof.tecnologiasDominadas = prof.tecnologiasDominadas.map(tech => {
         if (typeof tech === 'string') {
@@ -201,6 +223,13 @@ if (!storedProfile) {
     }
     if (!prof.fotoSobre) {
       prof.fotoSobre = prof.fotoPerfil || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300";
+      updated = true;
+    }
+    if (!prof.idiomas) {
+      prof.idiomas = [
+        { nome: "Português", nivel: "Nativo", flag: "BR" },
+        { nome: "Inglês", nivel: "Fluente / Avançado", flag: "US" }
+      ];
       updated = true;
     }
     if (updated) {
@@ -252,6 +281,9 @@ if (!localStorage.getItem("portfolio_stats")) {
 }
 if (!localStorage.getItem("portfolio_academics")) {
   localStorage.setItem("portfolio_academics", JSON.stringify(initialAcademics));
+}
+if (!localStorage.getItem("portfolio_experiences")) {
+  localStorage.setItem("portfolio_experiences", JSON.stringify([]));
 }
 
 // REST API CLIENT
@@ -714,14 +746,14 @@ export const api = {
    */
   getAcademics: async () => {
     await delay(200);
-    const data = JSON.parse(localStorage.getItem("portfolio_academics")) || [];
+    const data = safeGetItem("portfolio_academics", []);
     logSpringBoot("GET", "/api/academics", `Retrieved ${data.length} academic education entities.`, "200 OK");
     return data.sort((a, b) => b.id - a.id);
   },
 
   createAcademic: async (formData) => {
     await delay(400);
-    const academics = JSON.parse(localStorage.getItem("portfolio_academics")) || [];
+    const academics = safeGetItem("portfolio_academics", []);
 
     let fileImage = "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=600";
     if (formData.get("imagemFile")) {
@@ -761,7 +793,7 @@ export const api = {
 
   updateAcademic: async (id, formData) => {
     await delay(400);
-    const academics = JSON.parse(localStorage.getItem("portfolio_academics")) || [];
+    const academics = safeGetItem("portfolio_academics", []);
     const index = academics.findIndex(c => c.id === Number(id));
     if (index === -1) {
       logSpringBoot("PUT", `/api/academics/${id}`, "Academic background entry not found.", "404 NOT FOUND");
@@ -805,7 +837,7 @@ export const api = {
 
   deleteAcademic: async (id) => {
     await delay(305);
-    let academics = JSON.parse(localStorage.getItem("portfolio_academics")) || [];
+    let academics = safeGetItem("portfolio_academics", []);
     const sizeBefore = academics.length;
     academics = academics.filter(c => c.id !== Number(id));
 
@@ -817,6 +849,124 @@ export const api = {
     localStorage.setItem("portfolio_academics", JSON.stringify(academics));
     logSpringBoot("DELETE", `/api/academics/${id}`, `Academic background entity ${id} removed.`, "204 NO CONTENT");
     return true;
+  },
+
+  /**
+   * EXPERIENCES SERVICE - CRUD
+   * Simulates GET /api/experiences, POST /api/experiences, PUT /api/experiences/{id}, DELETE /api/experiences/{id}
+   */
+  getExperiences: async () => {
+    await delay(200);
+    const data = JSON.parse(localStorage.getItem("portfolio_experiences")) || [];
+    logSpringBoot("GET", "/api/experiences", `Retrieved ${data.length} experience entities.`, "200 OK");
+    return data.sort((a, b) => {
+      const oA = typeof a.ordem === 'number' ? a.ordem : 0;
+      const oB = typeof b.ordem === 'number' ? b.ordem : 0;
+      if (oA !== oB) return oA - oB;
+      return b.id - a.id;
+    });
+  },
+
+  createExperience: async (payload) => {
+    await delay(350);
+    const experiences = JSON.parse(localStorage.getItem("portfolio_experiences")) || [];
+
+    const getVal = (key) => {
+      if (payload && typeof payload.get === 'function') {
+        return payload.get(key) || "";
+      }
+      return payload ? payload[key] : "";
+    };
+
+    const newExp = {
+      id: Date.now(),
+      cargo: getVal("cargo"),
+      empresa: getVal("empresa"),
+      periodo: getVal("periodo"),
+      descricao: getVal("descricao"),
+      ordem: experiences.length
+    };
+
+    experiences.push(newExp);
+    localStorage.setItem("portfolio_experiences", JSON.stringify(experiences));
+    logSpringBoot("POST", "/api/experiences", `Experience entity saved with ID: ${newExp.id}`, "201 CREATED");
+    return newExp;
+  },
+
+  updateExperience: async (id, payload) => {
+    await delay(350);
+    const experiences = JSON.parse(localStorage.getItem("portfolio_experiences")) || [];
+    const index = experiences.findIndex(e => e.id === Number(id));
+    if (index === -1) {
+      logSpringBoot("PUT", `/api/experiences/${id}`, "Experience entry not found.", "404 NOT FOUND");
+      throw new Error(`Experience ${id} not found`);
+    }
+
+    const getVal = (key) => {
+      if (payload && typeof payload.get === 'function') {
+        return payload.get(key) || "";
+      }
+      return payload ? payload[key] : "";
+    };
+
+    experiences[index] = {
+      ...experiences[index],
+      cargo: getVal("cargo"),
+      empresa: getVal("empresa"),
+      periodo: getVal("periodo"),
+      descricao: getVal("descricao")
+    };
+
+    localStorage.setItem("portfolio_experiences", JSON.stringify(experiences));
+    logSpringBoot("PUT", `/api/experiences/${id}`, `Experience entity ${id} updated.`, "200 OK");
+    return experiences[index];
+  },
+
+  deleteExperience: async (id) => {
+    await delay(300);
+    let experiences = JSON.parse(localStorage.getItem("portfolio_experiences")) || [];
+    const sizeBefore = experiences.length;
+    experiences = experiences.filter(e => e.id !== Number(id));
+
+    if (experiences.length === sizeBefore) {
+      logSpringBoot("DELETE", `/api/experiences/${id}`, "Entity not found for deletion.", "404 NOT FOUND");
+      throw new Error(`Experience ${id} not found`);
+    }
+
+    localStorage.setItem("portfolio_experiences", JSON.stringify(experiences));
+    logSpringBoot("DELETE", `/api/experiences/${id}`, `Experience ${id} removed.`, "204 NO CONTENT");
+    return true;
+  },
+
+  reorderExperience: async (id, direction) => {
+    await delay(100);
+    const list = JSON.parse(localStorage.getItem("portfolio_experiences")) || [];
+    list.sort((a, b) => {
+      const oA = typeof a.ordem === 'number' ? a.ordem : 0;
+      const oB = typeof b.ordem === 'number' ? b.ordem : 0;
+      if (oA !== oB) return oA - oB;
+      return b.id - a.id;
+    });
+
+    list.forEach((exp, idx) => {
+      exp.ordem = idx;
+    });
+
+    const curIndex = list.findIndex(e => e.id === Number(id));
+    if (curIndex !== -1) {
+      if (direction === 'up' && curIndex > 0) {
+        const temp = list[curIndex].ordem;
+        list[curIndex].ordem = list[curIndex - 1].ordem;
+        list[curIndex - 1].ordem = temp;
+      } else if (direction === 'down' && curIndex < list.length - 1) {
+        const temp = list[curIndex].ordem;
+        list[curIndex].ordem = list[curIndex + 1].ordem;
+        list[curIndex + 1].ordem = temp;
+      }
+    }
+    localStorage.setItem("portfolio_experiences", JSON.stringify(list));
+    logSpringBoot("POST", `/api/experiences/reorder/${id}`, `Experience reordered direction: ${direction}.`, "200 OK");
+    return true;
   }
 };
 
@@ -825,7 +975,40 @@ export function convertFileToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
+    reader.onload = () => {
+      const base64 = reader.result;
+      if (file.type && file.type.startsWith('image/')) {
+        const img = new Image();
+        img.src = base64;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          const maxDim = 320; // 320px is perfect for logos/certificates
+          if (width > maxDim || height > maxDim) {
+            if (width > height) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            } else {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', 0.7)); // Compress to JPEG with 70% quality
+          } else {
+            resolve(base64);
+          }
+        };
+        img.onerror = () => resolve(base64);
+      } else {
+        resolve(base64);
+      }
+    };
     reader.onerror = (error) => reject(error);
   });
 }

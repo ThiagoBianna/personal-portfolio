@@ -6,6 +6,7 @@ export async function renderPortfolio() {
   const certificates = await api.getCertificates();
   const stats = await api.getStats();
   const academics = await api.getAcademics();
+  const experiences = await api.getExperiences();
 
   // Generating tech badges lists with full logo support
   const techDominadasHtml = profile.tecnologiasDominadas
@@ -13,7 +14,7 @@ export async function renderPortfolio() {
       const name = typeof tech === 'string' ? tech : (tech.nome || '');
       const icon = typeof tech === 'object' && tech.icone ? tech.icone : getSeedsTechLogo(name);
       return `
-        <div class="flex items-center space-x-2 bg-white border border-slate-200 px-3.5 py-2.5 rounded-xl text-xs transition-all hover:border-blue-350 hover:bg-blue-50/10 group shadow-2xs hover:-translate-y-0.5 duration-200">
+        <div class="flex items-center space-x-2 bg-white border border-slate-200 px-3.5 py-2.5 rounded-xl text-xs shadow-2xs tech-custom-badge cursor-default">
           <img src="${icon}" class="w-5 h-5 object-contain select-none shrink-0" referrerPolicy="no-referrer" alt="${name}">
           <span class="text-slate-800 font-sans font-bold leading-none">${name}</span>
         </div>
@@ -23,9 +24,9 @@ export async function renderPortfolio() {
   // Generating academics grid
   const academicsHtml = academics.length > 0
     ? academics.map(acad => `
-         <div class="flex items-start space-x-4 p-4 bg-white border border-slate-200 rounded-2xl transition-all hover:border-blue-350 hover:bg-blue-50/10 group shadow-2xs hover:-translate-y-0.5 duration-200">
-          <div class="w-12 h-12 rounded-xl overflow-hidden bg-white shrink-0 shadow-3xs flex items-center justify-center p-1 select-none">
-            <img src="${acad.imagem}" alt="${acad.instituicao}" class="w-full h-full object-contain rounded-lg group-hover:scale-102 transition-transform" referrerPolicy="no-referrer">
+         <div class="flex items-start space-x-4 p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs premium-interactive-item duration-200 group">
+          <div class="w-12 h-12 rounded-xl overflow-hidden bg-white shrink-0 shadow-3xs flex items-center justify-center select-none">
+            <img src="${acad.imagem}" alt="${acad.instituicao}" class="w-full h-full object-cover rounded-xl group-hover:scale-102 transition-transform" referrerPolicy="no-referrer">
           </div>
           <div class="flex-1">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
@@ -51,37 +52,90 @@ export async function renderPortfolio() {
         </div>
       `;
 
+  const experiencesHtml = experiences && experiences.length > 0
+    ? experiences.map(exp => `
+        <div class="flex items-start space-x-4 p-5 bg-white border border-slate-200 rounded-2xl shadow-2xs premium-interactive-item group">
+          <div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-605 select-none shrink-0 shadow-3xs icon-box-animate transition-all duration-300">
+            <i data-lucide="briefcase" class="w-4 h-4"></i>
+          </div>
+          <div class="flex-1">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
+              <h4 class="text-xs font-bold text-slate-905 font-sans">${exp.cargo}</h4>
+              <span class="text-[9px] font-bold font-mono text-blue-600 bg-blue-50 border border-blue-105 px-2.5 py-1 rounded-lg self-start sm:self-auto uppercase tracking-wide">${exp.periodo}</span>
+            </div>
+            <p class="text-[10px] font-sans font-bold text-slate-400 mt-1 select-none">${exp.empresa}</p>
+            <p class="text-xs font-sans text-slate-550 mt-2.5 leading-relaxed text-justify">${exp.descricao || ''}</p>
+          </div>
+        </div>
+      `).join('')
+    : null;
+
+  // Generating languages list with flags and fluency
+  const flagsMap = {
+    'BR': { emoji: '🇧🇷', name: 'Brasil' },
+    'US': { emoji: '🇺🇸', name: 'EUA' },
+    'ES': { emoji: '🇪🇸', name: 'Espanha' },
+    'FR': { emoji: '🇫🇷', name: 'França' },
+    'DE': { emoji: '🇩🇪', name: 'Alemanha' },
+    'IT': { emoji: '🇮🇹', name: 'Itália' },
+    'GB': { emoji: '🇬🇧', name: 'Reino Unido' },
+    'JP': { emoji: '🇯🇵', name: 'Japão' },
+    'CN': { emoji: '🇨🇳', name: 'China' }
+  };
+
+  const idiomasHtml = profile.idiomas && profile.idiomas.length > 0
+    ? profile.idiomas.map(idioma => {
+        const info = flagsMap[idioma.flag?.toUpperCase()] || { emoji: '🌐', name: 'Outro' };
+        return `
+          <div class="flex items-center space-x-3.5 p-3.5 bg-white border border-slate-200 rounded-2xl shadow-3xs group/item lang-badge-hover cursor-default">
+            <div class="text-2xl select-none leading-none shrink-0 transition-transform group-hover/item:scale-110 duration-200">
+              ${info.emoji}
+            </div>
+            <div class="flex-1 min-w-0">
+              <h5 class="text-xs font-bold text-slate-900 leading-tight font-sans">${idioma.nome}</h5>
+              <p class="text-[10px] font-bold text-blue-600 mt-0.5 font-sans">${idioma.nivel}</p>
+            </div>
+            <span class="text-[9px] font-mono text-slate-400 font-bold bg-slate-50 border border-slate-150 rounded-lg px-2 py-0.5 select-none uppercase tracking-wide shrink-0">
+              ${info.name}
+            </span>
+          </div>
+        `;
+      }).join('')
+    : null;
 
   // Generating projects grid
-  const projectsHtml = projects.length > 0
+  const projectsHtml = projects.length > 0 
     ? projects.map(proj => {
-      const hasDemo = proj.linkDemo && proj.linkDemo.trim() !== "";
-      const hasVideo = proj.linkVideo && proj.linkVideo.trim() !== "";
-      const hasDate = proj.dataCriacao && proj.dataCriacao.trim() !== "";
-      const formattedDate = hasDate ? formatDate(proj.dataCriacao) : "";
-      const finalVideoPreview = proj.videoPreview && proj.videoPreview.trim() !== ""
-        ? proj.videoPreview
-        : "https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-his-computer-34193-large.mp4";
+        const hasDemo = proj.linkDemo && proj.linkDemo.trim() !== "";
+        const hasVideo = proj.linkVideo && proj.linkVideo.trim() !== "";
+        const hasDate = proj.dataCriacao && proj.dataCriacao.trim() !== "";
+        const formattedDate = hasDate ? formatDate(proj.dataCriacao) : "";
+        const finalVideoPreview = proj.videoPreview && proj.videoPreview.trim() !== "" 
+          ? proj.videoPreview 
+          : "https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-his-computer-34193-large.mp4";
 
-      const isOnline = (proj.status || "online").toLowerCase() === "online";
-      const statusText = isOnline ? "Online" : "Offline";
-      const statusColorClass = isOnline ? "bg-emerald-500" : "bg-rose-500";
-      const pulseClass = isOnline ? "animate-pulse" : "";
+        const isOnline = (proj.status || "online").toLowerCase() === "online";
+        const statusText = isOnline ? "Online" : "Offline";
+        const statusColorClass = isOnline ? "bg-emerald-500" : "bg-rose-500";
+        const pulseClass = isOnline ? "animate-pulse" : "";
 
-      return `
+        return `
           <div class="premium-card bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col group scroll-reveal">
             <div class="relative h-48 overflow-hidden bg-slate-100 border-b border-slate-100 project-media-container select-none">
               <img src="${proj.imagem}" alt="${proj.nome}" class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500 project-cover-img cursor-pointer project-gallery-trigger" data-proj-id="${proj.id}" referrerPolicy="no-referrer">
               
+              <!-- Subtle dynamic auto-looping Preview video overlaid -->
               <video src="${finalVideoPreview}" class="project-preview-video absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 pointer-events-none" muted loop playsinline></video>
               <div class="absolute top-3 left-3 bg-slate-900/60 backdrop-blur-md border border-white/10 px-2.5 py-1 rounded-lg text-[9px] font-sans text-white font-bold tracking-wider uppercase flex items-center space-x-1 transition-opacity duration-300 pointer-events-none group-hover:opacity-0 video-badge-indicator">
                 <span class="w-1.5 h-1.5 rounded-full ${statusColorClass} ${pulseClass}"></span>
                 <span>${statusText}</span>
               </div>
 
+              <!-- Image Gallery Badge Indicator -->
               <div class="absolute bottom-3 right-3 bg-slate-900/75 backdrop-blur-md border border-white/10 px-2 py-1 rounded-lg text-[9px] font-sans text-white font-bold flex items-center space-x-1 cursor-pointer hover:bg-slate-950 transition-all project-gallery-trigger shadow-2xs z-10" data-proj-id="${proj.id}">
                 <i data-lucide="images" class="w-3.5 h-3.5 text-blue-450"></i>
-                <span class="font-sans font-bold">Ver</span>              </div>
+                <span class="font-sans font-bold">${(proj.imagens && proj.imagens.length) || 1} Foto${((proj.imagens && proj.imagens.length) || 1) !== 1 ? 's' : ''}</span>
+              </div>
 
               ${hasDate ? `
                 <div class="absolute top-3 right-3 bg-white/95 backdrop-blur-md border border-slate-200 px-2.5 py-1 rounded-lg text-[10px] font-sans text-blue-600 font-semibold shadow-2xs">
@@ -95,7 +149,8 @@ export async function renderPortfolio() {
               ${proj.descricao && proj.descricao.length > 150 ? `
                 <p class="text-slate-600 text-sm mb-4 text-justify leading-relaxed flex-1 font-sans">
                   <span>${proj.descricao.slice(0, 140)}...</span>
-<button data-id="${proj.id}" class="read-more-btn text-black hover:text-slate-700 font-bold transition-all ml-1 inline cursor-pointer hover:underline text-[10px]" style="background: none; border: none; padding: 0;">mais</button>                </p>
+                  <button data-id="${proj.id}" class="read-more-btn text-blue-600 hover:text-blue-750 font-bold transition-all ml-1 inline cursor-pointer hover:underline text-xs" style="background: none; border: none; padding: 0;">...mais</button>
+                </p>
               ` : `
                 <p class="text-slate-600 text-sm mb-4 text-justify leading-relaxed flex-1 font-sans">${proj.descricao || ''}</p>
               `}
@@ -124,15 +179,16 @@ export async function renderPortfolio() {
                 </div>
               </div>
 
+              <!-- Button for complete demonstration overlay/modal -->
               <button class="w-full flex items-center justify-center space-x-2 bg-blue-50/50 hover:bg-blue-100/80 border border-blue-200/60 text-blue-700 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all mt-3 open-full-demo-btn" data-video-url="${proj.linkVideo || finalVideoPreview}" data-proj-name="${proj.nome}" data-video-desc="${proj.descricao}">
                 <i data-lucide="play-circle" class="w-4 h-4 text-blue-600"></i>
-                <span>Vídeo demonstração</span>
+                <span>Ver demonstração completa</span>
               </button>
 
             </div>
           </div>
         `;
-    }).join('')
+      }).join('')
     : `
       <div class="col-span-full py-12 text-center text-slate-400 border border-dashed border-slate-200 rounded-2xl bg-white shadow-3xs font-sans text-sm">
         <i data-lucide="folder-open" class="w-8 h-8 mx-auto mb-2 opacity-50 text-slate-350"></i>
@@ -182,22 +238,30 @@ export async function renderPortfolio() {
     `;
 
   return `
-    <header class="sticky top-0 w-full bg-white/80 backdrop-blur-md border-b border-slate-200/80 z-40 transition-all duration-300" id="main-nav">
-      <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
+    <!-- Top Embedded Navigation Bar -->
+    <header class="sticky top-0 w-full bg-white/30 backdrop-blur-lg z-40 transition-all duration-300" id="main-nav">
+      <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between transition-all duration-300">
+        <!-- Logo / Brand Signature -->
         <a href="#hero" class="flex items-center space-x-2 text-slate-900 group select-none">
+          <div class="bg-blue-50 border border-blue-200 w-8 h-8 rounded-lg flex items-center justify-center group-hover:bg-blue-100 transition-all shadow-3xs">
+            <span class="text-blue-600 font-sans font-bold text-sm">G</span>
+          </div>
           <div class="flex flex-col">
-            <span class="text-sm font-bold tracking-tight font-sans text-slate-800 group-hover:text-slate-950 transition-colors">Thiago Bianna Pessanha da Cruz</span>
-            <span class="text-[9px] font-sans font-semibold text-slate-400 leading-none">Software Engineer</span>
+            <span class="text-sm font-bold tracking-tight font-sans text-slate-800 group-hover:text-slate-950 transition-colors">Gabriel Bianna</span>
+            <span class="text-[9px] font-sans font-semibold text-slate-400 leading-none">Software Engineering</span>
           </div>
         </a>
 
-        <nav class="hidden md:flex items-center space-x-8 text-xs font-semibold text-slate-500 uppercase tracking-widest">
-          <a href="#about" class="hover:text-blue-600 transition-colors">sobre</a>
-          <a href="#projects" class="hover:text-blue-600 transition-colors">projetos</a>
-          <a href="#certificates" class="hover:text-blue-600 transition-colors">certificados</a>
-          <a href="#contact" class="hover:text-blue-600 transition-colors">contato</a>
+        <!-- Desktop Navigation Items -->
+        <nav class="hidden md:flex items-center space-x-8 text-xs font-semibold text-slate-500 uppercase tracking-widest select-none">
+          <a href="#about" class="relative hover:text-blue-600 py-1 transition-all duration-300">/sobre-mim</a>
+          ${experiencesHtml ? `<a href="#experiences" class="relative hover:text-blue-600 py-1 transition-all duration-300">/experiencias</a>` : ''}
+          <a href="#projects" class="relative hover:text-blue-600 py-1 transition-all duration-300">/projetos</a>
+          <a href="#certificates" class="relative hover:text-blue-600 py-1 transition-all duration-300">/certificados</a>
+          <a href="#contact" class="relative hover:text-blue-600 py-1 transition-all duration-300">/contato</a>
         </nav>
 
+        <!-- Admin Shortcut & Hamburger Trigger -->
         <div class="flex items-center space-x-3">
           ${profile.links && profile.links.curriculoPdf ? `
             <a href="${profile.links.curriculoPdf}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-sans text-[11px] px-3.5 py-1.5 rounded-lg flex items-center space-x-1.5 transition-all shadow-2xs hover:shadow-xs">
@@ -215,11 +279,18 @@ export async function renderPortfolio() {
         </div>
       </div>
 
+      <!-- Mobile Dropdown Menu -->
       <div id="mobile-dropdown" class="hidden md:hidden absolute left-0 right-0 bg-white border-b border-slate-200 px-6 py-5 flex flex-col space-y-4 shadow-xl z-50">
         <a href="#about" class="mobile-nav-link text-sm font-sans font-semibold text-slate-600 hover:text-blue-600 flex items-center justify-between">
           <span>Sobre Mim</span>
           <i data-lucide="chevron-right" class="w-4 h-4 opacity-40"></i>
         </a>
+        ${experiencesHtml ? `
+        <a href="#experiences" class="mobile-nav-link text-sm font-sans font-semibold text-slate-600 hover:text-blue-600 flex items-center justify-between">
+          <span>Experiências</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 opacity-40"></i>
+        </a>
+        ` : ''}
         <a href="#projects" class="mobile-nav-link text-sm font-sans font-semibold text-slate-600 hover:text-blue-600 flex items-center justify-between">
           <span>Projetos</span>
           <i data-lucide="chevron-right" class="w-4 h-4 opacity-40"></i>
@@ -241,21 +312,27 @@ export async function renderPortfolio() {
       </div>
     </header>
 
+    <!-- MAIN VIEWS WRAPPER -->
     <main class="max-w-6xl mx-auto px-4 pb-20 relative bg-dot-pattern">
       
+      <!-- HERO LANDING SECTION (CENTERED, MINIMAL & PROFESSIONAL) -->
       <section id="hero" class="pt-10 pb-16 md:pt-14 md:pb-24 flex flex-col items-center justify-center text-center relative max-w-4xl mx-auto z-10">
         
-        <div class="relative w-28 h-28 md:w-32 md:h-32 mb-6 animate-fade-in select-none">
+        <!-- Centered Profile Photo/Avatar -->
+        <div class="relative w-28 h-28 md:w-32 md:h-32 mb-6 animate-fade-in select-none group">
+          <div class="absolute inset-0 bg-gradient-to-tr from-blue-500/20 to-indigo-500/20 rounded-full scale-110 profile-ring-glow blur-[1px]"></div>
           <div class="absolute inset-0 bg-blue-100 rounded-full scale-105 opacity-30 blur-xs"></div>
           <div class="relative w-full h-full rounded-full border border-slate-200 shadow-md overflow-hidden bg-white">
-            <img src="${profile.fotoPerfil}" alt="${profile.nome}" class="w-full h-full object-cover" referrerPolicy="no-referrer">
+            <img src="${profile.fotoPerfil}" alt="${profile.nome}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer">
           </div>
         </div>
 
+        <!-- Primary Greeting (Type premium) -->
         <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight font-sans max-w-3xl mb-3 animate-fade-in" style="animation-delay: 100ms;">
           Olá, eu sou <span class="text-blue-600">${profile.nome}</span>
         </h1>
 
+        <!-- Subtitles: Software Engineering Student & Java Backend Dev -->
         <div class="flex flex-col space-y-1 mb-6 animate-fade-in" style="animation-delay: 150ms;">
           <p class="text-lg sm:text-xl md:text-2xl font-bold text-slate-800 tracking-tight">
             Estudante de Engenharia de Software
@@ -265,14 +342,16 @@ export async function renderPortfolio() {
           </p>
         </div>
 
+        <!-- Small Professional Bio Description -->
         <p class="text-sm sm:text-base md:text-lg text-slate-650 leading-relaxed max-w-2xl mx-auto mb-10 font-sans font-normal animate-fade-in" style="animation-delay: 200ms;">
           ${profile.apresentacao}
         </p>
 
+        <!-- Dynamic Responsive Interactive CTAs (Projects, Contact, GitHub) -->
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto px-4 mb-16 animate-fade-in" style="animation-delay: 250ms;">
           <a href="#projects" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-7 py-3 rounded-xl transition-all shadow-sm hover:shadow flex items-center justify-center space-x-2">
             <span>Ver Projetos</span>
-            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            <i data-lucide="chevron-right" class="w-4 h-4 button-icon-slide"></i>
           </a>
           <a href="#contact" class="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-semibold px-7 py-3 rounded-xl transition-all shadow-3xs flex items-center justify-center space-x-2 hover:border-slate-300">
             <span>Fale Comigo</span>
@@ -284,25 +363,35 @@ export async function renderPortfolio() {
           </a>
         </div>
 
-        <div class="w-full max-w-xl border-t border-slate-200/80 pt-8 animate-fade-in-slow select-none" style="animation-delay: 350ms;">
+        <!-- Below this displays: Main Tech / Tecnologias Principais -->
+        <div class="w-full max-w-xl border-t border-slate-200/80 pt-8 animate-fade-in-slow select-none mb-4" style="animation-delay: 350ms;">
           <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4">
             Tecnologias Principais
           </span>
           <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-slate-700 text-sm sm:text-base font-semibold">
-            <span class="hover:text-blue-600 transition-colors">Java</span>
+            <span class="hover:text-blue-600 transition-colors cursor-default">Java</span>
             <span class="text-slate-300 select-none">•</span>
-            <span class="hover:text-blue-600 transition-colors">Spring Boot</span>
+            <span class="hover:text-blue-600 transition-colors cursor-default">Spring Boot</span>
             <span class="text-slate-300 select-none">•</span>
-            <span class="hover:text-blue-600 transition-colors">PostgreSQL</span>
+            <span class="hover:text-blue-600 transition-colors cursor-default">PostgreSQL</span>
             <span class="text-slate-300 select-none">•</span>
-            <span class="hover:text-blue-600 transition-colors">Hibernate</span>
+            <span class="hover:text-blue-600 transition-colors cursor-default">Hibernate</span>
             <span class="text-slate-300 select-none">•</span>
-            <span class="hover:text-blue-600 transition-colors">REST APIs</span>
+            <span class="hover:text-blue-600 transition-colors cursor-default">REST APIs</span>
+          </div>
+        </div>
+
+        <!-- Scroll down indicator -->
+        <div class="absolute bottom-[-16px] left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-40 hover:opacity-100 transition-opacity duration-300 pointer-events-none select-none hidden md:flex animate-fade-in" style="animation-delay: 450ms;">
+          <span class="text-[8px] uppercase tracking-widest font-mono text-slate-400 font-bold mb-1">Role para explorar</span>
+          <div class="w-4 h-7 border border-slate-300 rounded-full flex justify-center p-0.5">
+            <div class="w-1 h-1.5 bg-blue-600 rounded-full animate-bounce"></div>
           </div>
         </div>
 
       </section>
 
+      <!-- DYNAMIC STATS COUNTERS -->
       <section id="stats" class="my-12 py-8 bg-white border border-slate-200/80 rounded-3xl grid grid-cols-2 md:grid-cols-4 gap-6 px-6 shadow-xs relative scroll-reveal">
         <div class="flex flex-col items-center text-center p-3">
           <div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center mb-3 text-blue-600">
@@ -337,14 +426,16 @@ export async function renderPortfolio() {
         </div>
       </section>
 
+      <!-- SOBRE MIM SECTION -->
       <section id="about" class="py-16 border-t border-slate-200/85 scroll-reveal">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-10">
           
           <div class="md:col-span-5 flex flex-col items-center justify-center">
+            <!-- Profile Avatar with subtle backing card -->
             <div class="relative w-48 h-48 md:w-56 md:h-56 select-none">
-              <div class="absolute inset-0 bg-blue-50 border border-blue-100 rounded-3xl rotate-3 shadow-3xs"></div>
-              <div class="absolute inset-0 bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
-                <img src="${profile.fotoSobre || profile.fotoPerfil}" alt="${profile.nome}" class="w-full h-full object-cover hover:scale-102 transition-transform duration-500" referrerPolicy="no-referrer" id="avatar-img-view">
+              <div class="absolute inset-0 bg-blue-50 border border-blue-100 rounded-3xl rotate-3 shadow-3xs animate-float-slow"></div>
+              <div class="absolute inset-0 bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <img src="${profile.fotoSobre || profile.fotoPerfil}" alt="${profile.nome}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" id="avatar-img-view">
               </div>
               <div class="absolute -bottom-2 -right-2 bg-white border border-slate-200 px-3.5 py-1.5 rounded-full flex items-center space-x-1.5 shadow-sm">
                 <div class="w-2.5 h-2.5 bg-blue-600 rounded-full animate-pulse"></div>
@@ -355,7 +446,7 @@ export async function renderPortfolio() {
 
           <div class="md:col-span-7 flex flex-col justify-center space-y-6">
             <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 flex items-center space-x-2">
-              <span class="text-blue-600">#</span>
+              <span class="text-blue-600">/</span>
               <span>Sobre Mim</span>
             </h2>
 
@@ -364,6 +455,7 @@ export async function renderPortfolio() {
             </p>
 
             <div class="space-y-4 pt-2">
+              <!-- Dominadas Grid -->
               <div>
                 <h4 class="text-[11px] font-bold font-sans uppercase tracking-widest text-blue-600 mb-3 flex items-center space-x-1.5 select-none">
                   <i data-lucide="check-check" class="w-4 h-4"></i>
@@ -374,6 +466,7 @@ export async function renderPortfolio() {
                 </div>
               </div>
 
+              <!-- Formacao Academica Grid -->
               <div class="pt-4 border-t border-slate-100">
                 <h4 class="text-[11px] font-bold font-sans uppercase tracking-widest text-slate-900 mb-3.5 flex items-center space-x-1.5 select-none">
                   <i data-lucide="graduation-cap" class="w-4 h-4 text-blue-600"></i>
@@ -383,6 +476,19 @@ export async function renderPortfolio() {
                   ${academicsHtml}
                 </div>
               </div>
+
+              <!-- Idiomas e Fluencia Grid -->
+              ${idiomasHtml ? `
+              <div class="pt-4 border-t border-slate-100">
+                <h4 class="text-[11px] font-bold font-sans uppercase tracking-widest text-slate-900 mb-3.5 flex items-center space-x-1.5 select-none">
+                  <i data-lucide="languages" class="w-4 h-4 text-blue-600"></i>
+                  <span>Idiomas & Fluência</span>
+                </h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  ${idiomasHtml}
+                </div>
+              </div>
+              ` : ''}
             </div>
 
           </div>
@@ -390,11 +496,28 @@ export async function renderPortfolio() {
         </div>
       </section>
 
+      ${experiencesHtml ? `
+      <!-- PORTFOLIO EXPERIENCES SECTION -->
+      <section id="experiences" class="py-16 border-t border-slate-200/85 scroll-reveal">
+        <div class="mb-10">
+          <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 flex items-center space-x-2">
+            <span class="text-blue-600">/</span>
+            <span>Experiências Profissionais</span>
+          </h2>
+          <p class="text-xs font-sans text-slate-550 mt-1">Trajetória prática, atuações profissionais e resolução de problemas corporativos reais de engenharia de software</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          ${experiencesHtml}
+        </div>
+      </section>
+      ` : ''}
+
+      <!-- PORTFOLIO PROJECTS SECTION -->
       <section id="projects" class="py-16 border-t border-slate-200/85 scroll-reveal">
         <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-10">
           <div>
             <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 flex items-center space-x-2">
-              <span class="text-blue-600">#</span>
+              <span class="text-blue-600">/</span>
               <span>Projetos em Destaque</span>
             </h2>
             <p class="text-xs font-sans text-slate-550 mt-1">Carregando APIs e repositórios dinamicamente via Java REST endpoints imitados</p>
@@ -412,10 +535,11 @@ export async function renderPortfolio() {
         </div>
       </section>
 
+      <!-- CERTIFICATES SECTION -->
       <section id="certificates" class="py-16 border-t border-slate-200/85 scroll-reveal">
         <div class="mb-10">
           <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 flex items-center space-x-2">
-            <span class="text-blue-600">#</span>
+            <span class="text-blue-600">/</span>
             <span>Certificados & Credenciais</span>
           </h2>
           <p class="text-xs font-sans text-slate-550 mt-1">Validações oficiais e especializações completadas para engenharia de softwares backend</p>
@@ -426,13 +550,15 @@ export async function renderPortfolio() {
         </div>
       </section>
 
+      <!-- CONTACT SECTION -->
       <section id="contact" class="py-16 border-t border-slate-200/85 scroll-reveal">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-stretch">
           
+          <!-- Contact coordinates info -->
           <div class="md:col-span-5 flex flex-col justify-between space-y-6">
             <div>
               <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 flex items-center space-x-2">
-                <span class="text-blue-600">#</span>
+                <span class="text-blue-600">/</span>
                 <span>Contato</span>
               </h2>
               <p class="text-slate-550 text-sm mt-3 leading-relaxed">
@@ -442,102 +568,110 @@ export async function renderPortfolio() {
 
             <div class="space-y-4 font-sans text-xs">
               
-              <div class="flex items-center space-x-3.5 p-3.5 bg-white border border-slate-200 hover:border-slate-300 rounded-2xl transition-all shadow-3xs">
-                <div class="w-8 h-8 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 select-none">
-                  <i data-lucide="mail" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <p class="text-slate-400 font-sans text-[9px] uppercase tracking-wider leading-none mb-1 font-bold select-none">E-mail Corporativo</p>
-                  <a href="mailto:${profile.links.email}" class="text-slate-700 hover:text-blue-600 font-semibold tracking-tight break-all">${profile.links.email}</a>
-                </div>
-              </div>
-
-              <div class="flex items-center space-x-3.5 p-3.5 bg-white border border-slate-200 hover:border-slate-300 rounded-2xl transition-all shadow-3xs">
-                <div class="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-110 flex items-center justify-center text-emerald-650 select-none">
-                  <i data-lucide="phone" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <p class="text-slate-400 font-sans text-[9px] uppercase tracking-wider leading-none mb-1 font-bold select-none">WhatsApp direto</p>
-                  <a href="${profile.links.whatsapp}" target="_blank" class="text-slate-700 hover:text-blue-600 font-semibold tracking-tight">${profile.links.whatsapp.replace("https://wa.me/", "+")}</a>
-                </div>
-              </div>
-
-              <div class="flex items-center space-x-3.5 p-3.5 bg-white border border-slate-200 hover:border-slate-300 rounded-2xl transition-all shadow-3xs">
-                <div class="w-8 h-8 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 select-none">
+              <!-- Linkedin -->
+              <a href="${profile.links.linkedin}" target="_blank" id="contact-linkedin-link" class="flex items-center space-x-4 p-4 bg-blue-50/50 hover:bg-blue-100/80 border border-blue-200/65 hover:border-blue-400 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-2xs active:scale-[0.99] group/btn text-blue-700 font-bold decoration-none">
+                <div class="w-9 h-9 rounded-xl bg-blue-600 border border-blue-700 flex items-center justify-center text-white select-none transition-transform duration-300 group-hover/btn:scale-105 shadow-3xs">
                   <i data-lucide="linkedin" class="w-4 h-4"></i>
                 </div>
                 <div>
-                  <p class="text-slate-400 font-sans text-[9px] uppercase tracking-wider leading-none mb-1 font-bold select-none">LinkedIn Profissional</p>
-                  <a href="${profile.links.linkedin}" target="_blank" class="text-slate-700 hover:text-blue-600 font-semibold tracking-tight break-all">${profile.links.linkedin.replace("https://", "")}</a>
+                  <span class="text-xs font-sans font-bold tracking-wide text-blue-800">Linkedin</span>
                 </div>
-              </div>
+              </a>
+
+              <!-- Email -->
+              <a href="mailto:${profile.links.email || 'thgbianna@gmail.com'}" id="contact-email-link" class="flex items-center space-x-4 p-4 bg-sky-50/50 hover:bg-sky-100/80 border border-sky-200/65 hover:border-sky-450 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-2xs active:scale-[0.99] group/btn text-sky-700 font-bold decoration-none">
+                <div class="w-9 h-9 rounded-xl bg-sky-600 border border-sky-700 flex items-center justify-center text-white select-none transition-transform duration-300 group-hover/btn:scale-105 shadow-3xs">
+                  <i data-lucide="mail" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <span class="text-xs font-sans font-bold tracking-wide text-sky-800">E-mail</span>
+                </div>
+              </a>
+
+              <!-- WhatsApp -->
+              <a href="${profile.links.whatsapp}" target="_blank" id="contact-whatsapp-link" class="flex items-center space-x-4 p-4 bg-emerald-50/50 hover:bg-emerald-100/80 border border-emerald-200/65 hover:border-emerald-450 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-2xs active:scale-[0.99] group/btn text-emerald-700 font-bold decoration-none">
+                <div class="w-9 h-9 rounded-xl bg-emerald-600 border border-emerald-700 flex items-center justify-center text-white select-none transition-transform duration-300 group-hover/btn:scale-105 shadow-3xs">
+                  <svg class="w-4.5 h-4.5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.454 5.709 1.455h.008c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                  </svg>
+                </div>
+                <div>
+                  <span class="text-xs font-sans font-bold tracking-wide text-emerald-800">WhatsApp</span>
+                </div>
+              </a>
+
+              <!-- Instagram -->
+              <a href="${profile.links.instagram || 'https://instagram.com/thgbianna'}" target="_blank" id="contact-instagram-link" class="flex items-center space-x-4 p-4 bg-slate-50/50 hover:bg-slate-100/85 border border-slate-200/70 hover:border-slate-350 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-2xs active:scale-[0.99] group/btn text-slate-700 font-bold decoration-none">
+                <div class="w-9 h-9 rounded-xl bg-pink-600 border border-pink-705 flex items-center justify-center text-white select-none transition-transform duration-300 group-hover/btn:scale-105 shadow-3xs">
+                  <i data-lucide="instagram" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <span class="text-xs font-sans font-bold tracking-wide text-slate-800">Instagram</span>
+                </div>
+              </a>
 
             </div>
 
             <div class="text-[10px] text-slate-400 font-sans select-none">
-              
+              <p>📍 São Paulo, Brasil • UTC-3</p>
+              <p class="mt-1">💻 IDE: IntelliJ IDEA Ultimate</p>
             </div>
           </div>
 
+          <!-- HTML Contact Form -->
           <div class="md:col-span-7 bg-white border border-slate-200 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-xs">
-  <h3 class="text-xs font-bold font-sans text-slate-800 uppercase tracking-widest mb-4 flex items-center space-x-2 select-none">
-    <i data-lucide="send" class="w-4 h-4 text-blue-600"></i>
-    <span>Enviar Mensagem</span>
-  </h3>
+            <h3 class="text-xs font-bold font-sans text-slate-800 uppercase tracking-widest mb-4 flex items-center space-x-2 select-none">
+              <i data-lucide="send" class="w-4 h-4 text-blue-600"></i>
+              <span>Enviar Mensagem</span>
+            </h3>
 
-  <form id="portfolio-contact-form" class="space-y-4 text-sm">
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <div class="flex flex-col">
-        <label for="contact-name" class="font-sans text-[10px] text-slate-500 uppercase tracking-wider font-bold mb-1.5 select-none">Nome completo</label>
-        <input type="text" id="contact-name" required placeholder="Seu Nome" class="bg-white border border-slate-200 hover:border-slate-300 focus:border-blue-600 rounded-xl px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all font-sans">
-      </div>
-      <div class="flex flex-col">
-        <label for="contact-email" class="font-sans text-[10px] text-slate-500 uppercase tracking-wider font-bold mb-1.5 select-none">Seu E-mail</label>
-        <input type="email" id="contact-email" required placeholder="Ex: lucas@example.com" class="bg-white border border-slate-200 hover:border-slate-300 focus:border-blue-600 rounded-xl px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all font-sans">
-      </div>
-    </div>
+            <form id="portfolio-contact-form" class="space-y-4 text-sm">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                  <label for="contact-name" class="font-sans text-[10px] text-slate-500 uppercase tracking-wider font-bold mb-1.5 select-none">Nome completo</label>
+                  <input type="text" id="contact-name" required placeholder="Ex: Lucas Ribeiro" class="bg-white border border-slate-200 hover:border-slate-300 focus:border-blue-600 rounded-xl px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all font-sans">
+                </div>
+                <div class="flex flex-col">
+                  <label for="contact-email" class="font-sans text-[10px] text-slate-500 uppercase tracking-wider font-bold mb-1.5 select-none">Seu E-mail</label>
+                  <input type="email" id="contact-email" required placeholder="Ex: lucas@example.com" class="bg-white border border-slate-200 hover:border-slate-300 focus:border-blue-600 rounded-xl px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all font-sans">
+                </div>
+              </div>
 
-    <div class="flex flex-col">
-      <label for="contact-subject" class="font-sans text-[10px] text-slate-500 uppercase tracking-wider font-bold mb-1.5 select-none">Assunto</label>
-      <input type="text" id="contact-subject" required placeholder="Ex: Proposta de Estágio / Oportunidades" class="bg-white border border-slate-200 hover:border-slate-300 focus:border-blue-600 rounded-xl px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all font-sans">
-    </div>
+              <div class="flex flex-col">
+                <label for="contact-subject" class="font-sans text-[10px] text-slate-500 uppercase tracking-wider font-bold mb-1.5 select-none">Assunto</label>
+                <input type="text" id="contact-subject" required placeholder="Ex: Proposta de Estágio / Oportunidades" class="bg-white border border-slate-200 hover:border-slate-300 focus:border-blue-600 rounded-xl px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all font-sans">
+              </div>
 
-    <div class="flex flex-col">
-      <label for="contact-message" class="font-sans text-[10px] text-slate-500 uppercase tracking-wider font-bold mb-1.5 select-none">Mensagem</label>
-      <textarea id="contact-message" rows="4" required placeholder="Escreva sua proposta ou mensagem detalhada aqui..." class="bg-white border border-slate-200 hover:border-slate-300 focus:border-blue-600 rounded-xl px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all font-sans resize-none"></textarea>
-    </div>
+              <div class="flex flex-col">
+                <label for="contact-message" class="font-sans text-[10px] text-slate-500 uppercase tracking-wider font-bold mb-1.5 select-none">Mensagem</label>
+                <textarea id="contact-message" rows="4" required placeholder="Escreva sua proposta ou mensagem detalhada aqui..." class="bg-white border border-slate-200 hover:border-slate-300 focus:border-blue-600 rounded-xl px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all font-sans resize-none"></textarea>
+              </div>
 
-    <button type="submit" id="contact-submit-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-xl transition-all flex items-center justify-center space-x-2 cursor-pointer shadow-sm shadow-blue-200">
-      <i data-lucide="send" class="w-4 h-4"></i>
-      <span>Enviar</span>
-    </button>
-  </form>
-</div>
+              <button type="submit" id="contact-submit-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-xl transition-all flex items-center justify-center space-x-2 cursor-pointer shadow-sm shadow-blue-200">
+                <i data-lucide="send" class="w-4 h-4"></i>
+                <span>Enviar Payload REST</span>
+              </button>
+            </form>
+          </div>
+
+        </div>
       </section>
 
     </main>
 
-    <footer class="relative z-50 w-full border-t border-slate-200 bg-white py-12 text-center font-sans text-xs text-slate-550">
-  <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-    <p class="select-none">© 2026 Thiago Bianna Pessanha da Cruz.</p>
-    
-   <div class="flex items-center space-x-4 relative z-50">
-  <a href="https://www.linkedin.com/in/thiagobpcruz/" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-blue-600 transition-colors block p-2" title="LinkedIn" style="cursor: pointer !important;">
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-  </a>
-
-  <a href="https://github.com/ThiagoBianna" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-slate-900 transition-colors block p-2" title="GitHub" style="cursor: pointer !important;">
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-  </a>
-
-  <a href="mailto:thgbianna@gmail.com" class="text-slate-400 hover:text-red-500 transition-colors block p-2" title="Enviar E-mail" style="cursor: pointer !important;">
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-  </a>
-</div>
-  </div>
-</footer>
+    <!-- FOOTER -->
+    <footer class="w-full border-t border-slate-200 bg-white py-12 text-center font-sans text-xs text-slate-550 select-none">
+      <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+        <p>© 2026 ${profile.nome}. Todos os direitos reservados.</p>
+        <div class="flex items-center space-x-1.5 text-[10px] text-slate-400 font-semibold">
+          <i data-lucide="network" class="w-3.5 h-3.5 text-blue-600"></i>
+          <span>API: POST /api/contact | Integration Layer ready</span>
+        </div>
+      </div>
+    </footer>
 
 
+    <!-- MODAL FOR CERTIFICATE ZOOM -->
     <div id="cert-zoom-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-4">
       <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden max-w-2xl w-full relative shadow-2xl animate-fade-in">
         <div class="flex items-center justify-between p-4 border-b border-slate-100">
@@ -548,6 +682,7 @@ export async function renderPortfolio() {
         </div>
         <div id="cert-image-container" class="p-3 bg-slate-50 flex items-center justify-center aspect-video relative group overflow-hidden select-none">
           <img id="cert-modal-img" src="" alt="" class="max-h-96 max-w-full object-contain rounded-lg shadow-xs" referrerPolicy="no-referrer">
+          <!-- Floating Full Screen Button for Certificate -->
           <button type="button" id="cert-fullscreen-btn" class="absolute bottom-3 right-3 bg-black/75 hover:bg-black/95 text-white active:scale-95 p-2 rounded-lg transition-all focus:outline-none flex items-center justify-center cursor-pointer shadow-xs" title="Visualizar em Tela Cheia">
             <i data-lucide="maximize-2" class="w-4 h-4"></i>
           </button>
@@ -556,6 +691,7 @@ export async function renderPortfolio() {
     </div>
 
 
+    <!-- MODAL FOR DETAILED PROJECT DEMONSTRATION PLAYER -->
     <div id="video-demo-modal" class="hidden fixed inset-0 bg-slate-950/75 backdrop-blur-md flex items-center justify-center z-50 p-4 select-none animate-fade-in">
       <div class="bg-white border border-slate-250 rounded-3xl overflow-hidden max-w-2xl w-full relative shadow-2xl transform transition-all duration-300">
         <div class="flex items-center justify-between p-5 border-b border-slate-100">
@@ -572,7 +708,8 @@ export async function renderPortfolio() {
         </div>
         
         <div class="bg-slate-950 aspect-video flex items-center justify-center relative shadow-inner overflow-hidden" id="video-modal-player-container">
-          </div>
+          <!-- Rendered Video Player elements go here -->
+        </div>
 
         <div class="p-6 bg-white border-t border-slate-100">
           <h4 class="text-sm font-bold text-slate-900 font-sans" id="video-modal-proj-name">Project details</h4>
@@ -582,8 +719,10 @@ export async function renderPortfolio() {
     </div>
 
 
+    <!-- MODAL FOR DETAILED PROJECT GALLERY / CAROUSEL -->
     <div id="project-gallery-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center z-50 p-4 select-none animate-fade-in">
       <div class="bg-white border border-slate-200 rounded-3xl overflow-hidden max-w-xl w-full relative shadow-2xl transform transition-all duration-300 flex flex-col">
+        <!-- Modal Header -->
         <div class="flex items-center justify-between p-5 border-b border-slate-100">
           <div>
             <h3 class="text-sm font-bold text-slate-900 font-sans flex items-center space-x-1.5">
@@ -597,36 +736,45 @@ export async function renderPortfolio() {
           </button>
         </div>
 
+        <!-- Main Image Display Container -->
         <div id="gallery-media-container" class="bg-slate-950 flex items-center justify-center relative aspect-video overflow-hidden group select-none w-full">
           <img id="gallery-modal-main-img" src="" alt="Projeto" class="max-h-96 max-w-full object-contain transition-all duration-350 select-none pointer-events-none" referrerPolicy="no-referrer">
           
+          <!-- Navigation Arrow: Previous -->
           <button type="button" id="gallery-prev-btn" class="absolute left-3 top-1/2 -translate-y-1/2 p-2 bg-black/60 hover:bg-black/80 text-white rounded-full transition-all focus:outline-none flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer">
             <i data-lucide="chevron-left" class="w-5 h-5"></i>
           </button>
           
+          <!-- Navigation Arrow: Next -->
           <button type="button" id="gallery-next-btn" class="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-black/60 hover:bg-black/80 text-white rounded-full transition-all focus:outline-none flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer">
             <i data-lucide="chevron-right" class="w-5 h-5"></i>
           </button>
 
+          <!-- Floating Counter -->
           <div class="absolute bottom-3 left-3 bg-black/75 px-2.5 py-1 rounded-lg text-[10px] text-white font-sans font-bold shadow-xs">
             <span id="gallery-current-idx">1</span> / <span id="gallery-total-count">1</span>
           </div>
 
+          <!-- Floating Full Screen Button -->
           <button type="button" id="gallery-fullscreen-btn" class="absolute bottom-3 right-3 bg-black/75 hover:bg-black/95 text-white active:scale-95 p-2 rounded-lg transition-all focus:outline-none flex items-center justify-center cursor-pointer shadow-xs" title="Visualizar em Tela Cheia">
             <i data-lucide="maximize-2" class="w-4 h-4"></i>
           </button>
         </div>
 
+        <!-- Thumbnail Selector List Area -->
         <div class="p-4 bg-slate-50 border-t border-slate-100 flex flex-col items-center justify-center">
           <div id="gallery-thumbnails-container" class="flex items-center justify-center space-x-2 overflow-x-auto py-1 max-w-full">
-            </div>
+            <!-- Miniature item buttons will be injected on project load -->
+          </div>
         </div>
       </div>
     </div>
 
 
+    <!-- MODAL FOR DETAILED PROJECT DESCRIPTION -->
     <div id="project-desc-modal" class="hidden fixed inset-0 bg-slate-950/75 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fade-in">
       <div class="bg-white border border-slate-200 rounded-3xl overflow-hidden max-w-xl w-full relative shadow-2xl transform transition-all duration-300 flex flex-col scale-95 md:scale-100">
+        <!-- Modal Header -->
         <div class="flex items-center justify-between p-5 border-b border-slate-100">
           <div>
             <h3 class="text-xs md:text-sm font-bold text-slate-900 font-sans flex items-center space-x-1.5">
@@ -640,9 +788,12 @@ export async function renderPortfolio() {
           </button>
         </div>
 
+        <!-- Scrollable Description text -->
         <div class="p-6 overflow-y-auto max-h-[50vh] text-xs md:text-sm text-slate-650 leading-relaxed text-justify font-sans whitespace-pre-wrap select-text" id="desc-modal-proj-text">
-          </div>
+          <!-- Text will be dynamically injected here -->
+        </div>
 
+        <!-- Modal Footer -->
         <div class="p-4 bg-slate-50 border-t border-slate-100 flex justify-end">
           <button id="close-desc-modal-btn-bottom" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all cursor-pointer">
             Fechar
@@ -652,13 +803,14 @@ export async function renderPortfolio() {
     </div>
 
 
-    <div id="contact-toast" class="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 transform translate-y-12 opacity-0 pointer-events-none shrink bg-white border border-slate-200 text-slate-805 p-5 rounded-2xl shadow-2xl transition-all duration-300 z-50 max-w-sm flex items-start space-x-3.5">
+    <!-- REAL-TIME SUCCESS FORM TOAST (LIGHT STYLING) -->
+    <div id="contact-toast" class="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 transform translate-y-12 opacity-0 shrink bg-white border border-slate-200 text-slate-805 p-5 rounded-2xl shadow-2xl transition-all duration-300 z-50 max-w-sm flex items-start space-x-3.5">
       <div class="bg-blue-50 border border-blue-105 text-blue-600 p-2 rounded-xl shrink-0">
         <i data-lucide="mail-check" class="w-5 h-5"></i>
       </div>
       <div>
-        <h4 class="text-xs font-bold font-sans text-slate-900">Mensagem Preparada!</h4>
-        <p class="text-xs text-slate-550 mt-1 leading-relaxed" id="toast-message-body">Solicitação enviada para o seu aplicativo de e-mail.</p>
+        <h4 class="text-xs font-bold font-sans text-slate-900">REST Status - 200 OK</h4>
+        <p class="text-xs text-slate-550 mt-1 leading-relaxed" id="toast-message-body">Solicitação enviada! Verifique os logs e console do Spring Boot.</p>
       </div>
     </div>
   `;
@@ -702,6 +854,24 @@ function formatDateMonthYear(dateStr) {
 
 // BIND RECURSIVE Lifecycles / Event Listeners for DOM elements
 export function initPortfolio() {
+  // 0. Smooth scrolling for headline navigation links (Desktop & Mobile)
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (link) {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('#') && !href.startsWith('#/')) {
+        const targetId = href.substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          e.preventDefault();
+          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Update visual hash without triggering router rebuild
+          history.pushState(null, null, href);
+        }
+      }
+    }
+  });
+
   // 1. Mobile Menu toggles
   const menuBtn = document.getElementById('mobile-menu-btn');
   const dropdown = document.getElementById('mobile-dropdown');
@@ -765,7 +935,7 @@ export function initPortfolio() {
       }
       modal.classList.add('hidden');
     };
-
+    
     if (closeBtn) closeBtn.addEventListener('click', hideModal);
     modal.addEventListener('click', (e) => {
       if (e.target === modal) hideModal();
@@ -812,46 +982,68 @@ export function initPortfolio() {
   const form = document.getElementById('portfolio-contact-form');
   const toast = document.getElementById('contact-toast');
   const toastBody = document.getElementById('toast-message-body');
+  const submitBtn = document.getElementById('contact-submit-btn');
 
   if (form && toast) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault(); // Impede que a página recarregue
-
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
       const name = document.getElementById('contact-name').value;
       const email = document.getElementById('contact-email').value;
       const subject = document.getElementById('contact-subject').value;
       const message = document.getElementById('contact-message').value;
 
-      const meuEmail = "thgbianna@gmail.com";
-      const corpoEmail = `Nome completo: ${name}\nE-mail de contato: ${email}\n\nMensagem:\n${message}`;
+      // Lock button to express sending simulation
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `
+        <div class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+        <span>Enviando...</span>
+      `;
 
-      const assuntoFormatado = encodeURIComponent(subject);
-      const corpoFormatado = encodeURIComponent(corpoEmail);
+      // Simulates real posting delay
+      await new Promise(r => setTimeout(r, 1200));
 
-      const mailtoUrl = `mailto:${meuEmail}?subject=${assuntoFormatado}&body=${corpoFormatado}`;
+      // Trigger actual mailto client with pre-filled inputs
+      const emailBody = `Olá, Thiago.\n\nVocê recebeu uma nova mensagem pelo formulário de contato do seu Portfólio.\n\n` + 
+                        `Nome: ${name}\n` +
+                        `E-mail: ${email}\n` +
+                        `Assunto: ${subject}\n\n` +
+                        `Mensagem:\n${message}\n\n---\nPayload JSON:\n` +
+                        `{ "nome": "${name}", "email": "${email}", "assunto": "${subject}", "mensagem": "${message}" }`;
+      
+      const mailtoUrl = `mailto:thgbianna@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+      window.location.href = mailtoUrl;
 
-      // Técnica para burlar o conflito da hash '#' na URL: target = "_blank"
-      const tempLink = document.createElement('a');
-      tempLink.href = mailtoUrl;
-      tempLink.target = '_blank'; // Resolve o problema de rota do site
-      tempLink.style.display = 'none';
-      document.body.appendChild(tempLink);
-      tempLink.click();
-      document.body.removeChild(tempLink);
+      // Trigger Spring Boot fake logs in browser console!
+      const time = new Date().toISOString().replace('T', ' ').substring(0, 19);
+      console.log(
+        `%c${time}  INFO 2841 --- [io-8080-exec-12] c.p.controller.ContactController        : %cPOST /api/contact - Received submission from ${email}`,
+        "color: #858585;",
+        "color: #2563eb; font-weight: bold;"
+      );
+      console.log(`%c[Request Payload]%c { "nome": "${name}", "email": "${email}", "assunto": "${subject}", "mensagem": "${message}" }`, "color: #3b82f6; font-weight: bold;", "color: #0f172a;");
+      console.log(`%c[Response Status]%c 200 OK - { "status": "success", "message": "Feedback received!" }`, "color: #10b981; font-weight: bold;", "color: #0f172a;");
 
-      // Limpa os campos do formulário
+      // Reset Form fields
       form.reset();
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = `
+        <i data-lucide="send" class="w-4 h-4"></i>
+        <span>Enviar Mensagem</span>
+      `;
+      if (window.lucide) window.lucide.createIcons();
 
-      // Dispara o Toast avisando que deu certo e mandou pro app de e-mail
-      toastBody.innerHTML = `Tudo pronto, <strong>${name}</strong>! O seu aplicativo de e-mail está sendo aberto para enviarmos a mensagem.`;
-      toast.classList.remove('translate-y-12', 'opacity-0', 'pointer-events-none');
-      toast.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+      // Trigger visual toast
+      toastBody.innerHTML = `Olá <strong>${name}</strong>, sua mensagem sobre <em>"${subject}"</em> foi transmitida com sucesso para a API do Spring Boot!`;
+      toast.classList.remove('translate-y-12', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
 
-      // Esconde o Toast depois de 5.5s
+      // Hide Toast after duration
       setTimeout(() => {
-        toast.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
-        toast.classList.add('translate-y-12', 'opacity-0', 'pointer-events-none');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-12', 'opacity-0');
       }, 5500);
+
     });
   }
 
@@ -859,7 +1051,7 @@ export function initPortfolio() {
   const animateValue = (id, start, end, duration) => {
     const obj = document.getElementById(id);
     if (!obj) return;
-
+    
     obj.setAttribute('data-val', end);
     let startTimestamp = null;
     const step = (timestamp) => {
@@ -877,7 +1069,7 @@ export function initPortfolio() {
   };
 
   // Define global updater
-  window.updateStats = async function () {
+  window.updateStats = async function() {
     try {
       const stats = await api.getStats();
       const duration = 1200; // smooth 1.2 seconds animation count
@@ -1053,7 +1245,7 @@ export function initPortfolio() {
   const galleryNextBtn = document.getElementById('gallery-next-btn');
   const galleryFullscreenBtn = document.getElementById('gallery-fullscreen-btn');
   const galleryMediaContainer = document.getElementById('gallery-media-container');
-
+  
   if (galleryModal) {
     let currentGalleryImages = [];
     let activeImageIndex = 0;
@@ -1062,7 +1254,7 @@ export function initPortfolio() {
       if (currentGalleryImages.length === 0) return;
       galleryMainImg.src = currentGalleryImages[activeImageIndex];
       galleryCurrentIdx.textContent = activeImageIndex + 1;
-
+      
       // Update active thumbnail borders
       const thumbnails = galleryThumbnailsContainer.querySelectorAll('button');
       thumbnails.forEach((thumb, idx) => {
@@ -1089,7 +1281,7 @@ export function initPortfolio() {
         if (!proj) return;
 
         galleryProjName.textContent = proj.nome;
-
+        
         // Load up to 5 images list
         currentGalleryImages = [];
         if (proj.imagens && Array.isArray(proj.imagens) && proj.imagens.length > 0) {
@@ -1139,7 +1331,7 @@ export function initPortfolio() {
     };
 
     if (galleryCloseBtn) galleryCloseBtn.addEventListener('click', hideGalleryModal);
-
+    
     galleryPrevBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       activeImageIndex = (activeImageIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
@@ -1257,57 +1449,67 @@ export function initPortfolio() {
     });
   });
 
-  // Limpa a URL (remove as #) assim que o usuário clica em qualquer campo do formulário
-  document.addEventListener('focusin', (e) => {
-    if (e.target && e.target.closest('#portfolio-contact-form')) {
-      if (window.location.hash) {
-        window.history.pushState({}, document.title, window.location.pathname);
+  // 6. Active Section Highlight for navigation links on scroll
+  const sections = ['about', 'experiences', 'projects', 'certificates', 'contact']
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+  const desktopLinks = document.querySelectorAll('header nav a[href^="#"]');
+
+  const onScrollHighlight = () => {
+    let currentActiveSection = '';
+    const scrollPos = window.scrollY + 180; // Offset for header trigger position
+
+    sections.forEach(sec => {
+      const top = sec.offsetTop;
+      const height = sec.offsetHeight;
+      if (scrollPos >= top && scrollPos < top + height) {
+        currentActiveSection = '#' + sec.id;
       }
-    }
-  });
+    });
 
-  // 1. Limpa a URL assim que o usuário interage com o formulário
-  document.addEventListener('focusin', (e) => {
-    if (e.target && e.target.closest('#portfolio-contact-form')) {
-      if (window.location.hash) {
-        window.history.pushState({}, document.title, window.location.pathname);
+    if (window.scrollY < 120) {
+      currentActiveSection = '#hero';
+    }
+
+    desktopLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href === currentActiveSection) {
+        link.classList.add('nav-link-active');
+        link.classList.remove('text-slate-500');
+      } else {
+        link.classList.remove('nav-link-active');
+        link.classList.add('text-slate-500');
       }
-    }
-  });
+    });
+  };
 
-  // 2. Escutador do envio usando Delegação de Eventos (Bloqueio garantido contra refresh)
-  document.addEventListener('submit', function (event) {
-    // Verifica se o formulário disparado é o de contato
-    if (event.target && event.target.id === 'portfolio-contact-form') {
-      event.preventDefault(); // Trava o recarregamento na hora!
+  window.addEventListener('scroll', onScrollHighlight);
+  setTimeout(onScrollHighlight, 150);
 
-      const form = event.target;
+  // 7. Compact Navigation Header with clean physical transition
+  const mainNav = document.getElementById('main-nav');
+  if (mainNav) {
+    const handleNavCompact = () => {
+      if (window.scrollY > 40) {
+        mainNav.classList.remove('bg-white/30');
+        mainNav.classList.add('bg-white/55', 'shadow-sm', 'shadow-slate-100/30');
+        const navContainer = mainNav.querySelector('.max-w-6xl');
+        if (navContainer) {
+          navContainer.classList.remove('py-3.5');
+          navContainer.classList.add('py-2');
+        }
+      } else {
+        mainNav.classList.remove('bg-white/55', 'shadow-sm', 'shadow-slate-100/30');
+        mainNav.classList.add('bg-white/30');
+        const navContainer = mainNav.querySelector('.max-w-6xl');
+        if (navContainer) {
+          navContainer.classList.remove('py-2');
+          navContainer.classList.add('py-3.5');
+        }
+      }
+    };
+    window.addEventListener('scroll', handleNavCompact);
+    handleNavCompact(); // run on start
+  }
+}
 
-      // Busca os valores dos inputs direto do formulário ativo
-      const nome = form.querySelector('#contact-name').value;
-      const emailUsuario = form.querySelector('#contact-email').value;
-      const assuntoDigitado = form.querySelector('#contact-subject').value;
-      const mensagemDigitada = form.querySelector('#contact-message').value;
-
-      const meuEmail = "thgbianna@gmail.com";
-      const corpoEmail = `Nome completo: ${nome}\nE-mail de contato: ${emailUsuario}\n\nMensagem:\n${mensagemDigitada}`;
-
-      const assuntoFormatado = encodeURIComponent(assuntoDigitado);
-      const corpoFormatado = encodeURIComponent(corpoEmail);
-
-      const mailtoUrl = `mailto:${meuEmail}?subject=${assuntoFormatado}&body=${corpoFormatado}`;
-
-      // Cria e dispara o link temporário para abrir o app de e-mail
-      const tempLink = document.createElement('a');
-      tempLink.href = mailtoUrl;
-      tempLink.target = '_blank';
-      tempLink.style.display = 'none';
-      document.body.appendChild(tempLink);
-      tempLink.click();
-      document.body.removeChild(tempLink);
-
-      // Limpa os campos do formulário para o usuário saber que deu certo
-      form.reset();
-    }
-  });
-} // <-- Aquela sua última chave fecha tudo aqui!

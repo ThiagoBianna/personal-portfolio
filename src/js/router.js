@@ -29,6 +29,9 @@ export const router = {
 
   getCurrentRoute: () => {
     const hash = window.location.hash || '#/';
+    if (hash && hash.startsWith('#') && !hash.startsWith('#/')) {
+      return '/';
+    }
     let route = hash.replace('#', '');
     if (!route.startsWith('/')) {
       route = '/' + route;
@@ -39,6 +42,8 @@ export const router = {
   navigate: (route) => {
     window.location.hash = route;
   },
+
+  activeRoute: null,
 
   resolve: async () => {
     const container = document.getElementById(appContainerId);
@@ -53,6 +58,7 @@ export const router = {
     `;
 
     const route = router.getCurrentRoute();
+    router.activeRoute = route;
     const renderFn = router.routes[route] || router.routes['/'];
 
     try {
@@ -110,8 +116,51 @@ export const router = {
   },
 
   init: () => {
-    window.addEventListener('hashchange', router.resolve);
-    window.addEventListener('load', router.resolve);
+    window.addEventListener('hashchange', () => {
+      const hash = window.location.hash;
+      // If the hash is a section anchor (starts with '#' but not with '#/'), do not re-render the router
+      if (hash && hash.startsWith('#') && !hash.startsWith('#/')) {
+        if (!router.activeRoute || router.activeRoute === '/' || router.activeRoute === '') {
+          // We are already on the portfolio page, just scroll smoothly
+          const targetId = hash.substring(1);
+          const element = document.getElementById(targetId);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+          return;
+        } else {
+          // We are in another page (e.g. admin or login), so resolve the main page first, then scroll
+          router.resolve().then(() => {
+            setTimeout(() => {
+              const targetId = hash.substring(1);
+              const element = document.getElementById(targetId);
+              if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            }, 300);
+          });
+          return;
+        }
+      }
+      router.resolve();
+    });
+
+    window.addEventListener('load', () => {
+      const hash = window.location.hash;
+      if (hash && hash.startsWith('#') && !hash.startsWith('#/')) {
+        router.resolve().then(() => {
+          setTimeout(() => {
+            const targetId = hash.substring(1);
+            const element = document.getElementById(targetId);
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 300);
+        });
+        return;
+      }
+      router.resolve();
+    });
   }
 };
 
