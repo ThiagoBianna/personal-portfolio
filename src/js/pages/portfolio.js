@@ -84,7 +84,7 @@ export async function renderPortfolio() {
   };
 
   const idiomasHtml = profile.idiomas && profile.idiomas.length > 0
-    ? profile.idiomas.map(idioma => {
+      ? profile.idiomas.map(idioma => {
         const info = flagsMap[idioma.flag?.toUpperCase()] || { emoji: '🌐', name: 'Outro' };
         return `
           <div class="flex items-center space-x-3.5 p-3.5 bg-white border border-slate-200 rounded-2xl shadow-3xs group/item lang-badge-hover cursor-default">
@@ -95,13 +95,10 @@ export async function renderPortfolio() {
               <h5 class="text-xs font-bold text-slate-900 leading-tight font-sans">${idioma.nome}</h5>
               <p class="text-[10px] font-bold text-blue-600 mt-0.5 font-sans">${idioma.nivel}</p>
             </div>
-            <span class="text-[9px] font-mono text-slate-400 font-bold bg-slate-50 border border-slate-150 rounded-lg px-2 py-0.5 select-none uppercase tracking-wide shrink-0">
-              ${info.name}
-            </span>
           </div>
         `;
       }).join('')
-    : null;
+      : null;
 
   // Generating projects grid
   const projectsHtml = projects.length > 0 
@@ -134,8 +131,7 @@ export async function renderPortfolio() {
               <!-- Image Gallery Badge Indicator -->
               <div class="absolute bottom-3 right-3 bg-slate-900/75 backdrop-blur-md border border-white/10 px-2 py-1 rounded-lg text-[9px] font-sans text-white font-bold flex items-center space-x-1 cursor-pointer hover:bg-slate-950 transition-all project-gallery-trigger shadow-2xs z-10" data-proj-id="${proj.id}">
                 <i data-lucide="images" class="w-3.5 h-3.5 text-blue-450"></i>
-                <span class="font-sans font-bold">${(proj.imagens && proj.imagens.length) || 1} Foto${((proj.imagens && proj.imagens.length) || 1) !== 1 ? 's' : ''}</span>
-              </div>
+<span class="font-sans font-bold">Ver</span>              </div>
 
               ${hasDate ? `
                 <div class="absolute top-3 right-3 bg-white/95 backdrop-blur-md border border-slate-200 px-2.5 py-1 rounded-lg text-[10px] font-sans text-blue-600 font-semibold shadow-2xs">
@@ -198,13 +194,10 @@ export async function renderPortfolio() {
 
   // Generating certificates grid
   const certificatesHtml = certificates.length > 0
-    ? certificates.map(cert => `
+      ? certificates.map(cert => `
         <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden group hover:border-slate-350 hover:shadow-md transition-all flex flex-col h-full shadow-xs duration-250">
           <div class="relative h-40 bg-slate-100 overflow-hidden cursor-pointer cert-image-trigger" data-img-url="${cert.imagem}" data-title="${cert.nome}">
             <img src="${cert.imagem}" alt="${cert.nome}" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-102 transition-all duration-300" referrerPolicy="no-referrer">
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent flex items-end p-3">
-              <span class="text-[10px] font-sans text-white bg-slate-900/70 backdrop-blur-xs px-2 py-0.5 rounded-lg shadow-sm">Clique para expandir</span>
-            </div>
           </div>
           <div class="p-5 flex-1 flex flex-col justify-between">
             <div>
