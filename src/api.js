@@ -62,7 +62,7 @@ const initialProfile = {
   cargo: "Estudante de Engenharia de Software | Desenvolvedor Backend Java",
   apresentacao: "Especialista em construir soluções robustas, escaláveis e eficientes com foco no ecossistema Java. Atualmente cursando Engenharia de Software e desenvolvendo APIs REST seguras e de alta performance utilizando Spring Boot 3, Hibernate e bancos de dados SQL.",
   fotoPerfil: "https://media.licdn.com/dms/image/v2/D4D22AQGBVcUTAn-dJQ/feedshare-image-high-res/B4DZ7fA.oAJsAU-/0/1781858036500?e=1783555200&v=beta&t=KvCj8mvwuwAuhtQPwCgXyCAk6jmY8J4q25FsRrfV7K4",
-  fotoSobre: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300",
+  fotoSobre: "https://media.licdn.com/dms/image/v2/D4D22AQGBVcUTAn-dJQ/feedshare-image-high-res/B4DZ7fA.oAJsAU-/0/1781858036500?e=1783555200&v=beta&t=KvCj8mvwuwAuhtQPwCgXyCAk6jmY8J4q25FsRrfV7K4",
   bio: "Como graduando em Engenharia de Software, direcionei meus estudos para a arquitetura de sistemas e o desenvolvimento backend de alto nível. Minha paixão está em desenhar e implementar APIs que resolvem problemas reais de negócios. Tenho forte domínio do ecossistema Spring (Security, Data, Cloud) e busco sempre alinhar meu código aos princípios de Clean Code, SOLID e testes automatizados robustos.",
   tecnologiasDominadas: [
     { nome: "Java 21", icone: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" },
@@ -222,7 +222,7 @@ if (!storedProfile) {
       });
     }
     if (!prof.fotoSobre) {
-      prof.fotoSobre = prof.fotoPerfil || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300";
+      prof.fotoSobre = prof.fotoPerfil || "https://media.licdn.com/dms/image/v2/D4D22AQGBVcUTAn-dJQ/feedshare-image-high-res/B4DZ7fA.oAJsAU-/0/1781858036500?e=1783555200&v=beta&t=KvCj8mvwuwAuhtQPwCgXyCAk6jmY8J4q25FsRrfV7K4";
       updated = true;
     }
     if (!prof.idiomas) {
