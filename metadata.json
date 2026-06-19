@@ -1,0 +1,6 @@
+{
+  "name": "Portfolio de Engenharia de Software",
+  "description": "Portfólio profissional moderno e responsivo para estudante de Engenharia de Software com foco em Java e Spring Boot, incluindo painel administrativo protegido por autenticação integrada.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
