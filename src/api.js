@@ -152,7 +152,7 @@ const initialExperiences = [
     cargo: "Desenvolvedor Java Júnior",
     empresa: "FinTech Hub S/A",
     periodo: "Jan 2025 - Presente",
-    descricao: "Atuação na sustentação e desenvolvimento contínuo de microsserviços e soluções financeiras utilizando o ecossistema robusto do Java 21, Spring Boot, Spring Security e JPA / Hibernate. Criação de consultas SQL otimizadas com PostgreSQL e implementação de testes automatizados unitários de cobertura ampla utilizando JUnit 5 e Mockito.",
+    descricao: "Atuação na sustentação e desenvolvimento contínuo de microsserviços e soluções financeiras utilizando o ecossistema robusto do Java 21, Spring Boot, Spring Security e JPA / Hibernate. Criação de consultas SQL otimizadas com PostgreSQL e implementação de testes automatizados unitários de cobertura ampla utilizando JUnit 5 e Mockito.Atuação na sustentação e desenvolvimento contínuo de microsserviços e soluções financeiras utilizando o ecossistema robusto do Java 21, Spring Boot, Spring Security e JPA / Hibernate. Criação de consultas SQL otimizadas com PostgreSQL e implementação de testes automatizados unitários de cobertura ampla utilizando JUnit 5 e Mockito.Atuação na sustentação e desenvolvimento contínuo de microsserviços e soluções financeiras utilizando o ecossistema robusto do Java 21, Spring Boot, Spring Security e JPA / Hibernate. Criação de consultas SQL otimizadas com PostgreSQL e implementação de testes automatizados unitários de cobertura ampla utilizando JUnit 5 e Mockito.",
     ordem: 0
   },
   {

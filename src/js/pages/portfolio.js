@@ -52,22 +52,26 @@ export async function renderPortfolio() {
       `;
 
   const experiencesHtml = experiences && experiences.length > 0
-    ? experiences.map(exp => `
+      ? experiences.map(exp => `
         <div class="flex items-start space-x-4 p-5 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xs premium-interactive-item group">
           <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 select-none shrink-0 shadow-3xs icon-box-animate transition-all duration-300">
             <i data-lucide="briefcase" class="w-4 h-4"></i>
           </div>
           <div class="flex-1">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
-              <h4 class="text-xs font-bold text-slate-900 dark:text-white font-sans">${exp.cargo}</h4>
-              <span class="text-[9px] font-bold font-mono text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/45 border border-blue-105 dark:border-blue-900/40 px-2.5 py-1 rounded-lg self-start sm:self-auto uppercase tracking-wide">${exp.periodo}</span>
+              <!-- Cargo: Aumentado de text-xs para text-sm -->
+              <h4 class="text-sm font-bold text-slate-900 dark:text-white font-sans">${exp.cargo}</h4>
+              <!-- Período/Data: Aumentado de text-[9px] para text-[11px] -->
+              <span class="text-[11px] font-bold font-mono text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/45 border border-blue-105 dark:border-blue-900/40 px-2.5 py-1 rounded-lg self-start sm:self-auto uppercase tracking-wide">${exp.periodo}</span>
             </div>
-            <p class="text-[10px] font-sans font-bold text-slate-400 dark:text-slate-500 mt-1 select-none">${exp.empresa}</p>
-            <p class="text-xs font-sans text-slate-600 dark:text-slate-300 mt-2.5 leading-relaxed text-justify">${exp.descricao || ''}</p>
+            <!-- Empresa: Aumentado de text-[10px] para text-xs -->
+            <p class="text-xs font-sans font-bold text-slate-400 dark:text-slate-500 mt-1 select-none">${exp.empresa}</p>
+            <!-- Descrição: Aumentado de text-xs para text-sm -->
+            <p class="text-sm font-sans text-slate-600 dark:text-slate-300 mt-2.5 leading-relaxed text-justify">${exp.descricao || ''}</p>
           </div>
         </div>
       `).join('')
-    : null;
+      : null;
 
   // Generating languages list with flags and fluency
   const flagsMap = {
@@ -83,7 +87,7 @@ export async function renderPortfolio() {
   };
 
   const idiomasHtml = profile.idiomas && profile.idiomas.length > 0
-    ? profile.idiomas.map(idioma => {
+      ? profile.idiomas.map(idioma => {
         const info = flagsMap[idioma.flag?.toUpperCase()] || { emoji: '🌐', name: 'Outro' };
         return `
           <div class="flex items-center space-x-3.5 p-3.5 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-3xs group/item lang-badge-hover cursor-default">
@@ -94,13 +98,10 @@ export async function renderPortfolio() {
               <h5 class="text-xs font-bold text-slate-900 dark:text-white leading-tight font-sans">${idioma.nome}</h5>
               <p class="text-[10px] font-bold text-blue-600 dark:text-blue-400 mt-0.5 font-sans">${idioma.nivel}</p>
             </div>
-            <span class="text-[9px] font-mono text-slate-400 dark:text-slate-500 font-bold bg-slate-50 dark:bg-slate-950/60 border border-slate-150 dark:border-slate-800 rounded-lg px-2 py-0.5 select-none uppercase tracking-wide shrink-0">
-              ${info.name}
-            </span>
           </div>
         `;
       }).join('')
-    : null;
+      : null;
 
   // Generating projects grid
   const projectsHtml = projects.length > 0 
@@ -148,7 +149,7 @@ export async function renderPortfolio() {
               
               <!-- Status Indicator: Online/Offline status positioned between Description and Technologies list -->
               <div class="flex items-center space-x-1.5 mb-4 select-none">
-                <span class="inline-flex items-center space-x-1.5 bg-slate-50 dark:bg-slate-900 border border-slate-205 dark:border-slate-800 px-2.5 py-1 rounded-lg text-[10px] font-sans font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 shadow-3xs cursor-default">
+                <span class="inline-flex items-center space-x-1.5 bg-slate-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-800 px-2.5 py-1 rounded-lg text-[10px] font-sans font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 shadow-3xs cursor-default">
                   <span class="w-1.5 h-1.5 rounded-full ${statusColorClass} ${pulseClass}"></span>
                   <span>${statusText}</span>
                 </span>
@@ -364,7 +365,7 @@ export async function renderPortfolio() {
         </p>
 
         <!-- Dynamic Responsive Interactive CTAs (Projects, Contact, GitHub) -->
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto px-4 mb-16 animate-fade-in" style="animation-delay: 250ms;">
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto px-4 mb-12 animate-fade-in" style="animation-delay: 250ms;">
           <a href="#projects" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-7 py-3 rounded-xl transition-all shadow-sm hover:shadow flex items-center justify-center space-x-2">
             <span>Ver Projetos</span>
             <i data-lucide="chevron-right" class="w-4 h-4 button-icon-slide"></i>
@@ -378,10 +379,18 @@ export async function renderPortfolio() {
             <span>GitHub</span>
           </a>
         </div>
+        
+        <!--Scroll down indicator -->
+        <div class="relative mb-12 mt-4 flex flex-col items-center opacity-45 hover:opacity-100 transition-opacity duration-300 pointer-events-none select-none hidden md:flex animate-fade-in" style="animation-delay: 450ms;">
+          <span class="text-[11px] uppercase tracking-widest font-mono text-slate-400 dark:text-slate-500 font-bold mb-2">Role para explorar</span>
+          
+          <div class="w-6 h-10 border border-slate-300 dark:border-slate-700 rounded-full flex justify-center p-1">
+            <div class="w-1.5 h-2.5 bg-blue-600 dark:bg-blue-400 rounded-full animate-bounce"></div>
+          </div>
+        </div>
 
-        <!-- Below this displays: Main Tech / Tecnologias Principais -->
-        <div class="w-full max-w-xl border-t border-slate-200/80 dark:border-slate-850 pt-8 animate-fade-in-slow select-none mb-4" style="animation-delay: 350ms;">
-          <span class="block text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">
+        <div class="w-full max-w-xl border-t border-slate-200/80 dark:border-slate-850 pt-14 animate-fade-in-slow select-none mb-4" style="animation-delay: 350ms;">
+          <span class="block text-[11px] font-bold text-slate-700 dark:text-white uppercase tracking-widest mb-4">
             Tecnologias Principais
           </span>
           <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-slate-700 dark:text-slate-300 text-sm sm:text-base font-semibold">
@@ -397,18 +406,10 @@ export async function renderPortfolio() {
           </div>
         </div>
 
-        <!-- Scroll down indicator -->
-        <div class="absolute bottom-[-16px] left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-40 hover:opacity-100 transition-opacity duration-300 pointer-events-none select-none hidden md:flex animate-fade-in" style="animation-delay: 450ms;">
-          <span class="text-[8px] uppercase tracking-widest font-mono text-slate-400 font-bold mb-1">Role para explorar</span>
-          <div class="w-4 h-7 border border-slate-300 dark:border-slate-800 rounded-full flex justify-center p-0.5">
-            <div class="w-1 h-1.5 bg-blue-600 dark:bg-blue-400 rounded-full animate-bounce"></div>
-          </div>
-        </div>
-
       </section>
 
       <!-- DYNAMIC STATS COUNTERS -->
-      <section id="stats" class="my-12 py-8 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl grid grid-cols-2 md:grid-cols-4 gap-6 px-6 shadow-xs relative scroll-reveal">
+      <section id="stats" class="-mt-8 mb-20 py-8 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl grid grid-cols-2 md:grid-cols-4 gap-6 px-6 shadow-xs relative scroll-reveal">       
         <div class="flex flex-col items-center text-center p-3">
           <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/40 flex items-center justify-center mb-3 text-blue-600 dark:text-blue-450">
             <i data-lucide="code" class="w-5 h-5"></i>
@@ -434,7 +435,7 @@ export async function renderPortfolio() {
         </div>
 
         <div class="flex flex-col items-center text-center p-3 border-t md:border-t-0 border-l border-slate-100 dark:border-slate-800 md:border-l">
-          <div class="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-150 dark:border-slate-800 flex items-center justify-center mb-3 text-slate-600 dark:text-slate-400">
+          <div class="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-150 dark:border-transparent flex items-center justify-center mb-3 text-slate-600 dark:text-slate-400">
             <i data-lucide="github" class="w-5 h-5"></i>
           </div>
           <span class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white font-sans stat-count block" id="commits-stat-num" data-val="${stats.githubCommits || 1450}">0</span>
@@ -471,8 +472,10 @@ export async function renderPortfolio() {
 
             <div class="space-y-4 pt-2">
               <!-- Formacao Academica Grid -->
+              <div class="space-y-4 pt-2">
+              <!-- Formacao Academica Grid -->
               <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80">
-                <h4 class="text-[11px] font-bold font-sans uppercase tracking-widest text-slate-900 dark:text-slate-100 mb-3.5 flex items-center space-x-1.5 select-none">
+                <h4 class="text-xs font-bold font-sans uppercase tracking-widest text-slate-900 dark:text-slate-100 mb-3.5 flex items-center space-x-1.5 select-none">
                   <i data-lucide="graduation-cap" class="w-4 h-4 text-blue-600"></i>
                   <span>Formação Acadêmica</span>
                 </h4>
@@ -484,7 +487,7 @@ export async function renderPortfolio() {
               <!-- Idiomas e Fluencia Grid -->
               ${idiomasHtml ? `
               <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80">
-                <h4 class="text-[11px] font-bold font-sans uppercase tracking-widest text-slate-900 dark:text-slate-100 mb-3.5 flex items-center space-x-1.5 select-none">
+                <h4 class="text-xs font-bold font-sans uppercase tracking-widest text-slate-900 dark:text-slate-100 mb-3.5 flex items-center space-x-1.5 select-none">
                   <i data-lucide="languages" class="w-4 h-4 text-blue-600"></i>
                   <span>Idiomas & Fluência</span>
                 </h4>
@@ -496,8 +499,8 @@ export async function renderPortfolio() {
 
               <!-- Dominadas Grid -->
               <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80">
-                <h4 class="text-[11px] font-bold font-sans uppercase tracking-widest text-blue-600 mb-3 flex items-center space-x-1.5 select-none">
-                  <i data-lucide="check-check" class="w-4 h-4"></i>
+                <h4 class="text-xs font-bold font-sans uppercase tracking-widest text-slate-900 dark:text-white mb-3 flex items-center space-x-1.5 select-none">
+                  <i data-lucide="check-check" class="w-4 h-4 text-blue-600"></i>
                   <span>Frameworks & Tecnologias Dominadas</span>
                 </h4>
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -505,6 +508,8 @@ export async function renderPortfolio() {
                 </div>
               </div>
             </div>
+
+          </div>
 
           </div>
 
@@ -671,22 +676,22 @@ export async function renderPortfolio() {
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="flex flex-col">
                   <label for="contact-name" class="font-sans text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1.5 select-none">Nome completo</label>
-                  <input type="text" id="contact-name" required placeholder="Seu Nome" class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 hover:border-slate-300 dark:hover:border-slate-705 focus:border-blue-600 dark:focus:border-blue-500 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none transition-all font-sans">
+                  <input type="text" id="contact-name" required placeholder="Seu Nome" class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-transparent hover:border-slate-300 dark:hover:border-slate-705 focus:border-blue-600 dark:focus:border-blue-500 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none transition-all font-sans">
                 </div>
                 <div class="flex flex-col">
                   <label for="contact-email" class="font-sans text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1.5 select-none">Seu E-mail</label>
-                  <input type="email" id="contact-email" required placeholder="seu@email.com" class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 hover:border-slate-300 dark:hover:border-slate-705 focus:border-blue-600 dark:focus:border-blue-500 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none transition-all font-sans">
+                  <input type="email" id="contact-email" required placeholder="seu@email.com" class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-transparent hover:border-slate-300 dark:hover:border-slate-705 focus:border-blue-600 dark:focus:border-blue-500 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none transition-all font-sans">
                 </div>
               </div>
 
               <div class="flex flex-col">
                 <label for="contact-subject" class="font-sans text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1.5 select-none">Assunto</label>
-                <input type="text" id="contact-subject" required placeholder="Ex: Proposta de Estágio / Oportunidades" class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 hover:border-slate-300 dark:hover:border-slate-705 focus:border-blue-600 dark:focus:border-blue-500 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none transition-all font-sans">
+                <input type="text" id="contact-subject" required placeholder="Ex: Proposta de Estágio / Oportunidades" class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-transparent hover:border-slate-300 dark:hover:border-slate-705 focus:border-blue-600 dark:focus:border-blue-500 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none transition-all font-sans">
               </div>
 
               <div class="flex flex-col">
                 <label for="contact-message" class="font-sans text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1.5 select-none">Mensagem</label>
-                <textarea id="contact-message" rows="4" required placeholder="Escreva sua proposta ou mensagem detalhada aqui..." class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 hover:border-slate-300 dark:hover:border-slate-705 focus:border-blue-600 dark:focus:border-blue-500 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none transition-all font-sans resize-none"></textarea>
+                <textarea id="contact-message" rows="4" required placeholder="Escreva sua proposta ou mensagem detalhada aqui..." class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-transparent hover:border-slate-300 dark:hover:border-slate-705 focus:border-blue-600 dark:focus:border-blue-500 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none transition-all font-sans resize-none"></textarea>
               </div>
 
               <button type="submit" id="contact-submit-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-xl transition-all flex items-center justify-center space-x-2 cursor-pointer shadow-sm shadow-blue-200">
@@ -704,7 +709,7 @@ export async function renderPortfolio() {
     <!-- FOOTER -->
     <footer class="relative z-50 w-full border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-12 text-center font-sans text-xs text-slate-550 dark:text-slate-400">
       <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-        <p class="select-none">© 2026 Thiago Bianna Pessanha da Cruz.</p>
+        <p class="select-none">© 2026 Thiago Bianna Pessanha da Cruz.\n Todos os direitos reservados.</p>
         
         <div class="flex items-center space-x-4 relative z-50">
           <!-- LinkedIn -->
