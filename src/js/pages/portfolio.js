@@ -253,7 +253,7 @@ export async function renderPortfolio() {
             <img src="https://media.licdn.com/dms/image/v2/D4D22AQGBVcUTAn-dJQ/feedshare-image-high-res/B4DZ7fA.oAJsAU-/0/1781858036500?e=1783555200&v=beta&t=KvCj8mvwuwAuhtQPwCgXyCAk6jmY8J4q25FsRrfV7K4" alt="Thiago Bianna" class="w-full h-full object-cover rounded-lg" referrerPolicy="no-referrer">
           </div>
           <div class="flex flex-col">
-            <span class="text-sm font-bold tracking-tight font-sans text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors">Thiago Bianna Pessanha da Cruz</span>
+            <span class="text-sm font-bold tracking-tight font-sans text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors">Thiago Bianna</span>
             <span class="text-[9px] font-sans font-semibold text-slate-400 dark:text-slate-500 leading-none">Desenvolvedor de Software</span>
           </div>
         </a>
