@@ -459,7 +459,7 @@ public class Academic {
     private String curso;
 
     @Column(nullable = false)
-    private String搬instituicao;
+    private String instituicao;
 
     private String periodo;
 
@@ -1198,7 +1198,7 @@ public class ProfileController {
         Profile profile = profileRepository.findAll().stream().findFirst()
                 .orElseGet(() -> {
                      return Profile.builder()
-                        .nome("Thiago")
+                        .nome("Gabriel Bianna")
                         .cargo("Estudante de Engenharia de Software")
                         .build();
                 });
@@ -1479,5 +1479,5 @@ Para disponibilizar o portfólio completo em produção em um único serviço (C
 
 ---
 
-**Desenvolvido como manual estratégico de engenharia full-stack para a carreira ativa de Thiago Bianna.**
+**Desenvolvido como manual estratégico de engenharia full-stack para a carreira ativa de Gabriel Bianna.**
 🎉 Parabéns por construir arquiteturas reais, escaláveis e esteticamente elegantes no ecossistema Java.

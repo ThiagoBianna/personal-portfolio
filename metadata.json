@@ -1,6 +1,6 @@
 {
   "name": "Portfolio de Engenharia de Software",
-  "description": "Portfólio profissional moderno e responsivo para estudante de Engenharia de Software com foco em Java e Spring Boot, incluindo painel administrativo protegido por autenticação integrada.",
+  "description": "Portfólio profissional moderno, responsivo e elegante para Thiago Bianna, estudante de Engenharia de Software com foco em Java e Spring Boot, incluindo suporte a tema escuro (Dark Mode) fluido estilizado.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
