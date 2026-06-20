@@ -34,9 +34,12 @@
     background-color: #090d16;
     color: #f1f5f9;
   }
+  @media (min-width: 1024px) {
+    html {
+      zoom: 1.2;
+    }
+  }
 }
-
-/* Custom Soft Scrollbar for Light Theme */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;

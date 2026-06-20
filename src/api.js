@@ -139,9 +139,9 @@ const initialAcademics = [
   {
     id: 1,
     curso: "Bacharelado em Engenharia de Software",
-    instituicao: "FIAP - Faculdade de Informática e Administração Paulista",
+    instituicao: "UNINTER Centro Universitário Internacional",
     periodo: "2024 - 2028 (Em andamento)",
-    imagem: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=200",
+    imagem: "https://media.licdn.com/dms/image/v2/D4D0BAQHrDUW2-Vq5iw/company-logo_200_200/B4DZuP0fiiGUAI-/0/1767644461719/grupo_uninter_logo?e=1783555200&v=beta&t=-JXAGlE1EjpHShrzqerHYyvuhdQpYZBB-q2cMcVJ4qc",
     descricao: "Formação integral focada em arquitetura de softwares empresarial, engenharia de requisitos, DevOps e desenvolvimento de microsserviços. Amplo foco na plataforma Java SE/EE e ecossistema de dados persistentes."
   }
 ];
