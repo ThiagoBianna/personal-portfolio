@@ -5,7 +5,7 @@
  */
 
 const initialProfile = {
-  nome: "Thiago Bianna",
+  nome: "Thiago",
   cargo: "Estudante de Engenharia de Software | Desenvolvedor Backend Java",
   apresentacao: "Especialista em construir soluções robustas, escaláveis e eficientes com foco no ecossistema Java. Atualmente cursando Engenharia de Software e desenvolvendo APIs REST seguras e de alta performance utilizando Spring Boot 3, Hibernate e bancos de dados SQL.",
   fotoPerfil: "https://media.licdn.com/dms/image/v2/D4D03AQFzeqxaqnDzhQ/profile-displayphoto-scale_400_400/B4DZ2zcwK_JAAg-/0/1776832157571?e=1783555200&v=beta&t=PwgfyGW15H_UfHdqHVk0lft2bWDqlAn02h-5OkqgsT8",
@@ -34,7 +34,7 @@ const initialProfile = {
   },
   idiomas: [
     { nome: "Português", nivel: "Nativo", flag: "BR" },
-    { nome: "Inglês", nivel: "Fluente / Avançado", flag: "US" }
+    { nome: "Inglês", nivel: "Avançado", flag: "US" }
   ]
 };
 
