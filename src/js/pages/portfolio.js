@@ -25,8 +25,7 @@ export async function renderPortfolio() {
   const academicsHtml = academics.length > 0
     ? academics.map(acad => `
          <div class="flex items-start space-x-4 p-4 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xs premium-interactive-item duration-200 group">
-          <div class="w-12 h-12 rounded-xl overflow-hidden bg-white dark:bg-slate-950/60 shrink-0 shadow-3xs flex items-center justify-center select-none border dark:border-slate-800">
-            <img src="${acad.imagem}" alt="${acad.instituicao}" class="w-full h-full object-cover rounded-xl group-hover:scale-102 transition-transform" referrerPolicy="no-referrer">
+         <div class="w-12 h-12 rounded-xl overflow-hidden bg-white dark:bg-slate-950/60 shrink-0 shadow-3xs flex items-center justify-center select-none">            <img src="${acad.imagem}" alt="${acad.instituicao}" class="w-full h-full object-cover rounded-xl group-hover:scale-102 transition-transform" referrerPolicy="no-referrer">
           </div>
           <div class="flex-1">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
@@ -84,7 +83,7 @@ export async function renderPortfolio() {
   };
 
   const idiomasHtml = profile.idiomas && profile.idiomas.length > 0
-    ? profile.idiomas.map(idioma => {
+      ? profile.idiomas.map(idioma => {
         const info = flagsMap[idioma.flag?.toUpperCase()] || { emoji: '🌐', name: 'Outro' };
         return `
           <div class="flex items-center space-x-3.5 p-3.5 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-3xs group/item lang-badge-hover cursor-default">
@@ -95,13 +94,10 @@ export async function renderPortfolio() {
               <h5 class="text-xs font-bold text-slate-900 dark:text-white leading-tight font-sans">${idioma.nome}</h5>
               <p class="text-[10px] font-bold text-blue-600 dark:text-blue-400 mt-0.5 font-sans">${idioma.nivel}</p>
             </div>
-            <span class="text-[9px] font-mono text-slate-400 dark:text-slate-500 font-bold bg-slate-50 dark:bg-slate-950/60 border border-slate-150 dark:border-slate-800 rounded-lg px-2 py-0.5 select-none uppercase tracking-wide shrink-0">
-              ${info.name}
-            </span>
           </div>
         `;
       }).join('')
-    : null;
+      : null;
 
   // Generating projects grid
   const projectsHtml = projects.length > 0 
@@ -149,7 +145,7 @@ export async function renderPortfolio() {
               ${proj.descricao && proj.descricao.length > 150 ? `
                 <p class="text-slate-600 dark:text-slate-350 text-sm mb-4 text-justify leading-relaxed flex-1 font-sans">
                   <span>${proj.descricao.slice(0, 140)}...</span>
-                  <button data-id="${proj.id}" class="read-more-btn text-blue-600 hover:text-blue-750 font-bold transition-all ml-1 inline cursor-pointer hover:underline text-xs" style="background: none; border: none; padding: 0;">...mais</button>
+                  <button data-id="${proj.id}" class="read-more-btn text-blue-600 hover:text-blue-750 font-bold transition-all ml-1 inline cursor-pointer hover:underline text-xs" style="background: none; border: none; padding: 0;">mais</button>
                 </p>
               ` : `
                 <p class="text-slate-600 dark:text-slate-350 text-sm mb-4 text-justify leading-relaxed flex-1 font-sans">${proj.descricao || ''}</p>
@@ -182,7 +178,7 @@ export async function renderPortfolio() {
               <!-- Button for complete demonstration overlay/modal -->
               <button class="w-full flex items-center justify-center space-x-2 bg-blue-50/50 dark:bg-blue-950/25 hover:bg-blue-100/80 dark:hover:bg-blue-900/40 border border-blue-200/60 dark:border-blue-900/30 text-blue-700 dark:text-blue-400 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all mt-3 open-full-demo-btn" data-video-url="${proj.linkVideo || finalVideoPreview}" data-proj-name="${proj.nome}" data-video-desc="${proj.descricao}">
                 <i data-lucide="play-circle" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i>
-                <span>Ver demonstração completa</span>
+                <span>Vídeo</span>
               </button>
 
             </div>
@@ -240,25 +236,28 @@ export async function renderPortfolio() {
   return `
     <!-- Top Embedded Navigation Bar -->
     <header class="sticky top-0 w-full bg-white/30 dark:bg-slate-950/30 backdrop-blur-lg z-40 transition-all duration-300 border-b border-transparent" id="main-nav">
-      <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between transition-all duration-300">
-        <!-- Logo / Brand Signature -->
-        <a href="#hero" class="flex items-center space-x-2 text-slate-900 dark:text-slate-100 group select-none">
-          <div class="bg-blue-50 dark:bg-slate-900 border border-blue-200 dark:border-slate-800 w-8 h-8 rounded-lg flex items-center justify-center group-hover:bg-blue-100 dark:group-hover:bg-slate-800 transition-all shadow-3xs">
-            <span class="text-blue-600 dark:text-blue-400 font-sans font-bold text-sm">T</span>
-          </div>
-          <div class="flex flex-col">
-            <span class="text-sm font-bold tracking-tight font-sans text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors">Thiago Bianna</span>
-            <span class="text-[9px] font-sans font-semibold text-slate-400 dark:text-slate-500 leading-none">Software Engineering</span>
-          </div>
-        </a>
+  <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between transition-all duration-300">
+    <a href="#hero" class="flex items-center group select-none">
+      <div class="w-6.5 h-6.5 rounded-md flex items-center justify-center overflow-hidden transition-all shadow-3xs group-hover:shadow-xs me-2">
+        <img 
+          src="https://media.licdn.com/dms/image/v2/D4D22AQGBVcUTAn-dJQ/feedshare-image-high-res/B4DZ7fA.oAJsAU-/0/1781858036500?e=1783555200&v=beta&t=KvCj8mvwuwAuhtQPwCgXyCAk6jmY8J4q25FsRrfV7K4" 
+          alt="Thiago Bianna" 
+          class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+        />
+      </div>
+      <div class="flex flex-col">
+        <span class="text-sm font-bold tracking-tight font-sans text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors">Thiago Bianna Pessanha da Cruz</span>
+        <span class="text-[9px] font-sans font-semibold text-slate-400 dark:text-slate-500 leading-none">Software Developer</span>
+      </div>
+    </a>
 
         <!-- Desktop Navigation Items -->
         <nav class="hidden md:flex items-center space-x-8 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest select-none">
-          <a href="#about" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">/sobre-mim</a>
-          <a href="#projects" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">/projetos</a>
-          ${experiencesHtml ? `<a href="#experiences" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">/experiencias</a>` : ''}
-          <a href="#certificates" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">/certificados</a>
-          <a href="#contact" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">/contato</a>
+          <a href="#about" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">sobre</a>
+          <a href="#projects" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">projetos</a>
+          ${experiencesHtml ? `<a href="#experiences" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">experiencias</a>` : ''}
+          <a href="#certificates" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">certificados</a>
+          <a href="#contact" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">contato</a>
         </nav>
 
         <!-- Curriculo, iOS-style Dark Mode Toggle & Hamburger Trigger -->
@@ -266,7 +265,7 @@ export async function renderPortfolio() {
           ${profile.links && profile.links.curriculoPdf ? `
             <a href="${profile.links.curriculoPdf}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-sans text-[11px] px-3.5 py-1.5 rounded-lg flex items-center space-x-1.5 transition-all shadow-2xs hover:shadow-xs cursor-pointer">
               <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
-              <span class="font-bold">Baixar Currículo</span>
+              <span class="font-bold">Currículo</span>
             </a>
           ` : ''}
           
@@ -333,7 +332,7 @@ export async function renderPortfolio() {
         <div class="relative w-28 h-28 md:w-32 md:h-32 mb-6 animate-fade-in select-none group">
           <div class="absolute inset-0 bg-gradient-to-tr from-blue-500/20 to-indigo-500/20 rounded-full scale-110 profile-ring-glow blur-[1px]"></div>
           <div class="absolute inset-0 bg-blue-100 rounded-full scale-105 opacity-30 blur-xs"></div>
-          <div class="relative w-full h-full rounded-full border border-slate-200 dark:border-slate-800 shadow-md overflow-hidden bg-white">
+          <div class="relative w-full h-full rounded-full border border-slate-200 dark:border-slate-800 shadow-md overflow-hidden bg-transparent">
             <img src="${profile.fotoPerfil}" alt="${profile.nome}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer">
           </div>
         </div>
@@ -444,10 +443,11 @@ export async function renderPortfolio() {
           <div class="md:col-span-5 flex flex-col items-center justify-center">
             <!-- Profile Avatar with subtle backing card -->
             <div class="relative w-48 h-48 md:w-56 md:h-56 select-none">
-              <div class="absolute inset-0 bg-blue-50 dark:bg-blue-955/20 border border-blue-100 dark:border-blue-900/40 rounded-3xl rotate-3 shadow-3xs animate-float-slow"></div>
-              <div class="absolute inset-0 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                <img src="${profile.fotoSobre || profile.fotoPerfil}" alt="${profile.nome}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" id="avatar-img-view">
+              <div class="absolute inset-0 bg-blue-800 border border-blue-800 rounded-3xl rotate-3 shadow-3xs animate-float-slow"></div>
+              
+               <div class="absolute inset-0 bg-white dark:bg-slate-900 rounded-3xl border border-transparent dark:border-transparent overflow-hidden shadow-sm hover:shadow-md transition-shadow">                <img src="${profile.fotoSobre || profile.fotoPerfil}" alt="${profile.nome}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" id="avatar-img-view">
               </div>
+              
               <div class="absolute -bottom-2 -right-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3.5 py-1.5 rounded-full flex items-center space-x-1.5 shadow-sm">
                 <div class="w-2.5 h-2.5 bg-blue-600 rounded-full animate-pulse"></div>
                 <span class="text-[11px] font-sans font-bold text-slate-700 dark:text-slate-200">Java Core Level</span>
@@ -457,7 +457,7 @@ export async function renderPortfolio() {
 
           <div class="md:col-span-7 flex flex-col justify-center space-y-6">
             <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 dark:text-white flex items-center space-x-2">
-              <span class="text-blue-600">/</span>
+              <span class="text-blue-600">#</span>
               <span>Sobre Mim</span>
             </h2>
 
@@ -510,7 +510,7 @@ export async function renderPortfolio() {
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-10 gap-4">
           <div>
             <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 dark:text-white flex items-center space-x-2">
-              <span class="text-blue-600">/</span>
+              <span class="text-blue-600">#</span>
               <span>Projetos em Destaque</span>
             </h2>
             <p class="text-xs font-sans text-slate-550 dark:text-slate-400 mt-1">Carregando APIs e repositórios dinamicamente via Java REST endpoints imitados</p>
@@ -547,7 +547,7 @@ export async function renderPortfolio() {
       <section id="experiences" class="py-16 border-t border-slate-200/85 dark:border-slate-800/85 scroll-reveal">
         <div class="mb-10">
           <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 dark:text-white flex items-center space-x-2">
-            <span class="text-blue-600">/</span>
+            <span class="text-blue-600">#</span>
             <span>Experiências Profissionais</span>
           </h2>
           <p class="text-xs font-sans text-slate-550 dark:text-slate-400 mt-1">Trajetória prática, atuações profissionais e resolução de problemas corporativos reais de engenharia de software</p>
@@ -563,7 +563,7 @@ export async function renderPortfolio() {
         <div class="flex items-center justify-between mb-10 gap-4">
           <div>
             <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 dark:text-white flex items-center space-x-2">
-              <span class="text-blue-600">/</span>
+              <span class="text-blue-600">#</span>
               <span>Certificados & Credenciais</span>
             </h2>
             <p class="text-xs font-sans text-slate-550 dark:text-slate-400 mt-1">Validações oficiais e especializações completadas para engenharia de softwares backend</p>
@@ -597,7 +597,7 @@ export async function renderPortfolio() {
           <div class="md:col-span-5 flex flex-col justify-between space-y-6">
             <div>
               <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 dark:text-white flex items-center space-x-2">
-                <span class="text-blue-600">/</span>
+                <span class="text-blue-600">#</span>
                 <span>Contato</span>
               </h2>
               <p class="text-slate-550 dark:text-slate-300 text-sm mt-3 leading-relaxed">
@@ -628,14 +628,14 @@ export async function renderPortfolio() {
               </a>
 
               <!-- Instagram -->
-              <a href="${profile.links.instagram || 'https://instagram.com/hutzdon/'}" target="_blank" id="contact-instagram-link" class="flex items-center space-x-4 p-4 bg-pink-50/50 dark:bg-pink-950/20 hover:bg-pink-100/80 dark:hover:bg-pink-900/40 border border-pink-200/65 dark:border-pink-900/60 hover:border-pink-400 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-2xs active:scale-[0.99] group/btn text-pink-700 dark:text-pink-400 font-bold decoration-none">
-                <div class="w-9 h-9 rounded-xl bg-pink-600 border border-pink-700 flex items-center justify-center text-white select-none transition-transform duration-300 group-hover/btn:scale-105 shadow-3xs">
-                  <i data-lucide="instagram" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <span class="text-xs font-sans font-bold tracking-wide text-pink-800 dark:text-pink-300">Instagram</span>
-                </div>
-              </a>
+              <a href="${profile.links.instagram || 'https://instagram.com/hutzdon/'}" target="_blank" id="contact-instagram-link" class="flex items-center space-x-4 p-4 bg-slate-50/40 dark:bg-slate-900/10 hover:bg-pink-100/80 dark:hover:bg-pink-900/40 border border-pink-200/65 dark:border-pink-900/60 hover:border-pink-400 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-2xs active:scale-[0.99] group/btn text-pink-700 dark:text-pink-400 font-bold decoration-none">
+  <div class="w-9 h-9 rounded-xl bg-pink-600 border border-pink-700 flex items-center justify-center text-white select-none transition-transform duration-300 group-hover/btn:scale-105 shadow-3xs">
+    <i data-lucide="instagram" class="w-4 h-4"></i>
+  </div>
+  <div>
+    <span class="text-xs font-sans font-bold tracking-wide text-pink-800 dark:text-pink-300">Instagram</span>
+  </div>
+</a>
 
               <!-- WhatsApp -->
               <a href="${profile.links.whatsapp}" target="_blank" id="contact-whatsapp-link" class="flex items-center space-x-4 p-4 bg-emerald-50/50 dark:bg-emerald-950/20 hover:bg-emerald-100/80 dark:hover:bg-emerald-900/40 border border-emerald-200/65 dark:border-emerald-900/60 hover:border-emerald-450 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-2xs active:scale-[0.99] group/btn text-emerald-700 dark:text-emerald-400 font-bold decoration-none">
@@ -652,27 +652,26 @@ export async function renderPortfolio() {
             </div>
 
             <div class="text-[10px] text-slate-400 dark:text-slate-500 font-sans select-none">
-              <p>📍 São Paulo, Brasil • UTC-3</p>
-              <p class="mt-1">💻 IDE: IntelliJ IDEA Ultimate</p>
+              
             </div>
           </div>
 
           <!-- HTML Contact Form -->
           <div class="md:col-span-7 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-xs">
-            <h3 class="text-xs font-bold font-sans text-slate-800 dark:text-slate-200 uppercase tracking-widest mb-4 flex items-center space-x-2 select-none">
-              <i data-lucide="send" class="w-4 h-4 text-blue-600"></i>
-              <span>Enviar Mensagem</span>
-            </h3>
+            <h3 class="text-lg font-semibold font-sans text-slate-800 dark:text-slate-100 mb-6 flex items-center space-x-3 select-none">
+  <i data-lucide="send" class="w-5 h-5 text-blue-600"></i>
+  <span>Vamos trabalhar juntos?</span>
+</h3>
 
             <form id="portfolio-contact-form" class="space-y-4 text-sm">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="flex flex-col">
                   <label for="contact-name" class="font-sans text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1.5 select-none">Nome completo</label>
-                  <input type="text" id="contact-name" required placeholder="Ex: Lucas Ribeiro" class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 hover:border-slate-300 dark:hover:border-slate-705 focus:border-blue-600 dark:focus:border-blue-500 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none transition-all font-sans">
+                  <input type="text" id="contact-name" required placeholder="Seu Nome" class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 hover:border-slate-300 dark:hover:border-slate-705 focus:border-blue-600 dark:focus:border-blue-500 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none transition-all font-sans">
                 </div>
                 <div class="flex flex-col">
                   <label for="contact-email" class="font-sans text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1.5 select-none">Seu E-mail</label>
-                  <input type="email" id="contact-email" required placeholder="Ex: lucas@example.com" class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 hover:border-slate-300 dark:hover:border-slate-705 focus:border-blue-600 dark:focus:border-blue-500 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none transition-all font-sans">
+                  <input type="email" id="contact-email" required placeholder="seu@email.com" class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 hover:border-slate-300 dark:hover:border-slate-705 focus:border-blue-600 dark:focus:border-blue-500 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none transition-all font-sans">
                 </div>
               </div>
 
@@ -686,9 +685,8 @@ export async function renderPortfolio() {
                 <textarea id="contact-message" rows="4" required placeholder="Escreva sua proposta ou mensagem detalhada aqui..." class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 hover:border-slate-300 dark:hover:border-slate-705 focus:border-blue-600 dark:focus:border-blue-500 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none transition-all font-sans resize-none"></textarea>
               </div>
 
-              <button type="submit" id="contact-submit-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-xl transition-all flex items-center justify-center space-x-2 cursor-pointer shadow-sm shadow-blue-200">
-                <i data-lucide="send" class="w-4 h-4"></i>
-                <span>Enviar Payload REST</span>
+              <button type="submit" id="contact-submit-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-xl transition-all flex items-center justify-center cursor-pointer shadow-sm shadow-blue-200">
+                <span>Enviar</span>
               </button>
             </form>
           </div>
