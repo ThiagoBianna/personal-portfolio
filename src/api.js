@@ -5,7 +5,7 @@
  */
 
 const initialProfile = {
-  nome: "Thiago",
+  nome: "Thiago Bianna",
   cargo: "Estudante de Engenharia de Software | Desenvolvedor Backend Java",
   apresentacao: "Especialista em construir soluções robustas, escaláveis e eficientes com foco no ecossistema Java. Atualmente cursando Engenharia de Software e desenvolvendo APIs REST seguras e de alta performance utilizando Spring Boot 3, Hibernate e bancos de dados SQL.",
   fotoPerfil: "https://media.licdn.com/dms/image/v2/D4D03AQFzeqxaqnDzhQ/profile-displayphoto-scale_400_400/B4DZ2zcwK_JAAg-/0/1776832157571?e=1783555200&v=beta&t=PwgfyGW15H_UfHdqHVk0lft2bWDqlAn02h-5OkqgsT8",
@@ -26,15 +26,15 @@ const initialProfile = {
   tecnologiasEstudando: ["Apache Kafka", "Kubernetes", "AWS (S3, RDS, EC2)", "Spring Cloud", "TDD / Domain-Driven Design (DDD)", "CI/CD (GitHub Actions)"],
   links: {
     github: "https://github.com/ThiagoBianna",
-    linkedin: "https://www.linkedin.com/in/thiagobpcruz/",
-    whatsapp: "https://wa.me/5521999425820",
+    linkedin: "https://linkedin.com/in/thiago-bianna",
+    whatsapp: "https://wa.me/5511999999999",
     email: "thgbianna@gmail.com",
-    instagram: "https://instagram.com/hutzdon",
-    curriculoPdf: "https://drive.google.com/file/d/1mJCaogP8VARFMDJgxbCXha14BkB2W1Qq/view"
+    instagram: "https://instagram.com/thgbianna",
+    curriculoPdf: "https://example.com/thiago-bianna-cv.pdf"
   },
   idiomas: [
     { nome: "Português", nivel: "Nativo", flag: "BR" },
-    { nome: "Inglês", nivel: "Avançado", flag: "US" }
+    { nome: "Inglês", nivel: "Fluente / Avançado", flag: "US" }
   ]
 };
 
@@ -139,9 +139,9 @@ const initialAcademics = [
   {
     id: 1,
     curso: "Bacharelado em Engenharia de Software",
-    instituicao: "UNINTER Centro Universitário Internacional",
-    periodo: "2026 - 2030 (Em andamento)",
-    imagem: "https://media.licdn.com/dms/image/v2/D4D0BAQHrDUW2-Vq5iw/company-logo_200_200/B4DZuP0fiiGUAI-/0/1767644461719/grupo_uninter_logo?e=1783555200&v=beta&t=-JXAGlE1EjpHShrzqerHYyvuhdQpYZBB-q2cMcVJ4qc",
+    instituicao: "FIAP - Faculdade de Informática e Administração Paulista",
+    periodo: "2024 - 2028 (Em andamento)",
+    imagem: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=200",
     descricao: "Formação integral focada em arquitetura de softwares empresarial, engenharia de requisitos, DevOps e desenvolvimento de microsserviços. Amplo foco na plataforma Java SE/EE e ecossistema de dados persistentes."
   }
 ];

@@ -459,7 +459,7 @@ public class Academic {
     private String curso;
 
     @Column(nullable = false)
-    private String instituicao;
+    private String搬instituicao;
 
     private String periodo;
 

@@ -25,7 +25,8 @@ export async function renderPortfolio() {
   const academicsHtml = academics.length > 0
     ? academics.map(acad => `
          <div class="flex items-start space-x-4 p-4 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xs premium-interactive-item duration-200 group">
-         <div class="w-12 h-12 rounded-xl overflow-hidden bg-white dark:bg-slate-950/60 shrink-0 shadow-3xs flex items-center justify-center select-none">            <img src="${acad.imagem}" alt="${acad.instituicao}" class="w-full h-full object-cover rounded-xl group-hover:scale-102 transition-transform" referrerPolicy="no-referrer">
+          <div class="w-12 h-12 rounded-xl overflow-hidden bg-white dark:bg-slate-950/60 shrink-0 shadow-3xs flex items-center justify-center select-none border dark:border-slate-800">
+            <img src="${acad.imagem}" alt="${acad.instituicao}" class="w-full h-full object-cover rounded-xl group-hover:scale-102 transition-transform" referrerPolicy="no-referrer">
           </div>
           <div class="flex-1">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
@@ -83,7 +84,7 @@ export async function renderPortfolio() {
   };
 
   const idiomasHtml = profile.idiomas && profile.idiomas.length > 0
-      ? profile.idiomas.map(idioma => {
+    ? profile.idiomas.map(idioma => {
         const info = flagsMap[idioma.flag?.toUpperCase()] || { emoji: '🌐', name: 'Outro' };
         return `
           <div class="flex items-center space-x-3.5 p-3.5 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-3xs group/item lang-badge-hover cursor-default">
@@ -94,10 +95,13 @@ export async function renderPortfolio() {
               <h5 class="text-xs font-bold text-slate-900 dark:text-white leading-tight font-sans">${idioma.nome}</h5>
               <p class="text-[10px] font-bold text-blue-600 dark:text-blue-400 mt-0.5 font-sans">${idioma.nivel}</p>
             </div>
+            <span class="text-[9px] font-mono text-slate-400 dark:text-slate-500 font-bold bg-slate-50 dark:bg-slate-950/60 border border-slate-150 dark:border-slate-800 rounded-lg px-2 py-0.5 select-none uppercase tracking-wide shrink-0">
+              ${info.name}
+            </span>
           </div>
         `;
       }).join('')
-      : null;
+    : null;
 
   // Generating projects grid
   const projectsHtml = projects.length > 0 
@@ -116,28 +120,20 @@ export async function renderPortfolio() {
         const pulseClass = isOnline ? "animate-pulse" : "";
 
         return `
-          <div class="premium-card shrink-0 w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col group scroll-reveal">
+          <div class="premium-card w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col group scroll-reveal">
             <div class="relative h-48 overflow-hidden bg-slate-100 dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800 project-media-container select-none">
-              <img src="${proj.imagem}" alt="${proj.nome}" class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500 project-cover-img cursor-pointer project-gallery-trigger" data-proj-id="${proj.id}" referrerPolicy="no-referrer">
+              <!-- Cover image of the project behind the play button/video -->
+              <img src="${proj.imagem || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600'}" alt="${proj.nome}" class="absolute inset-0 w-full h-full object-cover project-cover-img cursor-pointer open-full-demo-btn" data-video-url="${proj.linkVideo || finalVideoPreview}" data-proj-name="${proj.nome}" data-video-desc="${proj.descricao}" referrerPolicy="no-referrer">
               
-              <!-- Subtle dynamic auto-looping Preview video overlaid -->
-              <video src="${finalVideoPreview}" class="project-preview-video absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 pointer-events-none" muted loop playsinline></video>
-              <div class="absolute top-3 left-3 bg-slate-900/60 backdrop-blur-md border border-white/10 px-2.5 py-1 rounded-lg text-[9px] font-sans text-white font-bold tracking-wider uppercase flex items-center space-x-1 transition-opacity duration-300 pointer-events-none group-hover:opacity-0 video-badge-indicator">
-                <span class="w-1.5 h-1.5 rounded-full ${statusColorClass} ${pulseClass}"></span>
-                <span>${statusText}</span>
-              </div>
-
-              <!-- Image Gallery Badge Indicator -->
-              <div class="absolute bottom-3 right-3 bg-slate-900/75 backdrop-blur-md border border-white/10 px-2 py-1 rounded-lg text-[9px] font-sans text-white font-bold flex items-center space-x-1 cursor-pointer hover:bg-slate-950 transition-all project-gallery-trigger shadow-2xs z-10" data-proj-id="${proj.id}">
-                <i data-lucide="images" class="w-3.5 h-3.5 text-blue-450"></i>
-                <span class="font-sans font-bold">${(proj.imagens && proj.imagens.length) || 1} Foto${((proj.imagens && proj.imagens.length) || 1) !== 1 ? 's' : ''}</span>
-              </div>
-
-              ${hasDate ? `
-                <div class="absolute top-3 right-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-200 dark:border-slate-800 px-2.5 py-1 rounded-lg text-[10px] font-sans text-blue-600 dark:text-blue-400 font-semibold shadow-2xs">
-                  ${formattedDate}
+              <!-- Video player direct on card cover, starts with opacity-0 and becomes opacity-100 on group-hover -->
+              <video src="${finalVideoPreview}" class="absolute inset-0 w-full h-full object-cover cursor-pointer open-full-demo-btn opacity-0 transition-opacity duration-300 project-preview-video" data-video-url="${proj.linkVideo || finalVideoPreview}" data-proj-name="${proj.nome}" data-video-desc="${proj.descricao}" muted loop playsinline></video>
+              
+              <!-- Centered Play Button overlay -->
+              <div class="absolute inset-0 flex items-center justify-center pointer-events-none group-hover:scale-110 transition-all duration-300">
+                <div class="w-12 h-12 rounded-full bg-blue-600/90 text-white flex items-center justify-center shadow-lg shadow-blue-500/30 backdrop-blur-xs border border-white/20 select-none">
+                  <i data-lucide="play" class="w-5 h-5 fill-current ml-0.5"></i>
                 </div>
-              ` : ''}
+              </div>
             </div>
             
             <div class="p-6 flex-1 flex flex-col">
@@ -145,12 +141,20 @@ export async function renderPortfolio() {
               ${proj.descricao && proj.descricao.length > 150 ? `
                 <p class="text-slate-600 dark:text-slate-350 text-sm mb-4 text-justify leading-relaxed flex-1 font-sans">
                   <span>${proj.descricao.slice(0, 140)}...</span>
-                  <button data-id="${proj.id}" class="read-more-btn text-blue-600 hover:text-blue-750 font-bold transition-all ml-1 inline cursor-pointer hover:underline text-xs" style="background: none; border: none; padding: 0;">mais</button>
+                  <button data-id="${proj.id}" class="read-more-btn text-blue-600 hover:text-blue-750 font-bold transition-all ml-1 inline cursor-pointer hover:underline text-xs" style="background: none; border: none; padding: 0;">...mais</button>
                 </p>
               ` : `
                 <p class="text-slate-600 dark:text-slate-350 text-sm mb-4 text-justify leading-relaxed flex-1 font-sans">${proj.descricao || ''}</p>
               `}
               
+              <!-- Status Indicator: Online/Offline status positioned between Description and Technologies list -->
+              <div class="flex items-center space-x-1.5 mb-4 select-none">
+                <span class="inline-flex items-center space-x-1.5 bg-slate-50 dark:bg-slate-900 border border-slate-205 dark:border-slate-800 px-2.5 py-1 rounded-lg text-[10px] font-sans font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 shadow-3xs cursor-default">
+                  <span class="w-1.5 h-1.5 rounded-full ${statusColorClass} ${pulseClass}"></span>
+                  <span>${statusText}</span>
+                </span>
+              </div>
+
               <div class="flex flex-wrap gap-1.5 mb-5 font-sans">
                 ${proj.tecnologias.map(t => `<span class="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 text-[10px] font-semibold px-2 py-0.5 rounded-md">${t}</span>`).join('')}
               </div>
@@ -175,10 +179,10 @@ export async function renderPortfolio() {
                 </div>
               </div>
 
-              <!-- Button for complete demonstration overlay/modal -->
-              <button class="w-full flex items-center justify-center space-x-2 bg-blue-50/50 dark:bg-blue-950/25 hover:bg-blue-100/80 dark:hover:bg-blue-900/40 border border-blue-200/60 dark:border-blue-900/30 text-blue-700 dark:text-blue-400 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all mt-3 open-full-demo-btn" data-video-url="${proj.linkVideo || finalVideoPreview}" data-proj-name="${proj.nome}" data-video-desc="${proj.descricao}">
-                <i data-lucide="play-circle" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i>
-                <span>Vídeo</span>
+              <!-- Button for project gallery trigger -->
+              <button class="w-full flex items-center justify-center space-x-2 bg-blue-50/50 dark:bg-blue-950/25 hover:bg-blue-100/80 dark:hover:bg-blue-900/40 border border-blue-200/60 dark:border-blue-900/30 text-blue-700 dark:text-blue-400 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all mt-3 project-gallery-trigger cursor-pointer" data-proj-id="${proj.id}">
+                <i data-lucide="images" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i>
+                <span>Ver fotos do projeto</span>
               </button>
 
             </div>
@@ -236,28 +240,25 @@ export async function renderPortfolio() {
   return `
     <!-- Top Embedded Navigation Bar -->
     <header class="sticky top-0 w-full bg-white/30 dark:bg-slate-950/30 backdrop-blur-lg z-40 transition-all duration-300 border-b border-transparent" id="main-nav">
-  <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between transition-all duration-300">
-    <a href="#hero" class="flex items-center group select-none">
-      <div class="w-6.5 h-6.5 rounded-md flex items-center justify-center overflow-hidden transition-all shadow-3xs group-hover:shadow-xs me-2">
-        <img 
-          src="https://media.licdn.com/dms/image/v2/D4D22AQGBVcUTAn-dJQ/feedshare-image-high-res/B4DZ7fA.oAJsAU-/0/1781858036500?e=1783555200&v=beta&t=KvCj8mvwuwAuhtQPwCgXyCAk6jmY8J4q25FsRrfV7K4" 
-          alt="Thiago Bianna" 
-          class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-        />
-      </div>
-      <div class="flex flex-col">
-        <span class="text-sm font-bold tracking-tight font-sans text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors">Thiago Bianna Pessanha da Cruz</span>
-        <span class="text-[9px] font-sans font-semibold text-slate-400 dark:text-slate-500 leading-none">Software Developer</span>
-      </div>
-    </a>
+      <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between transition-all duration-300">
+        <!-- Logo / Brand Signature -->
+        <a href="#hero" class="flex items-center space-x-2 text-slate-900 dark:text-slate-100 group select-none">
+          <div class="bg-blue-50 dark:bg-slate-900 border border-blue-200 dark:border-slate-800 w-8 h-8 rounded-lg flex items-center justify-center group-hover:bg-blue-100 dark:group-hover:bg-slate-800 transition-all shadow-3xs">
+            <span class="text-blue-600 dark:text-blue-400 font-sans font-bold text-sm">T</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-sm font-bold tracking-tight font-sans text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white transition-colors">Thiago Bianna</span>
+            <span class="text-[9px] font-sans font-semibold text-slate-400 dark:text-slate-500 leading-none">Software Engineering</span>
+          </div>
+        </a>
 
         <!-- Desktop Navigation Items -->
         <nav class="hidden md:flex items-center space-x-8 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest select-none">
-          <a href="#about" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">sobre</a>
-          <a href="#projects" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">projetos</a>
-          ${experiencesHtml ? `<a href="#experiences" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">experiencias</a>` : ''}
-          <a href="#certificates" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">certificados</a>
-          <a href="#contact" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">contato</a>
+          <a href="#about" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">/sobre-mim</a>
+          <a href="#projects" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">/projetos</a>
+          ${experiencesHtml ? `<a href="#experiences" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">/experiencias</a>` : ''}
+          <a href="#certificates" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">/certificados</a>
+          <a href="#contact" class="relative hover:text-blue-600 dark:hover:text-blue-400 py-1 transition-all duration-300">/contato</a>
         </nav>
 
         <!-- Curriculo, iOS-style Dark Mode Toggle & Hamburger Trigger -->
@@ -265,15 +266,14 @@ export async function renderPortfolio() {
           ${profile.links && profile.links.curriculoPdf ? `
             <a href="${profile.links.curriculoPdf}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-sans text-[11px] px-3.5 py-1.5 rounded-lg flex items-center space-x-1.5 transition-all shadow-2xs hover:shadow-xs cursor-pointer">
               <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
-              <span class="font-bold">Currículo</span>
+              <span class="font-bold">Baixar Currículo</span>
             </a>
           ` : ''}
           
           <!-- Toggle iOS para Dark Mode -->
           <button id="dark-mode-toggle" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-slate-200 transition-colors duration-300 ease-in-out focus:outline-none" role="switch" aria-label="Alternar Modo Escuro" aria-checked="false">
             <span id="dark-mode-dot" class="pointer-events-none inline-flex h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-300 ease-in-out translate-x-0 flex items-center justify-center">
-              <i data-lucide="moon" id="toggle-sun-icon" class="w-3 h-3 text-blue-600 transition-opacity duration-300 select-none"></i>
-    
+              <i data-lucide="sun" id="toggle-sun-icon" class="w-3 h-3 text-amber-500 transition-opacity duration-300 select-none"></i>
               <i data-lucide="moon" id="toggle-moon-icon" class="w-3 h-3 text-blue-600 transition-opacity duration-300 absolute opacity-0 select-none"></i>
             </span>
           </button>
@@ -318,7 +318,8 @@ export async function renderPortfolio() {
     </header>
 
     <!-- MAIN VIEWS WRAPPER -->
-    <main class="max-w-6xl mx-auto px-4 pb-20 relative bg-dot-pattern">
+    <main class="w-full relative bg-dot-pattern">
+      <div class="max-w-6xl mx-auto px-4 pb-20">
       <!-- Ambient professional dark bg spots -->
       <div class="hidden dark:block absolute top-[10%] left-1/4 right-1/4 h-[350px] bg-blue-500/8 blur-[100px] rounded-full pointer-events-none -z-10 select-none"></div>
       <div class="hidden dark:block absolute top-[30%] right-10 w-[280px] h-[280px] bg-indigo-500/5 blur-[80px] rounded-full pointer-events-none -z-10 select-none"></div>
@@ -332,7 +333,7 @@ export async function renderPortfolio() {
         <div class="relative w-28 h-28 md:w-32 md:h-32 mb-6 animate-fade-in select-none group">
           <div class="absolute inset-0 bg-gradient-to-tr from-blue-500/20 to-indigo-500/20 rounded-full scale-110 profile-ring-glow blur-[1px]"></div>
           <div class="absolute inset-0 bg-blue-100 rounded-full scale-105 opacity-30 blur-xs"></div>
-          <div class="relative w-full h-full rounded-full border border-slate-200 dark:border-slate-800 shadow-md overflow-hidden bg-transparent">
+          <div class="relative w-full h-full rounded-full border border-slate-200 dark:border-slate-800 shadow-md overflow-hidden bg-white">
             <img src="${profile.fotoPerfil}" alt="${profile.nome}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer">
           </div>
         </div>
@@ -440,14 +441,13 @@ export async function renderPortfolio() {
       <section id="about" class="py-16 border-t border-slate-200/85 dark:border-slate-800/85 scroll-reveal">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-10">
           
-          <div class="md:col-span-5 flex flex-col items-center justify-center">
+          <div class="md:col-span-5 flex flex-col items-center justify-start md:pt-4 -mt-2 md:-mt-4">
             <!-- Profile Avatar with subtle backing card -->
             <div class="relative w-48 h-48 md:w-56 md:h-56 select-none">
-              <div class="absolute inset-0 bg-blue-800 border border-blue-800 rounded-3xl rotate-3 shadow-3xs animate-float-slow"></div>
-              
-               <div class="absolute inset-0 bg-white dark:bg-slate-900 rounded-3xl border border-transparent dark:border-transparent overflow-hidden shadow-sm hover:shadow-md transition-shadow">                <img src="${profile.fotoSobre || profile.fotoPerfil}" alt="${profile.nome}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" id="avatar-img-view">
+              <div class="absolute inset-0 bg-blue-50 dark:bg-blue-955/20 border border-blue-100 dark:border-blue-900/40 rounded-3xl rotate-3 shadow-3xs animate-float-slow"></div>
+              <div class="absolute inset-0 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <img src="${profile.fotoSobre || profile.fotoPerfil}" alt="${profile.nome}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" id="avatar-img-view">
               </div>
-              
               <div class="absolute -bottom-2 -right-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3.5 py-1.5 rounded-full flex items-center space-x-1.5 shadow-sm">
                 <div class="w-2.5 h-2.5 bg-blue-600 rounded-full animate-pulse"></div>
                 <span class="text-[11px] font-sans font-bold text-slate-700 dark:text-slate-200">Java Core Level</span>
@@ -457,7 +457,7 @@ export async function renderPortfolio() {
 
           <div class="md:col-span-7 flex flex-col justify-center space-y-6">
             <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 dark:text-white flex items-center space-x-2">
-              <span class="text-blue-600">#</span>
+              <span class="text-blue-600">/</span>
               <span>Sobre Mim</span>
             </h2>
 
@@ -466,17 +466,6 @@ export async function renderPortfolio() {
             </p>
 
             <div class="space-y-4 pt-2">
-              <!-- Dominadas Grid -->
-              <div>
-                <h4 class="text-[11px] font-bold font-sans uppercase tracking-widest text-blue-600 mb-3 flex items-center space-x-1.5 select-none">
-                  <i data-lucide="check-check" class="w-4 h-4"></i>
-                  <span>Frameworks & Tecnologias Dominadas</span>
-                </h4>
-                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  ${techDominadasHtml}
-                </div>
-              </div>
-
               <!-- Formacao Academica Grid -->
               <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80">
                 <h4 class="text-[11px] font-bold font-sans uppercase tracking-widest text-slate-900 dark:text-slate-100 mb-3.5 flex items-center space-x-1.5 select-none">
@@ -500,6 +489,17 @@ export async function renderPortfolio() {
                 </div>
               </div>
               ` : ''}
+
+              <!-- Dominadas Grid -->
+              <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80">
+                <h4 class="text-[11px] font-bold font-sans uppercase tracking-widest text-blue-600 mb-3 flex items-center space-x-1.5 select-none">
+                  <i data-lucide="check-check" class="w-4 h-4"></i>
+                  <span>Frameworks & Tecnologias Dominadas</span>
+                </h4>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  ${techDominadasHtml}
+                </div>
+              </div>
             </div>
 
           </div>
@@ -510,7 +510,7 @@ export async function renderPortfolio() {
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-10 gap-4">
           <div>
             <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 dark:text-white flex items-center space-x-2">
-              <span class="text-blue-600">#</span>
+              <span class="text-blue-600">/</span>
               <span>Projetos em Destaque</span>
             </h2>
             <p class="text-xs font-sans text-slate-550 dark:text-slate-400 mt-1">Carregando APIs e repositórios dinamicamente via Java REST endpoints imitados</p>
@@ -523,22 +523,10 @@ export async function renderPortfolio() {
           </div>
         </div>
 
-        <div class="relative overflow-visible w-full py-1">
-          <div id="projects-carousel-track" class="flex transition-transform duration-500 ease-out gap-6" style="transform: translateX(0px);">
+        <div class="w-full py-1">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             ${projectsHtml}
           </div>
-        </div>
-
-        <!-- Carousel Control Buttons under the Projects track, bottom right -->
-        <div class="flex justify-end items-center space-x-3 mt-8 select-none">
-          <button id="projects-prev-btn" class="px-4.5 py-2.5 cursor-pointer rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-sans font-bold text-xs hover:scale-103 active:scale-97 transition-all flex items-center space-x-2 shadow-md shadow-blue-500/20 dark:shadow-blue-900/30 ring-4 ring-blue-500/10 hover:ring-blue-500/25 group/prev">
-            <i data-lucide="chevron-left" class="w-4 h-4 transition-transform duration-300 group-hover/prev:-translate-x-0.5"></i>
-           
-          </button>
-          <button id="projects-next-btn" class="px-4.5 py-2.5 cursor-pointer rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-sans font-bold text-xs hover:scale-103 active:scale-97 transition-all flex items-center space-x-2 shadow-md shadow-blue-500/20 dark:shadow-blue-900/30 ring-4 ring-blue-500/10 hover:ring-blue-500/25 group/next">
-            
-            <i data-lucide="chevron-right" class="w-4 h-4 transition-transform duration-300 group-hover/next:translate-x-0.5"></i>
-          </button>
         </div>
       </section>
 
@@ -547,7 +535,7 @@ export async function renderPortfolio() {
       <section id="experiences" class="py-16 border-t border-slate-200/85 dark:border-slate-800/85 scroll-reveal">
         <div class="mb-10">
           <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 dark:text-white flex items-center space-x-2">
-            <span class="text-blue-600">#</span>
+            <span class="text-blue-600">/</span>
             <span>Experiências Profissionais</span>
           </h2>
           <p class="text-xs font-sans text-slate-550 dark:text-slate-400 mt-1">Trajetória prática, atuações profissionais e resolução de problemas corporativos reais de engenharia de software</p>
@@ -563,7 +551,7 @@ export async function renderPortfolio() {
         <div class="flex items-center justify-between mb-10 gap-4">
           <div>
             <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 dark:text-white flex items-center space-x-2">
-              <span class="text-blue-600">#</span>
+              <span class="text-blue-600">/</span>
               <span>Certificados & Credenciais</span>
             </h2>
             <p class="text-xs font-sans text-slate-550 dark:text-slate-400 mt-1">Validações oficiais e especializações completadas para engenharia de softwares backend</p>
@@ -578,12 +566,12 @@ export async function renderPortfolio() {
 
         <!-- Carousel Control Buttons under the Certificates track, bottom right -->
         <div class="flex justify-end items-center space-x-3 mt-8 select-none">
-          <button id="certificates-prev-btn" class="px-4.5 py-2.5 cursor-pointer rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-sans font-bold text-xs hover:scale-103 active:scale-97 transition-all flex items-center space-x-2 shadow-md shadow-blue-500/20 dark:shadow-blue-900/30 ring-4 ring-blue-500/10 hover:ring-blue-500/25 group/prev">
+          <button id="certificates-prev-btn" class="px-4.5 py-2.5 cursor-pointer rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-sans font-bold text-xs hover:scale-103 active:scale-97 transition-all flex items-center space-x-2 shadow-md shadow-blue-500/20 dark:shadow-blue-900/30 ring-4 ring-blue-500/10 hover:ring-blue-500/25 group/prev" title="Ver anterior">
             <i data-lucide="chevron-left" class="w-4 h-4 transition-transform duration-300 group-hover/prev:-translate-x-0.5"></i>
-            
+            <span>Ver Anterior</span>
           </button>
-          <button id="certificates-next-btn" class="px-4.5 py-2.5 cursor-pointer rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-sans font-bold text-xs hover:scale-103 active:scale-97 transition-all flex items-center space-x-2 shadow-md shadow-blue-500/20 dark:shadow-blue-900/30 ring-4 ring-blue-500/10 hover:ring-blue-500/25 group/next">
-          
+          <button id="certificates-next-btn" class="px-4.5 py-2.5 cursor-pointer rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-sans font-bold text-xs hover:scale-103 active:scale-97 transition-all flex items-center space-x-2 shadow-md shadow-blue-500/20 dark:shadow-blue-900/30 ring-4 ring-blue-500/10 hover:ring-blue-500/25 group/next" title="Ver próximo">
+            <span>Ver Próximo</span>
             <i data-lucide="chevron-right" class="w-4 h-4 transition-transform duration-300 group-hover/next:translate-x-0.5"></i>
           </button>
         </div>
@@ -597,7 +585,7 @@ export async function renderPortfolio() {
           <div class="md:col-span-5 flex flex-col justify-between space-y-6">
             <div>
               <h2 class="text-2xl md:text-3xl font-bold font-sans tracking-tight text-slate-900 dark:text-white flex items-center space-x-2">
-                <span class="text-blue-600">#</span>
+                <span class="text-blue-600">/</span>
                 <span>Contato</span>
               </h2>
               <p class="text-slate-550 dark:text-slate-300 text-sm mt-3 leading-relaxed">
@@ -628,14 +616,14 @@ export async function renderPortfolio() {
               </a>
 
               <!-- Instagram -->
-              <a href="${profile.links.instagram || 'https://instagram.com/hutzdon/'}" target="_blank" id="contact-instagram-link" class="flex items-center space-x-4 p-4 bg-slate-50/40 dark:bg-slate-900/10 hover:bg-pink-100/80 dark:hover:bg-pink-900/40 border border-pink-200/65 dark:border-pink-900/60 hover:border-pink-400 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-2xs active:scale-[0.99] group/btn text-pink-700 dark:text-pink-400 font-bold decoration-none">
-  <div class="w-9 h-9 rounded-xl bg-pink-600 border border-pink-700 flex items-center justify-center text-white select-none transition-transform duration-300 group-hover/btn:scale-105 shadow-3xs">
-    <i data-lucide="instagram" class="w-4 h-4"></i>
-  </div>
-  <div>
-    <span class="text-xs font-sans font-bold tracking-wide text-pink-800 dark:text-pink-300">Instagram</span>
-  </div>
-</a>
+              <a href="${profile.links.instagram || 'https://instagram.com/hutzdon/'}" target="_blank" id="contact-instagram-link" class="flex items-center space-x-4 p-4 bg-pink-50/50 dark:bg-pink-950/20 hover:bg-pink-100/80 dark:hover:bg-pink-900/40 border border-pink-200/65 dark:border-pink-900/60 hover:border-pink-400 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-2xs active:scale-[0.99] group/btn text-pink-700 dark:text-pink-400 font-bold decoration-none">
+                <div class="w-9 h-9 rounded-xl bg-pink-600 border border-pink-700 flex items-center justify-center text-white select-none transition-transform duration-300 group-hover/btn:scale-105 shadow-3xs">
+                  <i data-lucide="instagram" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <span class="text-xs font-sans font-bold tracking-wide text-pink-800 dark:text-pink-300">Instagram</span>
+                </div>
+              </a>
 
               <!-- WhatsApp -->
               <a href="${profile.links.whatsapp}" target="_blank" id="contact-whatsapp-link" class="flex items-center space-x-4 p-4 bg-emerald-50/50 dark:bg-emerald-950/20 hover:bg-emerald-100/80 dark:hover:bg-emerald-900/40 border border-emerald-200/65 dark:border-emerald-900/60 hover:border-emerald-450 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-2xs active:scale-[0.99] group/btn text-emerald-700 dark:text-emerald-400 font-bold decoration-none">
@@ -652,26 +640,27 @@ export async function renderPortfolio() {
             </div>
 
             <div class="text-[10px] text-slate-400 dark:text-slate-500 font-sans select-none">
-              
+              <p>📍 São Paulo, Brasil • UTC-3</p>
+              <p class="mt-1">💻 IDE: IntelliJ IDEA Ultimate</p>
             </div>
           </div>
 
           <!-- HTML Contact Form -->
           <div class="md:col-span-7 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-xs">
-            <h3 class="text-lg font-semibold font-sans text-slate-800 dark:text-slate-100 mb-6 flex items-center space-x-3 select-none">
-  <i data-lucide="send" class="w-5 h-5 text-blue-600"></i>
-  <span>Vamos trabalhar juntos?</span>
-</h3>
+            <h3 class="text-xs font-bold font-sans text-slate-800 dark:text-slate-200 uppercase tracking-widest mb-4 flex items-center space-x-2 select-none">
+              <i data-lucide="send" class="w-4 h-4 text-blue-600"></i>
+              <span>Enviar Mensagem</span>
+            </h3>
 
             <form id="portfolio-contact-form" class="space-y-4 text-sm">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="flex flex-col">
                   <label for="contact-name" class="font-sans text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1.5 select-none">Nome completo</label>
-                  <input type="text" id="contact-name" required placeholder="Seu Nome" class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 hover:border-slate-300 dark:hover:border-slate-705 focus:border-blue-600 dark:focus:border-blue-500 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none transition-all font-sans">
+                  <input type="text" id="contact-name" required placeholder="Ex: Lucas Ribeiro" class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 hover:border-slate-300 dark:hover:border-slate-705 focus:border-blue-600 dark:focus:border-blue-500 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none transition-all font-sans">
                 </div>
                 <div class="flex flex-col">
                   <label for="contact-email" class="font-sans text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1.5 select-none">Seu E-mail</label>
-                  <input type="email" id="contact-email" required placeholder="seu@email.com" class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 hover:border-slate-300 dark:hover:border-slate-705 focus:border-blue-600 dark:focus:border-blue-500 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none transition-all font-sans">
+                  <input type="email" id="contact-email" required placeholder="Ex: lucas@example.com" class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 hover:border-slate-300 dark:hover:border-slate-705 focus:border-blue-600 dark:focus:border-blue-500 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none transition-all font-sans">
                 </div>
               </div>
 
@@ -685,8 +674,9 @@ export async function renderPortfolio() {
                 <textarea id="contact-message" rows="4" required placeholder="Escreva sua proposta ou mensagem detalhada aqui..." class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 hover:border-slate-300 dark:hover:border-slate-705 focus:border-blue-600 dark:focus:border-blue-500 rounded-xl px-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none transition-all font-sans resize-none"></textarea>
               </div>
 
-              <button type="submit" id="contact-submit-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-xl transition-all flex items-center justify-center cursor-pointer shadow-sm shadow-blue-200">
-                <span>Enviar</span>
+              <button type="submit" id="contact-submit-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-xl transition-all flex items-center justify-center space-x-2 cursor-pointer shadow-sm shadow-blue-200">
+                <i data-lucide="send" class="w-4 h-4"></i>
+                <span>Enviar Payload REST</span>
               </button>
             </form>
           </div>
@@ -694,6 +684,7 @@ export async function renderPortfolio() {
         </div>
       </section>
 
+      </div>
     </main>
 
     <!-- FOOTER -->
@@ -810,8 +801,8 @@ export async function renderPortfolio() {
             <i data-lucide="chevron-right" class="w-5 h-5"></i>
           </button>
 
-          <!-- Floating Counter -->
-          <div class="absolute bottom-3 left-3 bg-black/75 px-2.5 py-1 rounded-lg text-[10px] text-white font-sans font-bold shadow-xs">
+          <!-- Floating Counter (Hidden as requested) -->
+          <div class="hidden absolute bottom-3 left-3 bg-black/75 px-2.5 py-1 rounded-lg text-[10px] text-white font-sans font-bold shadow-xs">
             <span id="gallery-current-idx">1</span> / <span id="gallery-total-count">1</span>
           </div>
 
@@ -979,14 +970,16 @@ export function initPortfolio() {
   const certImageContainer = document.getElementById('cert-image-container');
 
   if (modal && modalImg && modalTitle) {
-    triggs.forEach(t => {
-      t.addEventListener('click', () => {
+    // Event delegation to support both original and cloned elements
+    document.addEventListener('click', (e) => {
+      const t = e.target.closest('.cert-image-trigger');
+      if (t) {
         const url = t.getAttribute('data-img-url');
         const title = t.getAttribute('data-title');
         modalImg.src = url;
         modalTitle.textContent = title;
         modal.classList.remove('hidden');
-      });
+      }
     });
 
     const hideModal = () => {
@@ -1572,13 +1565,14 @@ export function initPortfolio() {
   }
 
   // 7.5. Configuração dos Carrosséis Infinitos (Projetos & Certificados)
-  const setupCarousel = (trackId, prevBtnId, nextBtnId) => {
+  const setupCarousel = (trackId, prevBtnId, nextBtnId, autoPlayInterval = 0) => {
     const track = document.getElementById(trackId);
     const nextBtn = document.getElementById(nextBtnId);
     const prevBtn = document.getElementById(prevBtnId);
     if (!track || !nextBtn || !prevBtn) return;
 
     let isTransitioning = false;
+    let autoPlayTimer = null;
 
     const handleNext = () => {
       if (isTransitioning) return;
@@ -1594,7 +1588,7 @@ export function initPortfolio() {
       const offset = cardWidth + gap;
 
       // Inicia a transição de deslizar para a esquerda (trazendo o próximo card da direita)
-      track.style.transition = 'transform 500ms cubic-bezier(0.16, 1, 0.3, 1)';
+      track.style.transition = 'transform 600ms cubic-bezier(0.16, 1, 0.3, 1)';
       track.style.transform = `translateX(-${offset}px)`;
 
       const onTransitionEnd = () => {
@@ -1640,7 +1634,7 @@ export function initPortfolio() {
       track.offsetHeight; // força reflow
 
       // 3. Aplica a transição de volta para 0px para revelar o elemento inserido de forma suave
-      track.style.transition = 'transform 500ms cubic-bezier(0.16, 1, 0.3, 1)';
+      track.style.transition = 'transform 600ms cubic-bezier(0.16, 1, 0.3, 1)';
       track.style.transform = 'translateX(0px)';
 
       const onTransitionEnd = () => {
@@ -1664,6 +1658,36 @@ export function initPortfolio() {
       handlePrev();
     });
 
+    // Start auto rolling
+    const startAutoPlay = () => {
+      if (autoPlayInterval > 0 && !autoPlayTimer) {
+        autoPlayTimer = setInterval(() => {
+          handleNext();
+        }, autoPlayInterval);
+      }
+    };
+
+    // Stop auto rolling
+    const stopAutoPlay = () => {
+      if (autoPlayTimer) {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = null;
+      }
+    };
+
+    if (autoPlayInterval > 0) {
+      startAutoPlay();
+
+      // Pause when mouse enters the track or controls, start when they leave
+      track.addEventListener('mouseenter', stopAutoPlay);
+      track.addEventListener('mouseleave', startAutoPlay);
+      
+      prevBtn.addEventListener('mouseenter', stopAutoPlay);
+      prevBtn.addEventListener('mouseleave', startAutoPlay);
+      nextBtn.addEventListener('mouseenter', stopAutoPlay);
+      nextBtn.addEventListener('mouseleave', startAutoPlay);
+    }
+
     // Certifica-se de redefinir o estado de repouso no início/resize
     const resetPosition = () => {
       track.style.transition = 'none';
@@ -1674,8 +1698,85 @@ export function initPortfolio() {
     resetPosition();
   };
 
-  setupCarousel('projects-carousel-track', 'projects-prev-btn', 'projects-next-btn');
-  setupCarousel('certificates-carousel-track', 'certificates-prev-btn', 'certificates-next-btn');
+  // 7.6. Configuração da Rolagem Contínua Lenta (apenas Certificados)
+  const setupContinuousCarousel = (trackId) => {
+    const track = document.getElementById(trackId);
+    if (!track) return;
+
+    const container = track.parentElement;
+    if (!container) return;
+
+    // Hide scrollbar, configure relative/hidden layout on container
+    container.style.overflowX = 'hidden';
+    container.style.position = 'relative';
+    container.style.width = '100%';
+
+    const originalCards = Array.from(track.children);
+    if (originalCards.length === 0) return;
+
+    // Clone all cards and append them
+    originalCards.forEach(card => {
+      const clone = card.cloneNode(true);
+      track.appendChild(clone);
+    });
+
+    let cardWidth = 0;
+    const gap = 24; // gap-6
+    let singleSetWidth = 0;
+
+    const calculateSizes = () => {
+      const containerWidth = container.getBoundingClientRect().width;
+      if (window.innerWidth >= 1024) { // lg
+        cardWidth = (containerWidth - 2 * gap) / 3;
+      } else if (window.innerWidth >= 640) { // sm
+        cardWidth = (containerWidth - gap) / 2;
+      } else {
+        cardWidth = containerWidth;
+      }
+
+      // Set width on all children (including clones)
+      Array.from(track.children).forEach(child => {
+        child.style.width = `${cardWidth}px`;
+        child.style.flexShrink = '0';
+      });
+
+      singleSetWidth = (cardWidth + gap) * originalCards.length;
+    };
+
+    calculateSizes();
+    window.addEventListener('resize', calculateSizes);
+
+    let scrollPos = 0;
+    let isPaused = false;
+    const speed = 0.6; // super smooth continuous pacing
+
+    const step = () => {
+      if (!isPaused) {
+        scrollPos += speed;
+        if (scrollPos >= singleSetWidth) {
+          scrollPos -= singleSetWidth;
+        }
+        container.scrollLeft = scrollPos;
+      }
+      requestAnimationFrame(step);
+    };
+
+    container.addEventListener('mouseenter', () => { isPaused = true; });
+    container.addEventListener('mouseleave', () => { isPaused = false; });
+    container.addEventListener('touchstart', () => { isPaused = true; }, { passive: true });
+    container.addEventListener('touchend', () => { isPaused = false; }, { passive: true });
+
+    // Hide control buttons since scrolling is continuous and automatic
+    const certPrev = document.getElementById('certificates-prev-btn');
+    if (certPrev && certPrev.parentElement) {
+      certPrev.parentElement.style.display = 'none';
+    }
+
+    // Start!
+    requestAnimationFrame(step);
+  };
+
+  setupContinuousCarousel('certificates-carousel-track');
 
   // 8. iOS Style Dark Mode Toggle e persistência do tema
   const themeToggle = document.getElementById('dark-mode-toggle');
