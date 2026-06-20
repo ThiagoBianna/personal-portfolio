@@ -206,7 +206,7 @@ if (!storedProfile) {
       updated = true;
     }
     if (!prof.links.curriculoPdf) {
-      prof.links.curriculoPdf = "https://example.com/gabriel-bianna-cv.pdf";
+      prof.links.curriculoPdf = "https://drive.google.com/file/d/1mJCaogP8VARFMDJgxbCXha14BkB2W1Qq/view?usp=drive_link";
       updated = true;
     }
     if (!prof.links.instagram) {
