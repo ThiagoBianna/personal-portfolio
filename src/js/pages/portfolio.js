@@ -137,14 +137,14 @@ export async function renderPortfolio() {
             </div>
             
             <div class="p-6 flex-1 flex flex-col">
-              <h3 class="text-base font-bold text-slate-950 dark:text-slate-100 mb-2 font-sans group-hover:text-blue-605 dark:group-hover:text-blue-400 transition-colors">${proj.nome}</h3>
+              <h3 class="text-base font-bold text-blue-600 dark:text-blue-400 mb-2 font-sans group-hover:text-blue-750 dark:group-hover:text-blue-300 transition-colors">${proj.nome}</h3>
               ${proj.descricao && proj.descricao.length > 150 ? `
-                <p class="text-slate-600 dark:text-slate-350 text-sm mb-4 text-justify leading-relaxed flex-1 font-sans">
+                <p class="text-slate-800 dark:text-white text-sm mb-4 text-justify leading-relaxed flex-1 font-sans">
                   <span>${proj.descricao.slice(0, 140)}...</span>
                   <button data-id="${proj.id}" class="read-more-btn text-blue-600 hover:text-blue-750 font-bold transition-all ml-1 inline cursor-pointer hover:underline text-xs" style="background: none; border: none; padding: 0;">mais</button>
                 </p>
               ` : `
-                <p class="text-slate-600 dark:text-slate-350 text-sm mb-4 text-justify leading-relaxed flex-1 font-sans">${proj.descricao || ''}</p>
+                <p class="text-slate-800 dark:text-white text-sm mb-4 text-justify leading-relaxed flex-1 font-sans">${proj.descricao || ''}</p>
               `}
               
               <!-- Status Indicator: Online/Offline status positioned between Description and Technologies list -->
@@ -202,10 +202,13 @@ export async function renderPortfolio() {
       <div class="shrink-0 w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden group hover:border-slate-350 dark:hover:border-slate-705 hover:shadow-md transition-all flex flex-col h-full shadow-xs duration-250">
         <div class="relative h-40 bg-slate-100 dark:bg-slate-950 overflow-hidden cursor-pointer cert-image-trigger" data-img-url="${cert.imagem}" data-title="${cert.nome}">
           <img src="${cert.imagem}" alt="${cert.nome}" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-102 transition-all duration-300" referrerPolicy="no-referrer">
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent flex items-end p-3">
-            <span class="text-[10px] font-sans text-white bg-slate-900/70 backdrop-blur-xs px-2 py-1 rounded-lg shadow-sm flex items-center justify-center">
+          
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent flex items-end justify-end p-3">
+            
+            <span class="text-[10px] font-sans text-white bg-slate-900/70 backdrop-blur-xs px-2 py-1 rounded-lg shadow-sm flex items-center justify-center pointer-events-none select-none">
               <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
             </span>
+            
           </div>
         </div>
         <div class="p-5 flex-1 flex flex-col justify-between">
@@ -213,7 +216,7 @@ export async function renderPortfolio() {
             <h4 class="text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1">${cert.nome}</h4>
             <div class="flex items-center space-x-2 mt-2">
               ${cert.logoInstituicao ? `
-                <img src="${cert.logoInstituicao}" alt="Logo ${cert.instituicao}" class="w-7 h-7 object-contain rounded border border-slate-200 dark:border-slate-800 p-0.5 bg-white dark:bg-slate-850 shrink-0 shadow-3xs" referrerPolicy="no-referrer">
+                <img src="${cert.logoInstituicao}" alt="Logo ${cert.instituicao}" class="w-7 h-7 object-contain rounded border border-transparent dark:border-transparent p-0.5 bg-transparent dark:bg-slate-850 shrink-0 shadow-3xs" referrerPolicy="no-referrer">
               ` : ''}
               <span class="text-xs text-slate-550 dark:text-slate-400 font-sans font-medium line-clamp-1">${cert.instituicao}</span>
             </div>
@@ -525,10 +528,7 @@ export async function renderPortfolio() {
             <p class="text-xs font-sans text-slate-550 dark:text-slate-400 mt-1">Carregando APIs e repositórios dinamicamente via Java REST endpoints imitados</p>
           </div>
           <div class="flex items-center space-x-3 select-none shrink-0">
-            <span class="text-xs font-sans font-semibold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3.5 py-2 rounded-xl inline-flex items-center space-x-1.5 shadow-3xs">
-              <i data-lucide="database" class="w-3.5 h-3.5 text-blue-600 dark:text-blue-400"></i>
-              <span>Banco: Ativo</span>
-            </span>
+        
           </div>
         </div>
 
@@ -768,9 +768,9 @@ export async function renderPortfolio() {
           <div>
             <h3 class="text-sm font-bold text-slate-900 dark:text-white font-sans flex items-center space-x-1.5">
               <i data-lucide="monitor" class="w-4 h-4 text-blue-600"></i>
-              <span id="video-modal-label">Demonstração Completa</span>
+              <span id="video-modal-label">Vídeo Demonstração</span>
             </h3>
-            <p class="text-[9px] font-sans font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">Conexão REST: JPA streaming source active</p>
+            <p class="text-[9px] font-sans font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">Um pouco sobre como o projeto funciona.</p>
           </div>
           <button id="close-video-modal-btn" class="text-slate-400 hover:text-slate-600 focus:outline-none p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all dark:text-slate-400 dark:hover:text-slate-200">
             <i data-lucide="x" class="w-4.5 h-4.5"></i>
@@ -843,8 +843,7 @@ export async function renderPortfolio() {
 
     <!-- MODAL FOR DETAILED PROJECT DESCRIPTION -->
     <div id="project-desc-modal" class="hidden fixed inset-0 bg-slate-950/75 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fade-in">
-      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden max-w-xl w-full relative shadow-2xl transform transition-all duration-300 flex flex-col scale-95 md:scale-100">
-        <!-- Modal Header -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden max-w-2xl md:max-w-[700px] w-full aspect-square relative shadow-2xl transform transition-all duration-300 flex flex-col scale-95 md:scale-100 max-h-[85vh]">        <!-- Modal Header -->
         <div class="flex items-center justify-between p-5 border-b border-slate-100 dark:border-slate-850">
           <div>
             <h3 class="text-xs md:text-sm font-bold text-slate-900 dark:text-white font-sans flex items-center space-x-1.5">
@@ -853,20 +852,19 @@ export async function renderPortfolio() {
             </h3>
             <p class="text-[9px] font-sans font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">Descrição Completa</p>
           </div>
-          <button id="close-desc-modal-btn" class="text-slate-400 hover:text-slate-600 focus:outline-none p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all cursor-pointer dark:text-slate-400 dark:hover:text-slate-200">
-            <i data-lucide="x" class="w-4.5 h-4.5"></i>
+         <button id="close-desc-modal-btn" class="text-slate-400 hover:text-slate-600 focus:outline-none p-1.5 hover:bg-slate-100 dark:hover:bg-slate-855 rounded-xl transition-all cursor-pointer dark:text-slate-400 dark:hover:text-slate-200">            <i data-lucide="x" class="w-4.5 h-4.5"></i>
           </button>
         </div>
 
         <!-- Scrollable Description text -->
-        <div class="p-6 overflow-y-auto max-h-[50vh] text-xs md:text-sm text-slate-650 dark:text-slate-350 leading-relaxed text-justify font-sans whitespace-pre-wrap select-text" id="desc-modal-proj-text">
-          <!-- Text will be dynamically injected here -->
+        <div class="p-6 overflow-y-auto overflow-x-hidden min-h-0 flex-1 text-xs md:text-sm text-slate-655 dark:text-slate-350 leading-relaxed text-justify font-sans whitespace-pre-wrap select-text" id="desc-modal-proj-text">          <!-- Text will be dynamically injected here -->
         </div>
 
         <!-- Modal Footer -->
         <div class="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-100 dark:border-slate-850 flex justify-end">
-          <button id="close-desc-modal-btn-bottom" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold transition-all cursor-pointer">
-            Fechar
+          <button id="close-desc-modal-btn-bottom" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold transition-all cursor-pointer">
+  Fechar
+</button>           
           </button>
         </div>
       </div>

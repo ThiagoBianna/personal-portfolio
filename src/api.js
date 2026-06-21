@@ -60,7 +60,7 @@ const initialProjects = [
   {
     id: 2,
     nome: "Spring Security JWT Guard",
-    descricao: "Template de autenticação de altíssima segurança implementado com Spring Security 6, filtros customizados, geração automática de JWTs com criptografia RSA 256 bits, rota de refresh token e prevenção de ataques CSRF/DDoS.",
+    descricao: "Template deautenticação de altíssima segurança implementado com Spring Security 6, filtros customizados, geração automática de JWTs com criptografia RSA 256 bits, rota de refresh token e prevenção de ataques CSRF/DDoS.",
     tecnologias: ["Spring Security 6", "JWT", "Java 21", "Redis", "H2 Database"],
     linkGithub: "https://github.com/ThiagoBianna/security-jwt-guard",
     linkDemo: "",
@@ -72,19 +72,57 @@ const initialProjects = [
   },
   {
     id: 3,
-    nome: "Sistema de Agendamento da Saúde",
-    descricao: "API RESTful resiliente para clínica médica com agendamento inteligente. Possui geração de relatórios PDF com OpenPDF, agendador automático que dispara lembretes de consultas via Email/WhatsApp (Twilio API) e testes unitários em JUnit 5.",
-    tecnologias: ["Spring Boot 3", "Hibernate", "OpenPDF", "JUnit 5", "MySQL"],
-    linkGithub: "https://github.com/ThiagoBianna/health-scheduler",
-    linkDemo: "http://agenda.saude.demo",
-    linkVideo: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    videoPreview: "https://assets.mixkit.co/videos/preview/mixkit-writing-code-on-a-laptop-40436-large.mp4",
-    dataCriacao: "2026-02-28",
-    imagem: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=600",
+    nome: "Orçamento Inteligente de Viagens",
+    descricao: "Projeto Final CS50 HARVARD\n" +
+        "\n" +
+        "O \"Vai dar quanto?\" é uma aplicação Full-Stack projetada para ajudar motoristas a estimar o custo real de combustível em seus trajetos. Utilizando integrações com a Google Maps API, o sistema calcula a distância precisa entre dois pontos e aplica regras de negócio inteligentes, como alertas para horários de maior consumo (pico).\n" +
+        "\n" +
+        "🔵 Funcionalidades Principais\n" +
+        "\n" +
+        "-Cálculo Preciso: Integração com Google Distance Matrix API para quilometragem exata.\n" +
+        "\n" +
+        "-Autocomplete de Endereços: Busca inteligente de locais via Google Places API.\n" +
+        "\n" +
+        "-Suporte a Múltiplos Combustíveis: Cálculos específicos para Gasolina, Etanol, Diesel e GNV.\n" +
+        "\n" +
+        "-Consumo Inteligente: Exibição de médias em km/L e km/m³ (para GNV).\n" +
+        "\n" +
+        "-Alerta de Horário de Pico: Sistema que identifica horários comerciais e sugere que o consumo pode ser maior.\n" +
+        "\n" +
+        "🔵 Tecnologias Utilizadas\n" +
+        "\n" +
+        "-Frontend: React (Vite), Styled Components/CSS dinâmico.\n" +
+        "\n" +
+        "-Backend: Java 17+, Spring Boot, PostgreSQL, Docker.\n" +
+        "\n" +
+        "-APIs: Google Maps (Distance Matrix, Autocomplete e Places).\n" +
+        "\n" +
+        "\n" +
+        "⚠️ NOTA SOBRE O ACESSO: Este projeto está hospedado no plano gratuito do Render. Por isso, o site pode estar inativo por algum tempo, o primeiro cálculo pode levar cerca de 30-40 segundos para \"acordar\" o container. Agradeço a paciência!",
+    tecnologias: ["Java" , "Spring Boot" , "PostgreSQL" , "Docker" , "React" , "Vite" , "Google Maps API"],
+    linkDemo: "https://vai-dar-quanto-web-front.onrender.com/",
+    linkVideo: "https://www.youtube.com/watch?v=7S4i2_EJ_hI",
+    linkGithub: "https://github.com/ThiagoBianna/travel-cost-calculator",
+    videoPreview: "https://media.licdn.com/dms/image/v2/D4D05AQHb_iiUBGBRkw/videocover-low/B4DZ5g2XmWIUBI-/0/1779741327533?e=1782619200&v=beta&t=wtM-Nlm2jtDgcVGMwl6nNoLmovXa4JrmsmaI4Zxp0hU",
+    dataCriacao: " ",
+    imagem: "https://media.licdn.com/dms/image/v2/D4D05AQHb_iiUBGBRkw/videocover-low/B4DZ5g2XmWIUBI-/0/1779741327533?e=1782619200&v=beta&t=wtM-Nlm2jtDgcVGMwl6nNoLmovXa4JrmsmaI4Zxp0hU",
     status: "online"
   },
   {
     id: 4,
+    nome: "Enterprise Log Aggregator with Kafka",
+    descricao: "Motor de coleta e filtragem em tempo real de logs distribuídos. Implementa múltiplos brokers Apache Kafka estruturados, consumidores reativos com Spring Boot, banco de dados PostgreSQL indexado para buscas e triggers de alertas automáticos via WebSockets.",
+    tecnologias: ["Apache Kafka", "Spring Boot 3", "Docker", "PostgreSQL", "WebSockets"],
+    linkGithub: "https://github.com/ThiagoBianna/kafka-log-aggregator",
+    linkDemo: "",
+    linkVideo: "",
+    videoPreview: "https://assets.mixkit.co/videos/preview/mixkit-matrix-style-code-screen-background-34208-large.mp4",
+    dataCriacao: "2026-06-05",
+    imagem: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=600",
+    status: "online"
+  },
+  {
+    id: 5,
     nome: "Enterprise Log Aggregator with Kafka",
     descricao: "Motor de coleta e filtragem em tempo real de logs distribuídos. Implementa múltiplos brokers Apache Kafka estruturados, consumidores reativos com Spring Boot, banco de dados PostgreSQL indexado para buscas e triggers de alertas automáticos via WebSockets.",
     tecnologias: ["Apache Kafka", "Spring Boot 3", "Docker", "PostgreSQL", "WebSockets"],
@@ -101,37 +139,58 @@ const initialProjects = [
 const initialCertificates = [
   {
     id: 1,
-    nome: "Especialista Spring Boot 3 & Java 21",
-    instituicao: "Udemy - Especialização Java Advanced",
-    data: "2026-03-20",
-    imagem: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=600",
-    link: "https://www.udemy.com"
+    nome: "Certificate of completion: Claude 101",
+    instituicao: "Anthropic",
+    data: " ",
+    imagem: "https://media.licdn.com/dms/image/v2/D4D2DAQFCORFcYj43zg/profile-treasury-image-shrink_800_800/B4DZ6npHeQH4AI-/0/1780929034396?e=1782619200&v=beta&t=WYLEukq5onb0cKruO62M7PtH9WwJSMezEhmR1a89gwk",
+    link: "https://media.licdn.com/dms/image/v2/C4D0BAQHSLqrrC1FghQ/company-logo_200_200/company-logo_200_200/0/1630571650763?e=1783555200&v=beta&t=wJK4M7iz46n6RwMa8sVHQ6d5I-05Oxba4-2iXQ_ejCg",
+    logoInstituicao: "https://media.licdn.com/dms/image/v2/D4E0BAQFMhKgeR7EYAg/company-logo_200_200/company-logo_200_200/0/1719256413073/anthropicresearch_logo?e=1783555200&v=beta&t=prQjZZ8WRzymNsf_irUBb9wyCo3va9wVaEfM7jjFe_U"
   },
   {
     id: 2,
-    nome: "Arquitetura de Microserviços baseada em Java",
-    instituicao: "Alura Tech",
-    data: "2025-11-14",
-    imagem: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=600",
-    link: "https://www.alura.com.br",
-    logoInstituicao: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"
+    nome: "CURSO.DEV - Desenvolvimento Full Stack",
+    instituicao: "Filipe Deschamps Tech Inc.",
+    data: " ",
+    imagem: "https://media.licdn.com/dms/image/v2/D4D2DAQFGYwOvJPRWJg/profile-treasury-image-shrink_800_800/B4DZ6viVfsGwAI-/0/1781061474546?e=1782619200&v=beta&t=zIHyGZTFUKB5AWa46YzIgqeC4BxGDhFe1jHwzFWnU84",
+    link: "https://curso.dev/certificados/c21f3180-714a-49c5-9a36-7e9d3f932a2c",
+    logoInstituicao: "https://media.licdn.com/dms/image/v2/C4D0BAQHSLqrrC1FghQ/company-logo_200_200/company-logo_200_200/0/1630571650763?e=1783555200&v=beta&t=wJK4M7iz46n6RwMa8sVHQ6d5I-05Oxba4-2iXQ_ejCg"
   },
   {
     id: 3,
-    nome: "Docker & Kubernetes para Desenvolvedores Backend",
-    instituicao: "Red Hat Developer Academy",
-    data: "2026-01-10",
-    imagem: "https://images.unsplash.com/photo-1605787020600-b9ebd5df1d07?auto=format&fit=crop&q=80&w=600",
-    link: "https://www.redhat.com"
+    nome: "BOOTCAMP I",
+    instituicao: "UNINTER Centro Universitário Internacional",
+    data: " ",
+    imagem: "https://media.licdn.com/dms/image/v2/D4D2DAQHf2xDhbZjH1g/profile-treasury-image-shrink_800_800/B4DZ6pyfWvIsAI-/0/1780965046124?e=1782615600&v=beta&t=MYrzmqDy_TexV3fsl9qkoo-_qh-l-sMZaxEcJbkosyI",
+    link: "https://extensaocommerce.uninter.com/certificado",
+    logoInstituicao: "https://media.licdn.com/dms/image/v2/D4D0BAQHrDUW2-Vq5iw/company-logo_200_200/B4DZuP0fiiGUAI-/0/1767644461719/grupo_uninter_logo?e=1783555200&v=beta&t=-JXAGlE1EjpHShrzqerHYyvuhdQpYZBB-q2cMcVJ4qc"
+
   },
   {
     id: 4,
-    nome: "Apache Kafka Enterprise Messaging",
-    instituicao: "Confluent University S/A",
-    data: "2026-05-18",
-    imagem: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=600",
-    link: "https://www.confluent.io",
-    logoInstituicao: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apache/apache-original.svg"
+    nome: "CS50 - Introduction to Computer Science",
+    instituicao: "Harvard University",
+    data: " ",
+    imagem: "https://media.licdn.com/dms/image/v2/D4D2DAQFcR26za7vTAQ/profile-treasury-image-shrink_800_800/B4DZ6vjpOMJ0AI-/0/1781061817531?e=1782615600&v=beta&t=M5LMQ86bMcy6ZrKA9oZb3PBQjIvzdNbkrpFs2k5Rzy0",
+    link: "https://certificates.cs50.io/db6fdf6c-b72c-4537-a09a-f3f09a0f8acf",
+    logoInstituicao: "https://media.licdn.com/dms/image/v2/C4E0BAQGYjmmBCvqLmg/company-logo_200_200/company-logo_200_200/0/1631309789389?e=1783555200&v=beta&t=DgbIHE9IGqauso3tXFj0_Zzv7M1-OO0MLH2_m-SUKhY"
+  },
+  {
+    id: 5,
+    nome: "Formação Lógica de Programação",
+    instituicao: "DIO",
+    data: " ",
+    imagem: "https://media.licdn.com/dms/image/v2/D4D2DAQHZgrmT0BeKCw/profile-treasury-image-shrink_800_800/B4DZ542UOBJoAI-/0/1780143965335?e=1782619200&v=beta&t=1_XFum_Nx5dTl-zxxxS8b0SJ2q6F0W0pF1u5OD3NRAA",
+    link: "https://hermes.dio.me/certificates/FISFEGJY.pdf",
+    logoInstituicao: "https://media.licdn.com/dms/image/v2/D4D0BAQH1TY3FZloIyA/company-logo_200_200/B4DZxMvm8KJwAM-/0/1770814075164/dio_makethechange_logo?e=1783555200&v=beta&t=JYt70ZzJU6crzcNMk7pMK50dFeDh8lOo4bu5LaNhThI"
+  },
+  {
+    id: 6,
+    nome: "Administração",
+    instituicao: "Cursos iPED",
+    data: " ",
+    imagem: "https://media.licdn.com/dms/image/v2/D4D2DAQFSQ_g_wivA4w/profile-treasury-image-shrink_800_800/B4DZ535FaZJoAI-/0/1780127913944?e=1782619200&v=beta&t=tw2SLGXI0cfzq5xACd-XrAxh9GsaClXE1BNnLveKIHI",
+    link: "https://www.iped.com.br/ava/cert/3233547/764/a06b49f6e21bd7be8a10?",
+    logoInstituicao: "https://media.licdn.com/dms/image/v2/D4D0BAQEuBTLuLcRG5g/company-logo_200_200/company-logo_200_200/0/1689366391676?e=1783555200&v=beta&t=ZBlTDEF_JHeid8PkVQe0isBvqFeCvZeuih63YW_RtiU"
   }
 ];
 
