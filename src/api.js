@@ -230,18 +230,18 @@ const initialAcademics = [
 const initialExperiences = [
   {
     id: 1,
-    cargo: "Desenvolvedor Java Júnior",
-    empresa: "FinTech Hub S/A",
-    periodo: "Jan 2025 - Presente",
-    descricao: "Atuação na sustentação e desenvolvimento contínuo de microsserviços e soluções financeiras utilizando o ecossistema robusto do Java 21, Spring Boot, Spring Security e JPA / Hibernate. Criação de consultas SQL otimizadas com PostgreSQL e implementação de testes automatizados unitários de cobertura ampla utilizando JUnit 5 e Mockito.Atuação na sustentação e desenvolvimento contínuo de microsserviços e soluções financeiras utilizando o ecossistema robusto do Java 21, Spring Boot, Spring Security e JPA / Hibernate. Criação de consultas SQL otimizadas com PostgreSQL e implementação de testes automatizados unitários de cobertura ampla utilizando JUnit 5 e Mockito.Atuação na sustentação e desenvolvimento contínuo de microsserviços e soluções financeiras utilizando o ecossistema robusto do Java 21, Spring Boot, Spring Security e JPA / Hibernate. Criação de consultas SQL otimizadas com PostgreSQL e implementação de testes automatizados unitários de cobertura ampla utilizando JUnit 5 e Mockito.",
+    cargo: "Soldado",
+    empresa: "Força Aérea Brasileira - FAB",
+    periodo: "Jun/2016 - Set/2019 • 3 anos e 4 meses",
+    descricao: "Experiência em ambiente militar altamente estruturado, baseado em disciplina, padrões operacionais, hierarquia e cumprimento rigoroso de normas e procedimentos. Aprimoramento de habilidades de trabalho em equipe, resolução de problemas sob pressão, organização de atividades diárias e comunicação eficiente para garantir a execução das tarefas com qualidade e precisão.",
     ordem: 0
   },
   {
     id: 2,
-    cargo: "Estagiário em Engenharia de Software",
-    empresa: "CodeCraft Solutions",
-    periodo: "Mar 2024 - Dez 2025",
-    descricao: "Suporte na modelagem lógica de bancos de dados relacionais e manutenção de controladores RESTful (APIs). Auxílio técnico no mapeamento relacional de entidades, revisão de código colaborativo integrado via GitHub e conteinerização de ambientes locais de testes utilizando Docker.",
+    cargo: "Técnico de Hardware",
+    empresa: "Assistência Técnica de Consoles - Autônomo",
+    periodo: "Jan/2020 - Out/2025 • 5 anos e 10 meses",
+    descricao: "Diagnóstico e resolução de falhas de hardware e software, garantindo a integridade dos sistemas. Realização de reparos técnicos, substituição de componentes e otimização de performance.",
     ordem: 1
   }
 ];
