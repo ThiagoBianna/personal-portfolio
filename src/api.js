@@ -26,11 +26,11 @@ const initialProfile = {
   tecnologiasEstudando: ["Apache Kafka", "Kubernetes", "AWS (S3, RDS, EC2)", "Spring Cloud", "TDD / Domain-Driven Design (DDD)", "CI/CD (GitHub Actions)"],
   links: {
     github: "https://github.com/ThiagoBianna",
-    linkedin: "https://linkedin.com/in/thiago-bianna",
-    whatsapp: "https://wa.me/5511999999999",
+    linkedin: "https://linkedin.com/in/thiagobpcruz/",
+    whatsapp: "https://wa.me/5521999425820",
     email: "thgbianna@gmail.com",
-    instagram: "https://instagram.com/thgbianna",
-    curriculoPdf: "https://example.com/thiago-bianna-cv.pdf"
+    instagram: "https://instagram.com/hutzdon",
+    curriculoPdf: "https://drive.google.com/uc?export=download&id=1mJCaogP8VARFMDJgxbCXha14BkB2W1Qq"
   },
   idiomas: [
     { nome: "Português", nivel: "Nativo", flag: "BR" },
@@ -41,15 +41,15 @@ const initialProfile = {
 const initialProjects = [
   {
     id: 1,
-    nome: "Microservices Banking API",
-    descricao: "Arquitetura distribuída simulando transações bancárias Pix e TED com processamento assíncrono. Utiliza Eureka Service Discovery, Spring Cloud Gateway, RabbitMQ para mensageria resiliente e PostgreSQL particionado por tenant.",
-    tecnologias: ["Spring Cloud", "RabbitMQ", "PostgreSQL", "Eureka", "Docker"],
-    linkGithub: "https://github.com/ThiagoBianna/microservices-banking",
+    nome: "PDF Magic Editor",
+    descricao: "Um editor de PDFs que permite que os usuários editem e gerenciem seus arquivos PDFs Online de forma simples e eficiente. Apague, mude, recrie. Modifique arquivos sem bagunçar nada. Garantindo que seu PDF continue com um visual profissional após edição. ",
+    tecnologias: ["HTML", "CSS", "JavaScript", "TypeScript"],
+    linkGithub: "https://github.com/ThiagoBianna/PDF-MAGIC-EDITOR.git",
     linkDemo: "http://banking.demo.thiagobianna.com",
-    linkVideo: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    videoPreview: "https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-his-computer-34193-large.mp4",
-    dataCriacao: "2026-04-15",
-    imagem: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=600",
+    linkVideo: "https://www.youtube.com/watch?v=7S4i2_EJ_hI",
+    videoPreview: "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-programmer-typing-on-a-keyboard-40541-large.mp4",
+    dataCriacao: " ",
+    imagem: "https://pdf-magic-editor-omega.vercel.app/assets/app_logo_fullbleed_1781584776838-Dg5g4VNi.jpg",
     imagens: [
       "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=600",
       "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&q=80&w=600",
@@ -59,15 +59,37 @@ const initialProjects = [
   },
   {
     id: 2,
-    nome: "Spring Security JWT Guard",
-    descricao: "Template deautenticação de altíssima segurança implementado com Spring Security 6, filtros customizados, geração automática de JWTs com criptografia RSA 256 bits, rota de refresh token e prevenção de ataques CSRF/DDoS.",
-    tecnologias: ["Spring Security 6", "JWT", "Java 21", "Redis", "H2 Database"],
+    nome: "Viewer de Desempenho Acadêmico - Uninter",
+    descricao: "Aplicação Web para Otimização e Análise de CR\n" +
+        "\n" +
+        "Desenvolvi o UninterAnalytics, uma aplicação web SPA criada para acompanhar e gerenciar o histórico acadêmico de forma precisa, transparente e automatizada. \n" +
+        "\n" +
+        "O sistema calcula o Coeficiente de Rendimento (CR) global e por disciplina, aplicando as regras de ponderação de notas institucionais (15% APOL 1, 15% APOL 2 e 70% Exame Final).\n" +
+        "\n" +
+        "🔵Principais Funcionalidades e Tecnologias:\n" +
+        "\n" +
+        "-Cálculo Ponderado: Validação de notas via Regex e feedback instantâneo com precisão decimal.\n" +
+        "\n" +
+        "-Persistência de Dados: Integração nativa com LocalStorage mantendo o perfil e as disciplinas salvos localmente.\n" +
+        "\n" +
+        "-Gestão de Backup: Exportação e importação de todo o progresso acadêmico via arquivo .json.\n" +
+        "\n" +
+        "-Relatório em PDF: Estilização dedicada (@media print) que oculta os controles da tela e formata a grade como um documento pronto para impressão.\n" +
+        "\n" +
+        "-Identidade Visual: Favicon dinâmico em SVG integrado diretamente ao cabeçalho.\n" +
+        "\n" +
+        "-Zero Dependências (Vanilla Stack): Construído puramente com HTML5, CSS3 e JavaScript nativo, garantindo carregamento instantâneo via CDN.\n" +
+        "\n" +
+        "🔵Portfólio e Diferenciais:\n" +
+        "\n" +
+        "Um projeto focado em resolver dores reais, demonstrando domínio em manipulação de DOM, web storage, validação de formulários complexos e arquitetura de aplicações web sem o uso de frameworks.",
+    tecnologias: ["HTML", "CSS", "JavaScript"],
     linkGithub: "https://github.com/ThiagoBianna/security-jwt-guard",
     linkDemo: "",
-    linkVideo: "",
+    linkVideo: "https://www.youtube.com/watch?v=7S4i2_EJ_hI",
     videoPreview: "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-programmer-typing-on-a-keyboard-40541-large.mp4",
-    dataCriacao: "2026-05-10",
-    imagem: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=600",
+    dataCriacao: " ",
+    imagem: "https://media.licdn.com/dms/image/v2/D4D2DAQG2Myr6FJ8Sbg/profile-treasury-image-shrink_800_800/B4DZ7pNMocK8AI-/0/1782029011723?e=1782637200&v=beta&t=zugatgeliDUDWHjyhBOvitqmy8UJ4sQchizYQNFv4pk",
     status: "online"
   },
   {
@@ -115,7 +137,7 @@ const initialProjects = [
     tecnologias: ["Apache Kafka", "Spring Boot 3", "Docker", "PostgreSQL", "WebSockets"],
     linkGithub: "https://github.com/ThiagoBianna/kafka-log-aggregator",
     linkDemo: "",
-    linkVideo: "",
+    linkVideo: "https://www.youtube.com/watch?v=7S4i2_EJ_hI",
     videoPreview: "https://assets.mixkit.co/videos/preview/mixkit-matrix-style-code-screen-background-34208-large.mp4",
     dataCriacao: "2026-06-05",
     imagem: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=600",
@@ -128,7 +150,7 @@ const initialProjects = [
     tecnologias: ["Apache Kafka", "Spring Boot 3", "Docker", "PostgreSQL", "WebSockets"],
     linkGithub: "https://github.com/ThiagoBianna/kafka-log-aggregator",
     linkDemo: "",
-    linkVideo: "",
+    linkVideo: "https://www.youtube.com/watch?v=7S4i2_EJ_hI",
     videoPreview: "https://assets.mixkit.co/videos/preview/mixkit-matrix-style-code-screen-background-34208-large.mp4",
     dataCriacao: "2026-06-05",
     imagem: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=600",
