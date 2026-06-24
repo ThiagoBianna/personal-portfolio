@@ -162,7 +162,7 @@ export async function renderPortfolio() {
               <div class="grid grid-cols-2 gap-2 text-xs font-sans">
                 <a href="${proj.linkGithub}" target="_blank" class="flex items-center justify-center space-x-1.5 bg-slate-900 dark:bg-slate-950 hover:bg-slate-800 dark:hover:bg-slate-850 text-white dark:text-slate-200 py-2 rounded-xl transition-all shadow-sm">
                   <i data-lucide="github" class="w-3.5 h-3.5"></i>
-                  <span class="font-semibold">Código</span>
+                  <span class="font-semibold">Ver código</span>
                 </a>
                 <div class="flex flex-col space-y-1">
                   ${hasDemo ? `
@@ -799,7 +799,7 @@ export async function renderPortfolio() {
               <i data-lucide="images" class="w-4.5 h-4.5 text-blue-600 dark:text-blue-450"></i>
               <span id="gallery-modal-proj-name">Galeria do Projeto</span>
             </h3>
-            <p class="text-[9px] font-sans font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">Explorador de Imagens (Até 5 fotos)</p>
+            <p class="text-[9px] font-sans font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">Explorador de Imagens</p>
           </div>
           <button id="close-gallery-modal-btn" class="text-slate-400 hover:text-slate-600 focus:outline-none p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all dark:text-slate-450 dark:hover:text-slate-200">
             <i data-lucide="x" class="w-4.5 h-4.5"></i>

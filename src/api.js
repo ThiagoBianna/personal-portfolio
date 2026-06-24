@@ -45,7 +45,7 @@ const initialProjects = [
     descricao: "Um editor de PDFs que permite que os usuários editem e gerenciem seus arquivos PDFs Online de forma simples e eficiente. Apague, mude, recrie. Modifique arquivos sem bagunçar nada. Garantindo que seu PDF continue com um visual profissional após edição. ",
     tecnologias: ["HTML", "CSS", "JavaScript", "TypeScript"],
     linkGithub: "https://github.com/ThiagoBianna/PDF-MAGIC-EDITOR.git",
-    linkDemo: "http://banking.demo.thiagobianna.com",
+    linkDemo: "https://pdf-magic-editor-omega.vercel.app/",
     linkVideo: "https://www.youtube.com/watch?v=7S4i2_EJ_hI",
     videoPreview: "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-programmer-typing-on-a-keyboard-40541-large.mp4",
     dataCriacao: " ",
@@ -59,8 +59,8 @@ const initialProjects = [
   },
   {
     id: 2,
-    nome: "Viewer de Desempenho Acadêmico - Uninter",
-    descricao: "Aplicação Web para Otimização e Análise de CR\n" +
+    nome: "Viewer de Desempenho Acadêmico",
+    descricao: "Aplicação Web para Otimização e Análise de CR.\n" +
         "\n" +
         "Desenvolvi o UninterAnalytics, uma aplicação web SPA criada para acompanhar e gerenciar o histórico acadêmico de forma precisa, transparente e automatizada. \n" +
         "\n" +
@@ -85,19 +85,19 @@ const initialProjects = [
         "Um projeto focado em resolver dores reais, demonstrando domínio em manipulação de DOM, web storage, validação de formulários complexos e arquitetura de aplicações web sem o uso de frameworks.",
     tecnologias: ["HTML", "CSS", "JavaScript"],
     linkGithub: "https://github.com/ThiagoBianna/security-jwt-guard",
-    linkDemo: "",
+    linkDemo: "https://meu-cr-uninter.vercel.app/",
     linkVideo: "https://www.youtube.com/watch?v=7S4i2_EJ_hI",
     videoPreview: "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-programmer-typing-on-a-keyboard-40541-large.mp4",
     dataCriacao: " ",
-    imagem: "https://media.licdn.com/dms/image/v2/D4D2DAQG2Myr6FJ8Sbg/profile-treasury-image-shrink_800_800/B4DZ7pNMocK8AI-/0/1782029011723?e=1782637200&v=beta&t=zugatgeliDUDWHjyhBOvitqmy8UJ4sQchizYQNFv4pk",
+    imagem: "https://yt3.googleusercontent.com/_F78umbML7ESQFtSLU0l2TWwkGnYXHhlXn7fts8lK6tgFr6ySRVxpPtQm6I57nwyLYE2sqzLTQ=s900-c-k-c0x00ffffff-no-rj",
     status: "online"
   },
   {
     id: 3,
     nome: "Orçamento Inteligente de Viagens",
-    descricao: "Projeto Final CS50 HARVARD\n" +
+    descricao: "Projeto Final - CS50 HARVARD" + "     " + "\n" +
         "\n" +
-        "O \"Vai dar quanto?\" é uma aplicação Full-Stack projetada para ajudar motoristas a estimar o custo real de combustível em seus trajetos. Utilizando integrações com a Google Maps API, o sistema calcula a distância precisa entre dois pontos e aplica regras de negócio inteligentes, como alertas para horários de maior consumo (pico).\n" +
+        "\"Vai dar Quanto\" é uma aplicação Full-Stack projetada para ajudar motoristas a estimar o custo real de combustível em seus trajetos. Utilizando integrações com a Google Maps API, o sistema calcula a distância precisa entre dois pontos e aplica regras de negócio inteligentes, como alertas para horários de maior consumo (pico).\n" +
         "\n" +
         "🔵 Funcionalidades Principais\n" +
         "\n" +
@@ -132,28 +132,26 @@ const initialProjects = [
   },
   {
     id: 4,
-    nome: "Enterprise Log Aggregator with Kafka",
-    descricao: "Motor de coleta e filtragem em tempo real de logs distribuídos. Implementa múltiplos brokers Apache Kafka estruturados, consumidores reativos com Spring Boot, banco de dados PostgreSQL indexado para buscas e triggers de alertas automáticos via WebSockets.",
-    tecnologias: ["Apache Kafka", "Spring Boot 3", "Docker", "PostgreSQL", "WebSockets"],
+    nome: "Planner (Agenda Semanal)",
+    descricao: "Aplicação web de planejamento semanal desenvolvida sem dependência de frameworks externos.\n" +
+        "\n" +
+        "O projeto nasceu de uma necessidade real: organizar rotinas de estudo e desenvolvimento de forma visualmente motivadora. O resultado é um planner com tema cyberpunk/terminal, construído inteiramente como single-file app e servido localmente via Node.js.\n" +
+        "\n" +
+        "Funcionalidades implementadas:\n" +
+        "• Sistema de áudio com Web Audio API\n" +
+        "• Drag-and-drop com snapping de cards\n" +
+        "• Focus Mode para blocos de concentração\n" +
+        "• Persistência de estado via save/load em JSON\n" +
+        "• Interface temática com animações CSS e paleta neon\n" +
+        "\n" +
+        "Tecnologias: HTML5 · CSS3 · JavaScript ES6+ · Web Audio API · Drag and Drop API · Node.js",
+    tecnologias: ["HTML5", "CSS3", "JavaScript", "Node.js", "Web Audio API"],
     linkGithub: "https://github.com/ThiagoBianna/kafka-log-aggregator",
-    linkDemo: "",
+    linkDemo: "https://planner-dev.vercel.app/",
     linkVideo: "https://www.youtube.com/watch?v=7S4i2_EJ_hI",
     videoPreview: "https://assets.mixkit.co/videos/preview/mixkit-matrix-style-code-screen-background-34208-large.mp4",
     dataCriacao: "2026-06-05",
-    imagem: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=600",
-    status: "online"
-  },
-  {
-    id: 5,
-    nome: "Enterprise Log Aggregator with Kafka",
-    descricao: "Motor de coleta e filtragem em tempo real de logs distribuídos. Implementa múltiplos brokers Apache Kafka estruturados, consumidores reativos com Spring Boot, banco de dados PostgreSQL indexado para buscas e triggers de alertas automáticos via WebSockets.",
-    tecnologias: ["Apache Kafka", "Spring Boot 3", "Docker", "PostgreSQL", "WebSockets"],
-    linkGithub: "https://github.com/ThiagoBianna/kafka-log-aggregator",
-    linkDemo: "",
-    linkVideo: "https://www.youtube.com/watch?v=7S4i2_EJ_hI",
-    videoPreview: "https://assets.mixkit.co/videos/preview/mixkit-matrix-style-code-screen-background-34208-large.mp4",
-    dataCriacao: "2026-06-05",
-    imagem: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=600",
+    imagem: "https://media.licdn.com/dms/image/v2/D4D2DAQGPq6O0Dli_lw/profile-treasury-image-shrink_800_800/B4DZ728CraJ4AI-/0/1782259395576?e=1782867600&v=beta&t=aXtxydE87xCQp6zxXWPBXhuy6OTnfcU6j56kN-CPyzU",
     status: "online"
   }
 ];
